@@ -51,3 +51,18 @@ revelation：披露
 # What’s the big deal then?
 
 有什么了不起的。
+
+---
+
+# You can’t leave me in suspense.
+
+suspense: 悬念
+
+你不能给我留下悬而未决的问题。还没有把话说清楚。
+
+# Who are you trying to kid？
+你糊弄谁呢？
+
+# Better off just using subqueries?
+
+使用subqueries会更好吗？

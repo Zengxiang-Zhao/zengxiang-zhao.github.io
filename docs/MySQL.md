@@ -1292,6 +1292,8 @@ The query below returns data from my_contacts where the contact_ids show up at l
 
 outer joins 是处理两个tables 之间的关系。
 
+### LEFT OUTER JOIN
+
 A LEFT OUTER JOIN takes all the rows in the left table and matches them to rows in the RIGHT table. 
 
 In a LEFT OUTER JOIN, the table that comes after FROM and BEFORE the join is the LEFT table, and the table that comes AFTER the join is the RIGHT table.
@@ -1308,4 +1310,126 @@ The difference is that an outer join gives you a row whether there’s a match w
 A NULL value in the results of a left outer join means that the right table has no values that correspond to the left table.
 
 反正left table中的SELECT column 会全部输出，如果与right table 没有对应的，则在相应的row中会输出NULL。
+
+LEFT OUTER JOIN 中使用的条件语句在MySQL中应该使用ON，好像WHERE是不行的。
+
+### RIGHT OUTER JOIN
+
+The right outer join is exactly the same thing as the left outer join, except it compares the right table to the left one. The two queries below give you precisely the same results:
+
+```sql
+SELECT g.girl, t.toy 
+FROM toys t 
+  RIGHT OUTER JOIN 
+  girls g 
+ON g.toy_id = t.toy_id;
+
+
+SELECT g.girl, t.toy 
+FROM girls g 
+  LEFT OUTER JOIN 
+  toys t 
+ON g.toy_id = t.toy_id;
+```
+
+![left right outer join relationship](/assets/images/MySQL/left_right_outer_join.png)
+
+对于个人来说，最好是坚持使用一个OUTER JOIN，这样可以避免混淆。但是也应该理解两个OUTER JOIN 的区别。
+
+### self-referencing foreign key
+
+The self-referencing part means that it is a key that is referencing another field in the same table.
+
+A self-referencing foreign key is the primary key of a table used in that same table for another purpose.
+
+self-referenceing foreign key就是把当前table中某一列作为这个表格的foreign key。
+
+
+### self-join
+
+self-join 就是使用一个表格但是给它起了两个不同的别名。这样就可以当作两个相同的表格使用。
+
+The self-join allows you to query a single table as though there were two tables with exactly the
+same information in them.
+
+```sql
+SELECT c1.name, c2.name AS boss  
+FROM clown_info c1  
+  INNER JOIN 
+  clown_info c2  
+ON c1.boss_id = c2.id;
+```
+
+self-join可以转化成subquery，如下：
+
+![self join convert to subquery](/assets/images/MySQL/join_to_subquery.png)
+
+### UNION
+
+UNION 可以把两个或者多个表格变成一个表格。并且会删除重复的数据。
+
+```sql
+SELECT title FROM job_current 
+UNION
+SELECT title FROM job_desired 
+UNION
+SELECT title FROM job_listings;
+```
+
+UNION can only take one ORDER BY at the end of the statement. This is because UNION concatenates and groups the results from the multiple SELECT statements.
+
+```sql
+SELECT title FROM job_current  
+UNION 
+SELECT title FROM job_desired  
+UNION 
+SELECT title FROM job_listings  
+ORDER BY title;
+```
+
+由于是concatenates，因此从每个表格中SELECT 出来的column数量应该是一样的，且类型是以应的或者是可以互相转化的。因为UNION 会删除重复数据，因此SELECT 的顺序并不重要。
+
+如果select 中的column 的数据类型是不一致的，至少是可以转化成为统一的。例如INT 和VARCHAR，VARCHAR 不能转化成 INT,但是INT 可以转化成VARCHAR。
+
+If for some reason you DO want to see duplicates, you can use the operator `UNION ALL`. It returns every match, not just the distinct ones.
+
+```sql
+SELECT title FROM job_current 
+UNION ALL
+SELECT title FROM job_desired 
+UNION ALL
+SELECT title FROM job_listings  
+ORDER BY title;
+```
+
+### CREATE TABLE AS
+
+如果UNION的column 数据类型不一致，我们想查看转化后的数据类型，需要先建立table。
+
+The CREATE TABLE AS statement takes the results of a SELECT query and makes a table out of them.In the example below, we are putting our title UNION into a new table named my_union.
+
+```sql
+CREATE TABLE my_union AS  
+SELECT title FROM job_current 
+UNION 
+SELECT title FROM job_desired  
+UNION SELECT title FROM job_listings;
+```
+> `my_union`: table name
+
+### INTERSECT and EXCEPT
+
+`These two operations DO NOT
+EXIST in MySQL.`
+
+INTERSECT and EXCEPT are used in much the same way as UNION—to find parts of queries that overlap.
+
+- `INTERSECT`: returns only those columns that are in the first query and also in the second query.
+- `EXCEPT`: returns only those columns that are in the first query, but not in the second query.
+
+##  Defensive Databases part 1
+
+
+
+
 

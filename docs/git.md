@@ -7,6 +7,20 @@ nav_order: 99
 
 ---
 
+---
+{: .no_toc }
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
+
+---
+
 # Delete a Git branch locally and remotely:
 
     * `git push -d <remote_name> <branch_name>` ,and `<remote_name>` may be origin.删除remote端brach

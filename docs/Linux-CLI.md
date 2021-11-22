@@ -66,4 +66,24 @@ find 文件路径 -type f \( -name '*py' -o -name '*ipynb' \)
 
 > 要把多个条件放在括号中。其中前后两端要留有空格，使用反斜杠进行标记。
 
+- `-size`: 查找的文件打下
+
+```bash
+k       kilobytes (1024 bytes)
+M       megabytes (1024 kilobytes)
+G       gigabytes (1024 megabytes)
+T       terabytes (1024 gigabytes)
+P       petabytes (1024 terabytes)
+```
+
+例如查找当前文件夹下文件大小超过1M的文件
+
+```bash
+find . -size +1M
+
+find . -size -1M
+```
+> `+1M`中的+号表明文件大于1M。如果是想查看小于1M的则可以使用`-` 号。
+
+
 

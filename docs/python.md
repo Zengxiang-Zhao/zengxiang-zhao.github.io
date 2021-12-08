@@ -21,7 +21,33 @@ nav_order: 97
 
 ---
 
+## install packages
+
+### conda
+
+```bash
+conda install package_name=version
+
+conda install 'package_name>= version'
+
+conda install 'package_name<= version'
+```
+
+> If any of these characters, '>', '<', '|' or '\*', are used, a single or double quotes must be used
+
+
+
 ## Python
+
+### format string
+
+参考[realpython](https://realpython.com/python-formatted-output/)
+
+```python
+score = 0.7777777
+print('The score is %.3f'%score) # output : The score is 0.778
+
+```
 
 ### [set](https://www.w3schools.com/python/python_sets_methods.asp)
 
@@ -189,6 +215,52 @@ pd.concat([s1, s2])
 
 Returns the indices of the maximum values along an axis.
 返回指定axis最大值的indices.如果是二维matrix，我们想求每一行中的最大值的indice，我们可以这样写`indexs = np.argmax(circle_matrix,axis=1)`
+
+### [numpy.random.normal(loc=0.0, scale=1.0, size=None)](https://numpy.org/doc/stable/reference/random/generated/numpy.random.normal.html)
+
+可以用于对weights的初始化。
+
+Parameters:
+- loc : mean
+- scale : std
+- size : number of data
+
+### [numpy.ravel(a, order='C')]
+
+Return a contiguous flattened array.
+
+```python
+x = np.array([[1, 2, 3], [4, 5, 6]])
+np.ravel(x)
+# output : array([1, 2, 3, 4, 5, 6])
+```
+
+### [numpy.dot(a, b, out=None)](https://numpy.org/doc/stable/reference/generated/numpy.dot.html?highlight=numpy%20dot#numpy.dot)
+
+两个matrix进行相乘。
+1. 如果a,b 是一维的数组，则是进行点乘。
+2. 如果a,b 是多维数组，则推荐使用 `matmul or a @ `. here @ calls np.matmul . 这是因为在处理大的matrix时，后两者的处理速度要比numpy.dot 更快。参考[stack overflow](https://stackoverflow.com/questions/52062496/why-is-a-dotb-faster-than-ab-although-numpy-recommends-ab)
+
+
+
+### [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html#numpy.matmul)
+
+多维数组进行相乘。不能是scaler value。
+
+shape that matches the signature (n,k),(k,m)->(n,m).
+
+### np.vstack OR np.hstack
+
+[参考官方文档](https://numpy.org/doc/stable/reference/generated/numpy.vstack.html)
+
+```python
+X_combined_std = np.vstack((X_train_std,X_test_std))
+y_combined = np.hstack((y_train,y_test))
+```
+
+np.vstack : 一行一行的叠加
+np.hstack : 一列一列的叠加
+
 
 
 ## re

@@ -66,3 +66,10 @@ suspense: 悬念
 # Better off just using subqueries?
 
 使用subqueries会更好吗？
+
+# I’m a little shaky with my SQL. 
+
+我对我的SQL水平不太自信
+shaky : 不稳固的，不可靠的。
+
+

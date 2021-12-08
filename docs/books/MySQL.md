@@ -1,10 +1,10 @@
 ---
 layout: default
-title: MySQL 的安装及使用
-date:   2021-10-19 20:28:05 -0400
+title: Head First MySQL 
+parent: books
+date:   2021-11-10 20:28:05 -0400
 categories: MySQL
-nav_order: 98
-
+nav_order : 1
 ---
 
 ---
@@ -60,6 +60,12 @@ nav_order: 98
 
 5. 在Terminal 端输入`mysql -u root -p`,回车后输入第4步的密码。然后进入MySQL
 
+# 安装MySQL workbench 及使用
+
+1. 选择系统及workbench的版本[下载](https://dev.mysql.com/downloads/workbench/)
+2. MySQL to revert back to native password authentication. reference :[stack](https://askubuntu.com/questions/773446/unable-to-connect-via-mysql-workbench-to-localhost-in-ubuntu-16-04-passwordless).
+`ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';`
+3. 连接workbench。
 
 # [MySQL 常用的命令](https://www.runoob.com/mysql/mysql-administration.html)
 
@@ -93,6 +99,8 @@ CREATE TABLE IF NOT EXISTS `runoob_tbl` (
 - `insert into table_name (field1, field2, .... fieldN) values (value1,value2,....valueN);` ： 向表中插入数据。如果数据是字符型，必须使用单引号或者双引号，例如date "2012-12-10"
 - 清除表信息方式有两种`truncate table table_name` or `delete * from table_name`，其中truncate 操作中的table可以忽略，delete中的* 可以忽略。trucate速度比delete快，是因为trucate是整体删除，delete是一条条删除，且delete需要写log，而trucate不需要写log。
 
+- 倒出数据库：`mysqldump -u username -p database_name > exporteddb.sql`
+- 倒入数据库：使用MySQL workbench；点击Server -> data import
 
 # [Head First SQL](https://resources.oreilly.com/examples/9780596526849/)
 
@@ -1429,7 +1437,494 @@ INTERSECT and EXCEPT are used in much the same way as UNION—to find parts of q
 
 ##  Defensive Databases part 1
 
+在插入信息时的注意事项，以下可参考
+
+![insert info](/assets/images/MySQL/insert.png)
+
+- 如果primary key 是Auto_increment，则可以使用`''` 代替其位置，表示可以自动填充。好像MySQL没有此功能
+- 如果不知道的信息，可以使用特殊字符替代，例如上面例子中，不知道性别，可以使用`X`替代。
+
+使用subquery 在一个query 中完成
+
+```sql
+INSERT INTO my_contact
+(last_name,first_name,phone,email,birthday,prof_id,zip_code,status_id)
+VALUES(
+'Pat','Murphy','555-1239','pathmurphy@someemail.com','1978-4-15',
+(SELECT prof_id FROM profession WHERE LOWER(profession) = 'teacher'), # prof_id
+10087,
+(SELECT status_id FROM status WHERE LOWER(status) = 'married') # status_id
+);
+```
+
+### CHECK CONSTRAINT
+
+A constraint is a restriction on what you can insert into a column. Constraints are added when we create a table.
+
+CONSTRAIN 就是在把column 中的值设定在某一个set 中
+
+已经学过的CONSTRAINT：
+- NOT NULL
+- PRIMARY KEY
+- FOREIGN KEY
+- UNIQUE
+
+这次要学习的是CHECK。A CHECK constraint restricts what values
+you can insert into a column. It uses the same conditionals as a WHERE clause.
+
+```sql
+CREATE TABLE piggy_bank
+(
+  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  coin CHAR(1) CHECK (coin IN ('P','N','D','Q'))
+)
+```
+
+> Check 后面添加的是条件，并把它放在括号中。因为CHECK 与WHERE 的情况类似，因此You can use all the conditionals: AND, OR, IN, NOT, BETWEEN and others.
+> 添加上CHECK，就会检查coin值是否在这四个选项中。如果不存在就会报错，然后不会插入任何东西。
+> 在MySQL 8.0.16之前的版本中CHECK功能是不存在的，即使写上CHECK，MySQL也会自动忽略掉。之后的版本已经有了CHECK功能。
+
+### view
+
+view的目的是保存经常使用过的query。这样可以方便使用。
+
+Creating a view is really simple. We add a CREATE VIEW statement to our query.
+
+```sql
+CREATE VIEW web_designers AS
+SELECT mc.first_name, mc.last_name, mc.phone, mc.email  
+FROM my_contacts mc 
+  NATURAL JOIN 
+  job_desired jd  
+WHERE jd.title = 'Web Designer';
+```
+
+To see what’s in it, we simply treat it as though it were a table. We can use a SELECT:
+
+```sql
+SELECT * FROM web_designers;
+```
+
+view 的创建与使用AS创建新的table是一样的。同样的也可以把view看作是一个table，不过这个table是根据其他的表格动态变化的。查看时只需要使用SELECT选择所有的行即可。然而SELECT中FROM的table name，我们可以看作是一个subquery。
+
+```sql
+SELECT * FROM  
+(SELECT mc.first_name, mc.last_name, mc.phone, mc.email 
+FROM my_contacts mc 
+  NATURAL JOIN 
+  job_desired jd   
+  WHERE jd.title = 'Web Designer') 
+AS web_designers;
+```
+
+由于select后面需要跟一个table，但是我们的subquery返回的是一个virtural talbe。如果没有后面的AS web_designers，则SELECT不会起作用，抓取不到东西。因为view 是一个虚拟的table，因此任何在table中的操作也可以使用在view中。虚拟table并不存在与database中，当使用view时只是临时创建了一个table，不使用时则会删除，相当于我们linux系统中的temp文件中的东西。这样的好处是，当有新的信息加入时，通过view也可以看到。
+
+And while our SELECT statement results in a virtual table, there’s no way that SQL can grab onto it without that alias.
+
+view is considered a virtual table because it acts like a table, and the same operations that can be performed on a table can be performed on a view.
+
+But the virtual table doesn’t stay in the database.
+It gets created when we use the view and then
+deleted. The named VIEW is the only thing that persists. This is good, because each time new rows are inserted into the database, when you use a view it will see the new information.
+
+### view 对database的好处
+
+- You can keep changes to your database structure
+from breaking applications that depend on your tables.
+例如使用python搜索database中的信息，我们可以使用view 创建的virtual table，而不是使用real table。这样，real table发生变化，如果不影响view，那么我们的python code就不需要改动。
+
+- Views make your life easier by simplifying your complex query into a simple command. 
+不需要重复写query，更容易，不易出错。
+
+- You can create views that hide information that isn’t needed by the user. 给定某些人的权限只是view，而不是real table，这样可以把real table中的sensitive info 过滤掉。
+
+### Join mutiple tables
+
+可以使用join 连接多个table
+
+```sql
+CREATE VIEW job_raises AS
+SELECT mc.first_name, mc.last_name, mc.email, mc.phone, jc.contact_id, jc.salary, jd.salary_low, jd.salary_low – jc.salary AS raise
+FROM job_current jc
+  INNER JOIN job_desired jd
+  INNER JOIN my_contacts mc
+WHERE jc.contact_id = jd.contact_id
+  AND jc.contact_id = mc.contact_id;
+```
+
+### CHECK OPTION
+
+CHECK OPTION added to your view tells the RDBMS to check each statement you try to INSERT and DELETE to see if it’s allowed according to the WHERE clause in your view.
+
+```sql
+CREATE VIEW pb_dimes AS 
+SELECT * FROM piggy_bank WHERE coin = 'D' WITH CHECK OPTION;
+```
+
+>WITH CHECK OPTION: That makes the data entered into a view be verified against the WHERE clause before being allowed to be added.在此例句中输入的 coin 必须使‘D’。如果不是，则会报错。
+
+使用view可以对real table进行UPDATE，INSERT INTO，DELETE等可以用于real table的操作。
+
+###  updatable view
+
+我们上面看到的view 都是updatable view。
+An updatable view is a view that allows you to change the underlying tables.An updatable view includes all the NOT NULL
+columns from the tables it references.
+
+A non-updatable view is a view that doesn’t include all the NOT NULL columns. Other than creating and dropping it, the only thing you can do with a non-updatable view is SELECT from it.
+
+### DROP VIEW view_name;
+
+使用`DROP VIEW pb_dimes;`来删除view pd_dimes。可以使用`DESC`来查看VIEW中的column信息。
+
+### transaction
+
+A transaction is a set of SQL statements that accomplish a single unit of work.
+
+![transaction](/assets/images/MySQL/transaction.png)
+
+During a transaction, if all the steps can’t be completed without interference, none of them should be completed.
+
+在一个交易中，如果遇到了干扰，不能完成，则交易中的所有内容都不会执行。
+
+### ACID test
+
+acronym ACID： There are four characteristics that have to be true before we can call a set of SQL statements a transaction:
+
+首字母缩写ACID，判断 a set of SQL statements是否是一个transaction。需要考虑以下四个特征：
+
+- ATOMICITY： 原子性。All of the pieces of the transaction must be completed, or none of them will be completed. You can’t execute part of a transaction. Mrs. Humphries’ samoleons were blinked into non-existence by the power outage because only part of the transaction took place. 在一个transaction 中的statement，要么全部执行完成，要么一个都不执行。
+
+- CONSISTENCY：一致性。A complete transaction leaves the database in a consistent state at the end of the transaction. At the end of both of the samoleon transactions, the money is in balance again. In the first case it’s been transferred to savings;
+in the second it’s been translated into cash. But no samoleons go missing. 相当于守恒定律。不会无缘无故的消失。
+
+- ISOLATION：隔离性。Isolation means that every transaction has a consistent view of the database regardless of other transactions taking place at the same time.
+This is what went wrong with John and Mary: Mary’s ATM could see the balance while John’s ATM was completing the transaction. She shouldn’t have been able to see the balance, or should have seen some sort of
+“transaction in progress” message. 即当前正在进行的transaction具有连续性，即其他的transaction不能影响其进行。
+
+- DURABILITY：持续性。After the transaction, the database needs to save the data correctly and protect it from power outages or other threats. This is generally handled
+through records of transactions saved to a different location than the main database. If a record of Mrs. Humphries’ transaction had been kept somewhere, then she might have gotten her 1,000 samoleons back. 可以应对突发情况，比如把transaction执行的过程记录在其他的地方，以防不测。
+
+### SQL transaction tools 
+
+```sql
+START TRANSACTION;
+
+COMMIT;
+
+ROLLBACK;
+```
+
+![transaction tools](/assets/images/MySQL/transaction_tools.png)
+
+### storage engine
+
+You need to make sure your storage engine is either **BDB or InnoDB**, the two choices that support transactions. Engine 的信息，我们可以通过`SHOW CREATE TABLE table_name`来查看，如下：
+
+![engine](/assets/images/MySQL/engine.png)
+
+To change your engine, use this syntax:
+
+```sql
+ALTER TABLE your_table ENGINE = InnoDB;
+```
+
+### Do transaction
+
+- ROLLBACK
+
+```sql
+START TRANSACTION;
+SELECT * FROM piggy_bank; # see the original table content
+UPDATE piggy_bank set coin = 'Q' WHERE coin = 'P'; # update the table
+SELECT * FROM piggy_bank; # see the changes
+ROLLBACK; # changed our minds, redo it
+SELECT * FROM piggy_bank; # see whether the table is as the same as original
+```
+
+- COMMIT
+
+```sql
+START TRANSACTION;
+SELECT * FROM piggy_bank; # see the original table content
+UPDATE piggy_bank set coin = 'Q' WHERE coin = 'P'; # update the table
+SELECT * FROM piggy_bank; # see the changes
+COMMIT; # Make the change stick
+SELECT * FROM piggy_bank; # see whether the table is as the same as original
+```
+
+想使用ROLLBACK 和 COMMIT，在之前应该先使用START TRANSACTION。因为只有这样RDBMS知道是从哪里开始的，以及rollback 到哪里。
+
+因此使用START TRANSACTION 可以查看我们对于表格的更改是否满意，不满意就ROLLBACK，满意就COMMIT。这是一个不错的方法。不过应该及时进行ROLLBACK和COMMIT，因为RDBMS会产生一个transaction log，随着query statement增多，这个log 会增大，会浪费空间和计算机的资源去track the log.
 
 
+## security part2
 
+有时我们需要为不同的员工设置不同的数据库操作权限，例如有的员工只能使用SELECT 功能，不能使用DROP，UPDATE，INSERT，DELETE等修改table的功能。
+
+### root user
+
+root user可以具有任何操作，且可以设置新的用户，并为其设置权限。因此其密码应该保护，收到重视。
+为root user 设置密码如下：
+
+```sql
+SET PASSWORD FOR 'root'@'localhost' = 'mypass';
+
+# 如果没有 FOR user，那么就是修改当前user root
+SET PASSWORD = 'auth_string';
+```
+
+### Create new user
+
+In MySQL， the statement to create a new user is as bellow:
+
+```sql
+CREATE USER elisa IDENTIFIED BY 'password123'
+```
+> elisa: new user name
+
+### Decide exactly what the user needs
+
+You can control exactly what users can do to tables and columns with the GRANT statement.
+
+对不同的用户赋予不同的table 权限。同时也可以对不同的table赋予不同的权限，例如查看某些columns。
+
+The GRANT statement can be used to give specific rights to users of our databases. Here’s what the GRANT can allow us to do:
+
+- Only some users may modify particular tables.
+- The data in a specific table may only be accessible to certain users.
+- Even within tables there might need to be permissions: some users can see certain columns, but not others.
+
+### [Set password for other users](https://www.cyberciti.biz/faq/mysql-change-user-password/)
+
+-  首先进入到root账户：  `mysql -u root -p`
+
+- 然后修改user password
+
+```sql
+ALTER USER 'userName'@'localhost' IDENTIFIED BY 'New-Password-Here';
+```
+- Finally type SQL command to reload the grant tables in the mysql database: `FLUSH PRIVILEGES;`
+
+### check current user
+
+```sql
+SELECT USER();
+```
+
+### GRAND 用法
+
+```sql
+GRANT SELECT ON  clown_info  TO elsie;
+```
+
+> SELECT: 要赋予的权限，select； clown_info: table name; elsie: user name
+
+如果需要赋予多个表格的权限，则需要分开写。
+
+```sql
+GRANT SELECT ON activities TO elsie; 
+GRANT SELECT ON location TO elsie; 
+GRANT SELECT ON info_activities TO elsie; 
+GRANT SELECT ON info_location TO elsie;
+```
+
+### GRANT variations
+
+```sql
+GRANT DELETE ON chores TO happy, sleepy; # 赋予多个user
+GRANT INSERT,DELETE,UPDATE ON boys TO zeng; # 赋予多个权限
+GRANT SELECT(chore_name) ON chores TO dopey; # 只能SELECT 特定的column
+GRANT DELETE ON chores TO happy, sleepy WITH GRANT OPTION; # 赋予happy，sleeepy 在chores表格上的 DELETE 功能。并且由于有GRANT OPTION，他们也可以把此DELETE功能赋予给其他人。
+
+GRANT ALL ON talking_animals TO bashful; # Allows bashful to SELECT, UPDATE, INSERT and DELETE on the talking_animals table.
+
+GRANT SELECT ON woodland_cottage.* TO doc; # 赋予doc在woodland_cottage Databse 中的所有表格中有select 的工功能。
+```
+
+1. **You can name multiple users in the same GRANT statement.** Each of the users named will get the same permission granted to them.
+2. **WITH GRANT OPTION gives users permission to give other users the permission they were just given.**It sounds confusing, but it simply means that if the user was given a SELECT on chores, he can give any other user that same permission to do SELECTs on chores.
+3. **A specific column, or columns, in a table can be used instead of the entire table.**The permission can be given to only SELECT from a single column. The only output the user will see will be from that column.
+4. **You can specify more than one permission on a table.**
+Just list each permission you want to grant on a table using a comma after each.
+5. **GRANT ALL gives users permission to SELECT, UPDATE, INSERT, and DELETE from the specified table.**It’s simply a shorthand way of saying “give users permission to SELECT, UPDATE, INSERT, and DELETE from the specified table.”
+6. **You can specify every table in a database with
+security database_name.\***  Much like you use the * wildcard in a SELECT statement, this specifies all the tables in a database.
+
+## REVOKE privileges
+
+收回赋予user的权限。REVOKE与GRANT用法很接近。不同之处是把GRANT换成REVOKE，把TO 换成FROM。如下：
+
+```sql
+REVOKE SELECT ON  clown_info  FROM elsie;
+```
+
+revoke the **WITH GRANT OPTION** but leave the privilege intact.
+
+```sql
+REVOKE DELETE, GRANT OPTION ON chores  FROM happy, sleepy;
+```
+> `REVOKE privileges,GRANT OPTION ON table FROM user`,参考[stack overflow](https://stackoverflow.com/questions/5287377/revoke-all-privileges-for-all-users-on-a-mysql-db).
+happy and sleepy can not give the delete privilege to others now, but they still have the delete privilege themself.
+
+在上面的revoke中，如果从sleep和happy收回DELETE，那么happy 和sleepy赋予其他user delete的权限也会一并收回。
+
+## REVOKING with precision
+
+精确控制REVOK回收Privilege的程度.以下内容在MySQL中并不适用,参考[网页内容](https://dba.stackexchange.com/questions/247259/cascading-revoke-not-working-in-mysql)
+
+- CASCADE。
+
+CASCADE, removes the privilege from the user you target (in this case, sleepy) as well as anyone else that that user gave permissions to.
+
+```sql
+REVOKE DELETE ON chores FROM sleepy CASCADE;
+```
+
+- RESTRICT
+
+Using RESTRICT when you want to remove a privilege from a user will return an error if that user has granted privileges to anyone else.
+
+```sql
+REVOKE DELETE ON chores FROM sleepy RESTRICT;
+```
+
+```sql
+GRANT SELECT ON *.* TO elsie;
+```
+
+赋予elsie全部数据库中的全部table SELECT 功能。The first asterisk refers to all database, the second to all tables.
+
+### roles
+
+You need a way to give the groups the privileges they need, while at the same time giving each user an individual account.
+
+ A role is a way you can group together specific privileges, and apply those to everyone in a group.Your role becomes an object in your database that you can change as needed when your database changes, without having to explicitly change every single user’s privileges to reflect the database changes. 也就是说同一个role中的user会随着role中的previlege的变化而变化。当database发生变化时，只需要更改role的previlege即可。
+
+- 创建role
+
+```sql
+CREATE ROLE data_entry;
+```
+> data_entry: role name
+
+- add privileges to the role
+
+```sql
+GRANT SELECT, INSERT ON some_table TO data_entry;
+```
+> data_entry: 在这里可以被当做一个user。
+
+- 把role赋予其他user
+
+```sql
+GRANT data_entry TO doc;
+```
+
+> data_entry: The role name takes the place of the table name and privileges.
+
+- 回收user role 的权限
+
+```sql
+REVOKE data_entry FROM doc;
+```
+
+- drop role
+
+```sql
+DROP ROLE data_entry;
+```
+
+### Using your role WITH ADMIN OPTION
+
+Just like the GRANT statement has WITH GRANT OPTION, a role has the similar WITH ADMIN OPTION. 
+
+```sql
+GRANT data_entry TO doc WITH ADMIN OPTION;
+```
+
+> WITH ADMIN OPTION allows user doc to grant the role of data_entry to anyone else.
+
+### REVOKE with CASCADE and RESTRICT
+
+```sql
+REVOKE data_entry FROM doc CASCADE;
+
+REVOKE data_entry FROM doc RESTRICT; # This will cause an error when doc give some the data_entry privilege.
+```
+
+### Combining CREATE USER and GRANT
+
+同时创建和赋予权限
+
+```sql
+GRANT SELECT ON  clown_info 
+    TO elsie
+ IDENTIFIED BY 'cl3v3rp4s5w0rd';
+```
+
+Because the user elsie has to be created before she can have privileges granted to her, your RDBMS checks to see if she exists, and if not, it automatically creates her account.
+
+## APPENDIX
+
+### ALL, ANY, and SOME
+
+以上三个关键词可以用在subquery 之前。如下：
+
+```sql
+SELECT name, rating FROM restaurant_ratings
+WHERE rating > ALL   
+(SELECT rating FROM restaurant_ratings WHERE rating > 3 AND rating < 9);
+```
+
+> ALL : 表示返回的结果，rating要比subquery中的最大的那个还要大。
+
+```sql
+SELECT name, rating FROM restaurant_ratings 
+WHERE rating > ANY  
+(SELECT rating FROM restaurant_ratings WHERE rating > 3 AND rating < 9);
+```
+> ANY: rating 比其中的任何一个大就行。
+> SOME 和ANY的用法一致，需要查看相关RDBMS资料。
+
+### Data types
+
+- BOOLEAN: The boolean type allows you to store 'true', 'false', or it can be left NULL.
+Behind the scenes, your RDBMS is storing a 1 for true values, and a 0 for false values. You can insert 1 or 'true', 0 or 'false'.
+
+- DATE_FORMAT: 
+
+修改返回的时间类型。例如：
+
+```sql
+SELECT DATE_FORMAT(a_date, '%M %Y') FROM some_dates;
+```
+> output : August 2007,January 1925
+
+### Create a temporary table
+
+创建临时table的目的有：
+
+- 只是临时需要储存数据，例如各种数学计算得出的结果
+- 抓取table中的某些列
+- 在使用programming language操作时，现生成临时的，最后再储存到其他table中。
+
+```sql
+CREATE TEMPORARY TABLE my_temp_table  ( 
+      some_id INT,     
+      some_data VARCHAR(50)  )
+
+CREATE TEMPORARY TABLE my_temp_table AS  
+SELECT * FROM my_permanent_table;
+```
+
+### CAST data types
+
+```sql
+CAST(your_column, TYPE)
+```
+
+> TEMPORARY : 只需要添加这个关键词即可，与正常创建table一致。
+
+### Indexing to speed things up
 

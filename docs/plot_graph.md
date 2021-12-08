@@ -51,8 +51,71 @@ plt.show()
 ```
 
 
+### matplotlib 画图
+
+使用`plt.subplots` 进行画图
+```python
+fig,ax = plt.subplots(nrows=1, ncols=2, figsize=(10,4))
+
+ada1 = AdalineGD(n_iter=10, eta=0.01).fit(X,y)
+ax[0].plot(range(1,len(ada1.cost_)+1), 
+          np.log10(ada1.cost_), marker='o')
+ax[0].set_xlabel('Epochs')
+ax[0].set_ylabel('log(Sum-squared-error)')
+ax[0].set_title('Adaline - Learning rate 0.01')
+
+ada2 = AdalineGD(n_iter=10, eta= 0.0001).fit(X,y)
+ax[1].plot(range(1,1+len(ada2.cost_)),
+          ada2.cost_, marker='x')
+ax[1].set_xlabel('Epochs')
+ax[1].set_ylabel('Sum-squared-error')
+ax[1].set_title('Adaline - Learning rate 0.0001')
+plt.show()
+```
+在使用subplots 进行画图时，每个图的确定则使用ax[index]。然后据此进行画图。xlabel,ylabel,title的设置则使用set。
 
 
+```python
+plot_decision_region(X_std,y,classifier=ada_gd)
+plt.title('Adaline = Gradient Descent')
+plt.xlabel('sepal length [standardized]')
+plt.ylabel('petal length [standardized]')
+plt.legend(loc='upper left')
+plt.tight_layout()
+plt.show()
 
+plt.plot(range(1,1+len(ada_gd.cost_)),
+        ada_gd.cost_, marker = 'o')
+plt.title('Cost each epoch')
+plt.xlabel('Epoch')
+plt.ylabel('Sum-squaraed-error')
+plt.tight_layout()
+plt.show()
+```
 
+如果图片直接使用plt进行绘制。则title,xlabel,ylabel可以直接在plt后面使用。如果是多个图同时展示，则需要添加`plt.tight_layout() and plt.show()`。
 
+### plt draw ticks
+
+```python
+def sigmoid(z):
+    return 1.0/(1.0+np.exp(-z))
+
+z = np.arange(-7,7,0.1)
+
+phi_z = sigmoid(z)
+
+plt.plot(z,phi_z)
+plt.axvline(0.0, color='k') # 在图中画一条竖线
+plt.ylim(-0.1,1.1)
+plt.xlabel('z')
+plt.ylabel('$\phi (z)$')
+# y axis ticks and gridline
+plt.yticks([0.0,0.5,1.0]) # 在y轴画三条线，需要ax的配合完成
+ax = plt.gca()
+ax.yaxis.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+![draw ticks](/assets/images/plot_graph/plt_draw_ticks.png)

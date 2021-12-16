@@ -34,3 +34,16 @@ nav_order: 97
 5. 完成
 
 
+# 引用本地link
+
+图可参考[python知识点](/docs/plot_graph#pltbar)
+
+直接以`/docs/...`开头，后面如果不确定可以在web中点开查看后面内容。
+
+
+# 写公式
+
+`<img src="https://render.githubusercontent.com/render/math?math=\| w \|_2^2 = \sum_{j=1}^{m}w_j^2
+">`
+
+在math后面写你想写的公式。如果有些符号不确定可参考[Latext pdf 文档](https://www.caam.rice.edu/~heinken/latex/symbols.pdf)

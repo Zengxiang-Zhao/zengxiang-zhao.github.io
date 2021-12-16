@@ -989,4 +989,71 @@ class Solution:
         return dfs(1,n) if n else []
 ```
 
+### quickSort
 
+```python
+def quicksort(array,left,right):
+    """Quick sort the array in acending order recursivley
+    Parameters
+    ---------
+    array : list
+        A list of numbers
+    left : int
+        The index of array
+    right : int
+        The index of array
+        
+    Return
+    ---------
+    sorted array in acending order
+    
+    
+    """
+    # 先写明结束条件
+    if len(array) == 1: 
+        return array
+    if left >= right: 
+        return array
+    
+    else:
+        part_index = partition(array,left,right) # 重新排序subarray，并返回分割index
+        quicksort(array,left,part_index-1) # 递归
+        quicksort(array,part_index+1,right)
+    
+    
+
+def partition(array,left,right):
+    """Rearrange the array as the number smaller than pivot
+    is placed on the left and
+    the number larger than the pivot is placed on the right
+    the pivot as the split index of array between left and right
+    
+    Parameters
+    ---------
+    array : list
+        A list of numbers
+    left : int
+        The index of array
+    right : int
+        The index of array
+    
+    Return
+    ---------
+    part_index : the index of pivot after rearrangement
+    
+    """
+    # 结束条件
+    if left >= right :
+        return
+    
+    index_left = left # 用于交换，array[left] 是pivot数据
+    # 使用一个for loop 对subarray数据进行重排。
+    for i in range(left+1,right+1):
+        if array[i] <= array[left]: # <= pivot的数据会与大于pivot的数据进行交换。大于pivot的数据储存在大于index_left的右侧
+            index_left += 1
+            array[index_left],array[i] = array[i],array[index_left]
+        
+    array[index_left],array[left] = array[left],array[index_left] # 最后把pivot放在正确的位置，与index_left 交换。
+    return index_left
+    
+```

@@ -119,3 +119,38 @@ plt.show()
 ```
 
 ![draw ticks](/assets/images/plot_graph/plt_draw_ticks.png)
+
+
+### [plt.bar](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.bar.html)
+
+```python
+plt.title('Feature Importance')
+plt.bar(range(X_train.shape[1]),
+        importances[indices],
+        align='center'
+       )
+plt.xticks(range(X_train.shape[1]),
+           feat_labels[indices], rotation=90
+          )
+plt.xlim([-1, X_train.shape[1]])
+plt.tight_layout()
+plt.show()
+```
+
+[plt.xticks(ticks=None, labels=None)](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.xticks.html)中ticks就是把坐标轴进行分割，labels就是每个分割点的名称。
+
+> `plt.xticks`中的rotation=90是想把字体变成竖的。`plt.tight_layout()`有没有图是不一样的。
+
+![draw xticks](/assets/images/plot_graph/xticks.png)
+
+![no tight_layout](/assets/images/plot_graph/no_tight_layout.png)
+
+### [plt.scatter()](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html)
+
+画出分散的点。
+
+```python
+plt.scatter(x,y,
+           c='red',marker='^',alpha=0.5)
+```
+

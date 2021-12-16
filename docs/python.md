@@ -49,6 +49,27 @@ print('The score is %.3f'%score) # output : The score is 0.778
 
 ```
 
+### [print space](https://stackoverflow.com/questions/23776824/what-is-the-meaning-of-s-in-a-printf-format-string/23777065)
+
+```python
+for f in range(X_train.shape[1]):
+    print("%2d) %-*s %f"% (f+1, 30,
+                           feat_labels[indices[f]],
+                           importances[indices[f]]))
+```
+
+以上代码中，
+- `%2d)`  对应的是`1)`, 
+- `%-*` 对应的是30个space，这里的`*`对应30，前面的`负号(-)`表示是在文字后使用空格填补30个字符，如果不加负号则是在文字前面填补空格到30个字符。
+- `s` 对应的是`feat_labels[indices[f]]`
+- `%f` 对应的是`importances[indices[f]]`
+
+![string format with space](/assets/images/python/string_format.png)
+
+以下是string 没有添加空格后的效果
+
+![string format with space](/assets/images/python/string_no_format.png)
+
 ### [set](https://www.w3schools.com/python/python_sets_methods.asp)
 
 
@@ -207,6 +228,43 @@ objs: a sequence or mapping of Series or DataFrame objects
 pd.concat([s1, s2])
 ```
 
+### [df.isnull](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.isnull.html)
+
+df.isnull() 会查看每个cell中是否存在missing value。如果是NaN则返回True，otherwise return False。然后可以使用`df.isnull().sum()`对每一列的missing value 求和。
+
+`df.isnull().sum()` : This way, we can count the number of missing values per column.
+
+### [df.values](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.values.html)
+
+Return a Numpy representation of the DataFrame.
+
+sklearn 中主要是对numpy的数据进行处理。现在sklearn中很多function都可以支持pandas。所以如果可以转化为numpy则尽量转化为numpy后再使用sklearn。
+
+### [Series.map(arg, na_action=None)[source]](https://pandas.pydata.org/docs/reference/api/pandas.Series.map.html)
+
+使用map对dataframe中的数据进行转化。例如将categorical values转化为interger values。
+
+arg : a dictionary 
+
+```python
+size_mapping = {
+    'XL':3,
+    'L':2,
+    'M':1
+}
+df['size'] = df['size'].map(size_mapping)
+```
+
+### [pd.iloc[?]](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iloc.html)
+
+使用pd.iloc可以像numpy那样对dataframe进行分割。starting from 0
+
+```python
+pd.iloc[:,1:] # 第二列之后的所有列
+
+pd.iloc[:,0] # 第1列
+```
+
 ---
 
 ## Numpy
@@ -258,10 +316,29 @@ X_combined_std = np.vstack((X_train_std,X_test_std))
 y_combined = np.hstack((y_train,y_test))
 ```
 
-np.vstack : 一行一行的叠加
-np.hstack : 一列一列的叠加
+- np.vstack : 一行一行的叠加, vertically (row wise)
+- np.hstack : 一列一列的叠加, horizontally (column wise).
 
+### [numpy.where](https://numpy.org/doc/stable/reference/generated/numpy.where.html)
 
+`numpy.where(condition[, x, y])`
+
+如果condition 返回True，则返回x，otherwise,return y.
+
+```python
+a = np.arange(10)
+np.where(a < 5, a, 10*a)
+```
+
+### [np.argsort(a)](https://numpy.org/doc/stable/reference/generated/numpy.argsort.html)
+
+Returns the indices that would sort an array.对array a 进行从小到大排序。
+
+```python
+a = np.array([0,2,1,4,3,5])
+
+indices = np.argsort(a)[::-1] # 从大到小进行排序
+```
 
 ## re
 

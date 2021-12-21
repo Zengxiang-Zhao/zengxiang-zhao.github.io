@@ -154,3 +154,15 @@ plt.scatter(x,y,
            c='red',marker='^',alpha=0.5)
 ```
 
+> - x,y : 数据点
+> - c : color 
+> - marker : 显示的样式
+> - alpha : 透明度 范围为0～1。0为透明，1 为不透明。常设置为0.5，之所以设置为0.5是因为当数据聚集的时候，可以根据重叠的颜色直观的看出数据量。
+
+### [plt.fill_between](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.fill_between.html)
+
+`matplotlib.pyplot.fill_between(x, y1, y2=0, where=None, interpolate=False, step=None, *, data=None, **kwargs)`
+
+Fill the area between two horizontal curves.
+
+The curves are defined by the points (x, y1) and (x, y2). This creates one or multiple polygons describing the filled area.

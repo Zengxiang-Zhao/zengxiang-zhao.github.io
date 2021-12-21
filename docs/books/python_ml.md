@@ -816,9 +816,399 @@ KPCA 就是通过非线性转化(kernel)把原始数据投射到更高的维度�
 
 通过一系列公式转化后，我们可以看出kernel其实就是求两个vectors(samples in the database) 的dot product。可以看作是衡量两个vector的相似性。
 
+书中有对KPCA的每一步的python实施过程，这里不赘述。下面使用sklearn自带的方法。
+
+```python
+from sklearn.datasets import make_moons
+from sklearn.decomposition import KernelPCA
+
+X,y = make_moons(n_samples=100,random_state=123)
+
+scikit_kpca = KernelPCA(n_components=2,
+                       kernel='rbf',gamma=15)
+X_skernpca = scikit_kpca.fit_transform(X)
+
+plt.scatter(X_skernpca[y==0,0],X_skernpca[y==0,1],c='red',marker='^',alpha=0.5)
+plt.scatter(X_skernpca[y==1,0],X_skernpca[y==1,1],c='blue',marker='o',alpha=0.5)
+plt.xlabel('PC1')
+plt.ylabel('PC2')
+plt.tight_layout()
+plt.show()
+```
+
+# Chapter 6:Learning Best Practices for Model Evaluation and Hyperparameter Tuning
+
+这一章主要涉及的是模型效果的评估方法和标准，以及如何进行调参数。
+
+## piplines
+
+在sklearn中有现成的function可以使用，代码如下：
+
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+
+pipe_lr = make_pipeline(StandardScaler(),
+                       PCA(n_components=2),
+                        LogisticRegression(random_state=1,
+                                          solver='lbfgs')
+                       )
+pipe_lr.fit(X_train,y_train)
+
+y_pred = pipe_lr.predict(X_test)
+
+pipe_lr.score(X_test,y_test)
+```
+
+在以上代码中我们使用sklearn.pipline 中的function make_pipline来生成pipline。
+
+The make_pipeline function takes an arbitrary number of scikit-learn `transformers` (objects that support the fit and transform methods as input), followed by a scikit- learn `estimator` that implements the fit and predict methods. 
+
+pipline 中可以包含任意个transformer，这个transformer要有fit 和 transform function。pipline的最后是estimator，其要有fit 和 predict function。
 
 
+If we call the fit method of Pipeline, the data will be passed down a series of transformers via fit and transform calls on these intermediate steps until it arrives at the estimator object (the final element
+in a pipeline). The estimator will then be fitted to the transformed training data
+
+If we feed a dataset to the predict call of a Pipeline object instance, the data will pass through the intermediate steps via transform calls. In the final step, the estimator object will then return a prediction on the transformed data.
+
+如果我们使用pipline.fit那么pipline中的transformer就会运行fit_transform 的method和estimator的fit method。如果使用pipline.predict，则pipline中的transformer就会运行transform method，estimator 运行predict method。
+
+![process of pipline](/assets/images/python_ml/06_pipline.png)
+
+## Using k-fold cross-validation to assess model performance
+
+我们需要把数据进行分割，例如分成train，test dataset。这样的问题是如果我们需要使用 train dataset 来训练模型， test dataset 来评估不同的模型的好坏。如果我们使用test dataset 一次次的用于模型的选择，那么也是变相的使用test dataset 来训练模型。
+
+ However, if we reuse the same test dataset over and over again during model selection, it will become part of our training data and thus the model will be more likely to overfit.
+
+`更好的方法是把dataset 分割成：train,validation, test dataset.`
+
+A better way of using the holdout method for model selection is to separate the data into three parts: a training dataset, a validation dataset, and a test dataset.
+
+![dataset split](/assets/images/python_ml/06_split.png)
 
 
+## K-fold cross-validation
+
+另一种更好的分割数据并进行训练和选择，最后再进行验证的方法是k-fold cross-validation.
+
+采取不放回的抽样方法，把training dataset 分割成为k份。然后使用k-1份的数据用于训练模型，剩下的一份用于model selection 评估模型的performance。这种过程重复k次，这样我们可以得到k个训练好的模型和performance estimates。然后再求均值就可以得到这个模型的好坏。
+
+通过performance estimates 的均值，我们选择出了model并得到了这个模型的最优参数。下一步，再使用整个training dataset 来训练选择出来的模型。
+最后使用test dataset来对模型做最后的评估。
+
+Since k-fold cross-validation is a resampling technique without replacement,
+the advantage of this approach is that each example will be used for training
+and validation (as part of a test fold) exactly once, which yields a lower-variance estimate of the model performance than the holdout method.
+
+![k fold cross validation](/assets/images/python_ml/06_k_fold.png)
+
+一般k值选择10。如果是非常少的数据，那么k值会增大。如果数据很多，k也可以选择5。
+
+k值增大，那么model training的数据的相似性会变大，因此导致模型的variance会变大(发生 overfitting)。
+
+对于k-fold cross vallidation方法的改进是stratified k-fold cross-validation, which can yield better bias and variance estimates, especially in cases of unequal class proportions。
+
+In stratified cross- validation, the class label proportions are preserved in each fold to ensure that each fold is representative of the class proportions in the training dataset。
+
+使用sklearn 自带的[Stratified KFold function](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html).
+
+```python
+import numpy as np
+from sklearn.model_selection import StratifiedKFold
+
+kfold = StratifiedKFold(n_splits=10).split(X_train,y_train)
+
+scores = []
+for k,(train,test) in enumerate(kfold):
+    pipe_lr.fit(X_train[train],y_train[train])
+    score = pipe_lr.score(X_train[test],y_train[test])
+    scores.append(score)
+    print('Flod: %2d, Class dist.: %s, Acc: %.3f'%(k+1,
+        np.bincount(y_train[train]), score))
+```
+> StratifiedKFold(n_splits=10).split 把数据分割成10份， 返回的是indinces。在使用split分割时是根据y值进行stratify。
+
+除了上述一种方法，我们还可以直接使用[cross_val_score](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html?highlight=cross_val_score#sklearn.model_selection.cross_val_score) 直接评估model estimates。
+
+```python
+from sklearn.model_selection import cross_val_score
+
+scores = cross_val_score(estimator=pipe_lr,
+                        X=X_train,
+                        y= y_train,
+                        cv=10,
+                        n_jobs=1)
+```
+
+> 使用cross_val_score 的方法好处时可以多线程处理。当n_jobs=-1，使用全部的CUP同时进行处理。
+
+## Debugging algorithms with learning and validation curves
+
+模型常见的两种问题时high bias and high variance.如下所示
+
+![model issues](/assets/images/python_ml/06_model_issues.png)
+
+如果时underfitting,采取的策略是：
+- 增加模型的参数，让模型变得复杂。
+- 收集更多的features，或者构建新的features
+- 通过降低regularization的程度，如SVM或者logic regression
+
+如果是overfitting，采取的策略是：
+- 收集更多的数据samples
+- 减少模型的复杂度
+- 增加regularization 的程度
+- 减少feature 的维度，降维
 
 
+如果增加training samples 用于训练则可能会导致overfitting，因此多少的train samples 比较合适呢？可以使用skealrn 中的[learning_curve function](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.learning_curve.html?highlight=learning_curve#sklearn.model_selection.learning_curve).
+
+```python
+import matplotlib.pyplot as plt
+from sklearn.model_selection import learning_curve
+pipe_lr = make_pipeline(StandardScaler(),
+                       LogisticRegression(penalty='l2',
+                                         random_state=1,
+                                         solver='lbfgs',
+                                         max_iter=10000))
+
+train_sizes,train_scores, test_scores = \
+learning_curve(estimator=pipe_lr,
+              X=X_train,
+              y= y_train,
+              train_sizes=np.linspace(0.1,1.0,10),
+              cv=10, # 将xfenge成几分，如果是整数则是按照stratified k-fold方法进行分割
+              n_jobs=1) # n_jobs=-1 使用全部的CPU进行计算
+
+train_mean = np.mean(train_scores, axis=1)
+train_std = np.std(train_scores,axis=1)
+
+test_mean = np.mean(test_scores,axis=1)
+test_std = np.std(test_scores, axis=1)
+
+plt.plot(train_sizes,train_mean,color='blue',
+        marker='o',
+        markersize=5, label='Training accuracy')
+plt.fill_between(train_sizes,
+                train_mean+train_std,
+                train_mean-train_std,
+                alpha=0.15,
+                color='blue')
+plt.plot(train_sizes,test_mean,color='green', linestyle='--',
+        marker='s',markersize=5,
+        label='Validation accuracy')
+plt.fill_between(train_sizes,
+                 test_mean+test_std,
+                 test_mean-test_std,
+                 alpha = 0.15,
+                 color='green'
+                )
+plt.grid()
+plt.xlabel('Number of training examples')
+plt.ylabel('Accuracy')
+plt.legend(loc='lower right')
+plt.ylim([0.8,1.03])
+plt.show()
+```
+
+> learning_curve : Determines cross-validated training and test scores for different training set sizes.根据training size的不同返回train score and test score.
+
+> np.linspace 的用法参考[python 只是点](/docs/python.html#numpylinspace)
+
+> plt.fill_between : 是在train_mean+train_std,train_mean-train_std之间填充，x轴为train_sizes.详细内容可参考[matplotlib](/docs/plot_graph.html#pltfill_between)
+
+> [plt.grid()](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.grid.html) : 在图中画出格子线
+
+![accuracy curve](/assets/images/python_ml/06_accuracy_curve.png)
+
+### Addressing over- and underfitting with validation curves
+
+validation curve 与learning curve 很相似。不同之处是learning curve是根据train size的大小求得train score 和test score。而validation curve 则是可以人为地调控模型内的参数，这样就可以在模型发生over - and underfitting时对模型进行调控，看哪一个参数更合适。
+
+在sklearn中使用[validation_curve](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.validation_curve.html)
+
+```python
+from sklearn.model_selection import validation_curve
+param_range = [0.001,0.01, 0.1, 1.0, 10.0, 100.0]
+# param_range = [10, 100,1000]
+train_scores, test_scores = validation_curve(estimator=pipe_lr,
+                                            X=X_train,
+                                            y= y_train,
+                                            param_name='logisticregression__C',
+                                            param_range=param_range,
+                                            cv=10)
+
+train_mean= np.mean(train_scores,axis=1)
+train_std = np.std(train_scores,axis=1)
+test_mean = np.mean(test_scores,axis=1)
+test_std = np.std(test_scores, axis=1)
+
+plt.plot(param_range,train_mean,
+        color='blue',marker='o',
+        markersize=5,label='Training accuracy')
+plt.fill_between(param_range,train_mean+train_std,
+                train_mean-train_std,
+                alpha=0.15,
+                color='blue')
+plt.plot(param_range,test_mean,
+        color='green',linestyle='--',
+        marker='s',markersize=5,
+        label='Validation accuracy')
+plt.fill_between(param_range,test_mean+test_std,
+                test_mean-test_std,alpha=0.15,
+                color='green')
+plt.grid()
+plt.xscale('log')
+plt.legend(loc='lower right')
+plt.xlabel('Parameter C')
+plt.ylabel('Accuracy')
+plt.ylim([0.8,1.0])
+plt.show()
+```
+
+> 有以上代码可以看出validation curve需要确定对哪个parameter进行优化(param_name)，以及优化的范围是多少(param_range)。
+
+> 这里需要注意的是param_name中引用的参数是pipline中LogisticRegression中的参数，由于在pipline中会把名称都变为小写，因此使用`logisticregression__C`，`C`为LR中的参数，中间的连接使用双下划线。
+
+### Fine-tuning machine learning models via grid search
+
+Learning curve 是对train sizes进行优化，validation curve是对某一参数进行优化。如果相对多个参数进行优化，那么我们则需要grid search。
+
+在机器学习中我们有两类参数需要优化：
+- those that are learned
+from the training data, for example, the weights in logistic regression。需要通过training data训练模型的weights。
+- the parameters of a learning algorithm that are optimized separately。the regularization parameter in logistic regression or the depth parameter of a decision tree. 模型本身需要认为设定的参数，例如L1 或者L2 regularization 的程度，Decision tree 的深度，random forest 中树的数目。
+
+The grid search approach is quite simple: it's a brute-force exhaustive search paradigm where we specify a list of values for different hyperparameters, and the computer evaluates the model performance for each combination to obtain the optimal combination of values from this set。
+
+直接使用sklearn 中的[GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html?highlight=gridsearchcv#sklearn.model_selection.GridSearchCV)
+
+```python
+from sklearn.model_selection import GridSearchCV
+from sklearn.svm import SVC
+
+pipe_svc = make_pipeline(StandardScaler(),
+                        SVC(random_state=1))
+
+param_range = [0.0001, 0.001, 0.01, 0.1,
+              1.0, 10.0, 100.0, 1000.0]
+
+param_grid = [
+    {
+        'svc__C':param_range, # 使用pipline中的引用规则
+        'svc__kernel':['linear']
+    },
+    {
+        'svc__C':param_range,
+        'svc__gamma':param_range,
+        'svc__kernel':['rbf']
+    }
+]
+
+gs = GridSearchCV(estimator=pipe_svc,
+                 param_grid=param_grid,
+                 scoring='accuracy',
+                 cv=10,
+                 refit=True,
+                 n_jobs=-1)
+
+
+gs = gs.fit(X_train,y_train)
+
+print(gs.best_score_)
+
+print(gs.best_params_)
+
+clf = gs.best_estimator_
+```
+
+> gs.best_score_ : 获得模型最高的值； gs.best_params_ : 获得模型最高的值的参数 ; gs.best_estimator_ : 获得最好的模型.
+
+由于我们在GridSearchCV中设定了`refit=True`,那么模型在找到最高的score的参数时，会使用全部的X_train，y_train再训练这个模型一次。相当于如下代码：
+
+```python
+clf = gs.best_estimator_ # 得到含有最佳参数的模型，如果refit=True，那么下面那一步其实时没有必要的。
+ 
+clf.fit(X_train,y_train)
+```
+
+Grid search 是对全部可能性的参数组合进行尝试，这会带来很大的运算量。另一种可替代的方法是[RandomizedSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html#sklearn.model_selection.RandomizedSearchCV)。这种方法只是从参数中sample 一些参数进行随机组合，然后判定模型的优劣。这种方法适用于参数是连续性分布且非常多的参数的情况。
+
+## nested cross-validation
+
+如果我们既想调节模型的参数，同时也想在不同的模型中选择合适的模型。那么我们可以把`GridSearchCV`和`cross_val_score`结合在一起。其基本流程如下：
+1. 外层循环是把数据进行k-fold cross-validation,把数据分割成train_set and test set。
+2. 内部还有一个循环那就是对当模型进行调节参数。此时一般是把train data set分割成两份，一份用于train model，一份用于validation model。然后找到在当前数据下最优参数的模型。
+3. 使用上一步中的最优参数模型对test set进行评估分数，得到k个score。一般第一步是k=5,第三步cv=2；
+
+In nested cross-validation, we have an outer k-fold cross-validation loop to split
+the data into training and test folds, and an inner loop is used to select the model using k-fold cross-validation on the training fold. After model selection, the test fold is then used to evaluate the model performance. The following figure explains the concept of nested cross-validation with only five outer and two inner folds, which can be useful for large datasets where computational performance is important; this particular type of nested cross-validation is also known as `5x2 cross-validation`:
+
+![nested cross-validation](/assets/images/python_ml/06_nest_cross.png)
+
+
+```python
+gs = GridSearchCV(estimator=pipe_svc,
+                 param_grid=param_grid,
+                 scoring='accuracy', # 使用accuracy作为选择模型的依据
+                 cv=2) # 内层循环把数据分割成2份，然后选择出最优参数的模型
+
+scores = cross_val_score(gs,X_train,y_train,
+                        scoring='accuracy',cv=5) # 这是外层循环，把original dataset 分割成为5份。对test set 求值时使用accuracy。
+
+np.mean(scores),np.std(scores)
+# output : (0.9736263736263737, 0.014906219743132467)
+
+from sklearn.tree import DecisionTreeClassifier
+gs = GridSearchCV(estimator=DecisionTreeClassifier(random_state=0),
+                 param_grid=[{'max_depth':[1,2,3,4,5,6,7,None]}],
+                 scoring='accuracy',
+                 cv=2)
+
+scores = cross_val_score(gs,X_train,y_train,
+                        scoring='accuracy',cv=5)
+
+np.mean(scores),np.std(scores)
+# output:(0.9340659340659341, 0.015540808377726326)
+```
+
+> 从以上代码的运行结果中可以看出SVM(97.4 percent) 要比decision tree(93.4 percent) 的结果要好。因此对当前数据集来说选择SVM会更好。
+
+> GridSearchCV 中的accuracy 是用于比较哪个参数组合能得到更好的模型；而cross_val_score 中的scoring则可认为是通过fit得出的test set 的结果。
+
+
+## Looking at different performance evaluation metrics
+
+仅仅使用accuracy作为评估模型好坏是不够的。因为有时数据是不均衡的。整体来说对于模型的评估需要用到confusion matrix，A confusion matrix is simply a square matrix that reports the counts of the true positive (TP), true negative (TN), false positive (FP), and false negative (FN) predictions of a classifier。如下：
+
+![confusion matrix](/assets/images/python_ml/06_conf_matrix.png)
+
+我们的目的是让TP和TN尽可能的大，而FN，FP尽可能的小。
+
+我们下面使用sklearn求出[confusion matrix](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html?highlight=confusion_matrix#sklearn.metrics.confusion_matrix)，并用seaborn中的[heatmap](https://seaborn.pydata.org/generated/seaborn.heatmap.html) 画出图来
+
+```python
+from sklearn.metrics import confusion_matrix
+pipe_svc.fit(X_train,y_train)
+
+y_pred = pipe_svc.predict(X_test)
+confmat = confusion_matrix(y_true=y_test,y_pred=y_pred)
+
+import seaborn as sns
+
+sns.heatmap(confmat,
+            center=0, 
+            annot = True,
+            cmap='RdYlGn', 
+            linewidths=0.2)
+plt.xlabel('Predicted label')
+plt.ylabel('True label')
+plt.show()
+```
+
+![heatmap of confusion matrix](/assets/images/python_ml/heatmap_conf.png)
+
+> 在heatmap中通过使用`xticklabels, yticklabels`来设置x轴和y轴的刻度名称。使用plt.xlabel and plt.ylabel来设置图中x轴和轴的标签。具体的使用用法可以参考官方文档。

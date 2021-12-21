@@ -340,6 +340,18 @@ a = np.array([0,2,1,4,3,5])
 indices = np.argsort(a)[::-1] # 从大到小进行排序
 ```
 
+### [numpy.cumsum(array)](https://numpy.org/doc/stable/reference/generated/numpy.cumsum.html)
+
+Return the cumulative sum of the elements along a given axis.相当于前缀和
+
+### [numpy.linspace](https://numpy.org/doc/stable/reference/generated/numpy.linspace.html)
+
+`numpy.linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None, axis=0)`
+
+把从start 和stop中间的距离进行分割成num份
+
+---
+
 ## re
 
 python使用Regular expression operations。需使用re package。

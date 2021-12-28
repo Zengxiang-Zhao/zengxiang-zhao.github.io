@@ -47,3 +47,10 @@ nav_order: 97
 ">`
 
 在math后面写你想写的公式。如果有些符号不确定可参考[Latext pdf 文档](https://www.caam.rice.edu/~heinken/latex/symbols.pdf)
+
+## 在公式中写加号+ 
+
+在GitHub markdown 的公式中填写加号+，使用`%2B`。
+
+<img src="https://render.githubusercontent.com/render/math?math=F1 = 2 \frac{PRE \times REC}{PRE %2B REC}
+">

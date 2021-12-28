@@ -1212,3 +1212,341 @@ plt.show()
 ![heatmap of confusion matrix](/assets/images/python_ml/heatmap_conf.png)
 
 > 在heatmap中通过使用`xticklabels, yticklabels`来设置x轴和y轴的刻度名称。使用plt.xlabel and plt.ylabel来设置图中x轴和轴的标签。具体的使用用法可以参考官方文档。
+
+
+### precision and recall of a classification model
+
+Both the prediction error (ERR) and accuracy (ACC) provide general information about how many examples are misclassified. 如果数据有偏差，那么即使得到很高的ACC也没有太大的意义。例如99%的case 是negative，1%的case是positive。
+
+<img src="https://render.githubusercontent.com/render/math?math=ERR = \frac{FP %2B FN}{FP %2B FN %2B TP %2B TN}
+">
+
+<img src="https://render.githubusercontent.com/render/math?math=ACC = \frac{TP %2B TN}{FP %2B FN %2B TP %2B TN} = 1 - ERR
+">
+
+The true positive rate (TPR) and false positive rate (FPR) are performance metrics that are especially useful for imbalanced class problems:
+
+<img src="https://render.githubusercontent.com/render/math?math=FPR = \frac{FP}{N} = \frac{FP}{FP %2B TN}
+">
+
+<img src="https://render.githubusercontent.com/render/math?math=TPR = \frac{TP}{P} = \frac{TP}{FN %2B TP}
+">
+
+例如在肿瘤诊断中，我们更关注恶性肿瘤是否能被识别出来，因为不想耽误治疗。因此如果在数据中患有肿瘤的标签为1(positive),那么我们希望TPR越高越好。
+
+The performance metrics precision (PRE) and recall (REC) are related to those TP and TN rates, and in fact, REC is synonymous with TPR:
+
+precision(精度)是指在`模型判定为true positive`的cases中有多少是真正的true positive cases。
+
+recall(召回率)是指在`ture positive 的cases`中模型判定了多少cases为ture positive。
+
+<img src="https://render.githubusercontent.com/render/math?math=PRE = \frac{TP}{TP %2B FP}
+">
+
+<img src="https://render.githubusercontent.com/render/math?math=REC = TPR = \frac{TP}{P} = \frac{TP}{FN %2B TP}
+">
+
+
+如果我们想平衡PRE and REC，我们可以使用F1 score。
+
+<img src="https://render.githubusercontent.com/render/math?math=F1 = 2 \frac{PRE \times REC}{PRE %2B REC}
+">
+
+ACC, recall and f1 score 在sklearn中有function 可用
+
+```python
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score,f1_score
+
+precision_score(y_true=y_test,y_pred=y_pred)
+
+recall_score(y_true=y_test,y_pred=y_pred)
+
+f1_score(y_true=y_test,y_pred=y_pred)
+```
+
+在sklearn中默认positive label为1，我们可以使用sklearn中的make_scorer 人为设定positive label的的标签。
+
+```python
+from sklearn.metrics import make_scorer, f1_score
+
+c_gamma_range = [0.01,0.1,1.0, 10.0]
+param_grid = [
+    {'svc__C':c_gamma_range,
+    'svc__kernel':['linear']
+    },
+    {
+        'svc__C':c_gamma_range,
+        'svc__gamma':c_gamma_range,
+        'svc__kernel':['rbf']
+    }
+]
+
+scorer = make_scorer(f1_score,pos_label=0) # 更换positive labe
+
+gs = GridSearchCV(estimator=pipe_svc,
+                 param_grid=param_grid,
+                 scoring=scorer, # 使用更换后的label，以及评判标准score。
+                 cv=10)
+gs = gs.fit(X_train, y_train)
+
+gs.best_score_
+
+gs.best_params_
+```
+
+### Receiver operating characteristic (ROC) 
+
+ROC是根据FPR和TPR来评估分类模型的performace。如果是一个二分类的问题，那么ROC如果是一条对角线，那么认为此时的模型是random gussing。因此ROC在对角线上越靠上越好。
+
+
+使用sklearn 和 matplotlib画ROC
+
+```python
+from sklearn.metrics import roc_curve, auc
+
+from scipy import interp # 通过插值法填补缺失值
+
+pipe_lr = make_pipeline(StandardScaler(),
+                       PCA(n_components=2),
+                        LogisticRegression(
+                            penalty='l2',
+                            random_state=1,
+                            solver='lbfgs',
+                            C=100.0))
+
+X_train2 = X_train[:, [4,14]]
+
+cv = list(StratifiedKFold(n_splits=3,
+                         random_state=1).split(X_train,
+                                              y_train))
+
+mean_tpr = 0.0
+mean_fpr = np.linspace(0,1,100) # x轴的间隔点
+all_tpr = []
+
+for i, (train,test) in enumerate(cv):
+    probas = pipe_lr.fit(
+        X_train2[train],
+        y_train[train]).predict_proba(X_train2[test]) # 概率值，每个class都有一个概率值，shape is [n_samples,2]
+    
+    fpr, tpr, thresholds = roc_curve(y_train[test],
+                                    probas[:,1], # 第二列表示使用positive label的score
+                                    pos_label=1)
+    
+    mean_tpr += interp(mean_fpr, fpr,tpr) # 为了划线多求一些点
+    mean_tpr[0] = 0.0
+    roc_auc = auc(fpr, tpr)
+    plt.plot(fpr,
+            tpr,
+             label = 'ROC fold %d (area=%0.2f)'%
+             (i+1, roc_auc)
+            )
+
+plt.plot([0,1],
+        [0,1],
+        linestyle='--',
+        color=(0.6, 0.6,0.6),
+        label='Random guessing')
+
+mean_tpr /= len(cv)
+mean_tpr[-1] = 1.0
+mean_auc = auc(mean_fpr,mean_tpr)
+plt.plot(mean_fpr,mean_tpr, 'k--',
+        label='Mean ROC (area= %0.2f)'% mean_auc,lw=2)
+
+plt.plot([0,0,1],
+        [0,1,1],
+         linestyle=':',
+         color = 'black',
+         label = 'Perfect performance'
+        )
+
+plt.xlim([-0.05,1.05])
+plt.ylim([-0.05,1.05])
+
+
+plt.xlabel('False positive rate')
+plt.ylabel('True positive rate')
+plt.legend(loc='lower right')
+plt.show()
+
+```
+
+![roc auc](/assets/images/python_ml/auc_roc.png)
+
+
+## Scoring metrics for multiclass classification
+
+以上的模型评判标准都是以二分类模型为准。但是sklearn为了使用以上的标准，通过one-vs.-all(OvA)的方法计算模型的macro 和 micro标准。即通过判断一个模型能否区分class_a and class_else。
+
+<img src="https://render.githubusercontent.com/render/math?math=PRE_{micro} = \frac{TP_1 %2B \cdots %2B TP_{k}}{TP_1 %2B \cdots %2B TP_k FP_1 %2B \cdots %2B FP_k}
+">
+
+micro 的精度是所有的class能正确分成positive 的与所有模型预测称positive的比例。例如有4个classes，class 0 的label 为1 class other(class 1,2,3) 的label 为0.以此类推。
+
+macro 的计算是把所有class的micro PRE求一个平均值
+
+<img src="https://render.githubusercontent.com/render/math?math=PRE_{macro} =  \frac{PRE_1 %2B \cdots %2B PRE_k}{k}
+">
+
+此时
+
+<img src="https://render.githubusercontent.com/render/math?math= PRE_1 = \frac{TP_1}{TP_1 + FP_{else}}
+">
+
+
+从上面的公式中可以看出，如果我们看重model对每一个class的分类表现，那么我们可以选择micro-averaging，因此每个model对每个class的表现都体现在了分子和分母上； 如果看重模型的整体结果(而不是每个class的结果)，那么macro-averaing更合适，因为它更看重most frequent class labels.
+
+Micro-averaging is useful if we want to weight each instance or prediction equally, whereas macro-averaging weights all classes equally to evaluate the overall performance of a classifier with regard to the most frequent class labels.
+
+If we are using binary performance metrics to evaluate multiclass classification models in scikit-learn, a normalized or weighted variant of the macro-average is used by default. The weighted macro-average is calculated by weighting the score of each class label by the number of true instances when calculating the average. The weighted macro-average is useful if we are dealing with class imbalances, that is, different numbers of instances for each label.
+
+如果dataset中每个class的data 是不平衡的，那么需要根据每个class 的positiv case的数量在每个class的PRE前面添加weights。在sklearn中对于多分类的问题，sklearn会默认为使用weighted macro-average 作为评判标准。
+
+## Dealing with class imbalance
+
+对于不平衡的数据有以下方法：
+
+1. One way to deal with imbalanced class proportions during model fitting is to assign a larger penalty to wrong predictions on the minority class. 对于数目较少的class，在fitting的过程中如果出现错误分配，那么会增加一个更大的惩罚。起到一个矫正的作用。
+2. upsampling the minority class, downsampling the majority class, and the generation of synthetic training examples. 另一种方法是扩大少数class的样本，减少多数样本class的样本数目，最后是合成新的数据。
+
+对于upsample 可以使用sklearn中的[resample](https://scikit-learn.org/stable/modules/generated/sklearn.utils.resample.html?highlight=resample#sklearn.utils.resample)
+
+
+```python
+from sklearn.utils import resample
+
+X_imb = np.vstack((X[y==0], X[y==1][:40]))# 生成不平衡的dataset
+y_imb = np.hstack((y[y==0], y[y==1][:40]))
+
+X_imb[y_imb==1].shape
+
+X_upsampled,y_upsampled = resample( 
+    X_imb[y_imb == 1],
+    y_imb[y_imb == 1],
+    replace = True,
+    n_samples = X_imb[y_imb == 0].shape[0],
+    random_state = 123
+    )
+
+X_upsampled.shape[0]
+
+X_bal = np.vstack((X[y==0],X_upsampled))
+y_bal = np.hstack((y[y==0], y_upsampled))
+
+np.bincount(y_bal)
+# array([357, 357])
+```
+
+> resample function 中前两个参数是要进行resample的样本，replace=True，说明是有放回的取样，n_samples = number 是要最终生成的样本数目。具体的参数内容可查看官方文档。
+
+
+# Combining Different Models for Ensemble Learning
+
+这一章主要讲以下内容：
+
+- Make predictions based on majority voting
+- Use bagging to reduce overfitting by drawing random combinations of the training dataset with repetition
+- Apply boosting to build powerful models from weak learners that learn from their mistakes
+
+Ensemble method 就是把多个classifier整合在一起，然后输出的结果要比单个classifier的结果要好。
+
+The goal of ensemble methods is to combine different classifiers into a meta- classifier that has better generalization performance than each individual classifier alone. 
+
+
+## Majority vote
+
+![majority vote](/assets/images/python_ml/07_majority_vote.png)
+
+majority vote是使用同一个dataset训练不同的classifiers，然后对所有classifier的预测结果中，看哪个预测结果出现的频次最多就认为这个结果是最终结果。
+
+
+## 为社么ensemble method 会比单个classifier的结果好
+
+可以通过对二分类classifier的ensemble method举例说明。
+
+当每个classifier都有相同的error rate(e) 时, ensembel 的error rate可以使用二项式分布来计算ensemble method 的错误率是比单个classifier的错误率要低。
+
+例如有11个二分类classifier，每个classifier的错误率为0.25，那么计算ensemble的错误率如下：
+
+![binominal equation](/assets/images/python_ml/07_binominal.png)
+
+0.034 要远比0.25的错误率要小很多。
+
+## Majority vote classifier
+
+如果需要给每个classifier都加上一个权重(weights),那么每个结果都应乘以权重以后再进行判断。如下：
+
+<img src="https://render.githubusercontent.com/render/math?math=\hat{y} = \arg \max_i \sum_{j=1}^{m} w_j \chi_A (C_j(x)=i)
+">
+
+在书本中有从头创建MajorityClassifier class的代码和应用。现在sklearn中也已经创建了相应的function [sklearn.ensemble.VotingClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html)
+
+
+## Bagging
+
+Bagging 就是有放回地取样。在上面的Majority classifier中每一个classifier都使用相同的datase来进行trian。使用Bagging就可以使用不同的dataset来进行training。
+
+ In fact, random forests are a special case of bagging where we also use random feature subsets when fitting the individual decision trees.
+
+![bagging](/assets/images/python_ml/07_bagging.png)
+
+在sklearn中已有[sklearn.ensemble.BaggingClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html?highlight=baggingclassifier#sklearn.ensemble.BaggingClassifier)可以使用。
+
+
+
+```python
+from sklearn.ensemble import BaggingClassifier
+
+tree = DecisionTreeClassifier(criterion='entropy',
+                             random_state=1,
+                             max_depth=None)
+bag = BaggingClassifier(base_estimator=tree,
+                       n_estimators=500,
+                       max_samples=1.0,
+                       max_features=1.0,
+                       bootstrap=True,
+                       bootstrap_features=False,
+                       n_jobs=1,
+                       random_state=1)
+```
+
+> 从以上代码中我们可以看出Bagging 使用同一种classifier，只是使用不同的samples来训练同一种classifier，从而得到多个classifiers。这样可以避免hight variance。防止classifer使用整个dataset产生overfitting.
+
+## boosting
+
+boosting 含有多个classifiers，每次traing后可以得到错误的datasets，然后再把错误的dataset的weights调大。这样每次training都会调节weights，修改classifier的参数。然后得到训练好后的classifiers。当有新的数据要predict时，就可以使用Majority voting 的策略得到新数据的label。
+
+![how boost works](/assets/images/python_ml/07_boost_work.png)
+
+![boost](/assets/images/python_ml/07_boost.png)
+
+> figure 1，2，3是相同的classifiers。2是在1的基础上对samples的weights进行调节后的再训练。3是在2的基础上的再训练。4是majority vote的结果。
+
+sklearn 中已有[sklearn.ensemble.AdaBoostClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html?highlight=adaboostclassifier#sklearn.ensemble.AdaBoostClassifier).
+
+
+```python
+from sklearn.ensemble import AdaBoostClassifier
+
+tree = DecisionTreeClassifier(criterion='entropy',
+                             random_state=1,
+                             max_depth=1)
+
+ada = AdaBoostClassifier(base_estimator=tree,
+                        n_estimators=500,
+                        learning_rate=0.1,
+                        random_state=1)
+
+tree = tree.fit(X_train,y_train)
+
+y_train_pred = tree.predict(X_train)
+
+ada = ada.fit(X_train,y_train)
+
+ada.score(X_train,y_train)
+
+ada.score(X_test,y_test)
+```
+

@@ -269,6 +269,16 @@ pd.iloc[:,0] # 第1列
 
 ## Numpy
 
+### numpy axis
+
+[这篇文章](https://www.sharpsightlabs.com/blog/numpy-axes-explained/) 对numpy 的 axis解释的不错。直观的看下图：
+
+![numpy axis](/assets/images/python/np_axis.png)
+
+### [numpy.array_equal](https://numpy.org/doc/stable/reference/generated/numpy.array_equal.html)
+
+判断两个numpy array是否相同。只返回一个bool value， True or False。而不是一个bool matrix。
+
 ### [numpy.argmax(a, axis=None, out=None)](https://numpy.org/doc/stable/reference/generated/numpy.argmax.html)
 
 Returns the indices of the maximum values along an axis.

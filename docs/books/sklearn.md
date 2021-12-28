@@ -60,3 +60,18 @@ X_test_std = sc.transform(X_test)
 使用sklearn自带的StandardScaler对数据进行noramalizatio。首先使用fit获得mean 和 variance。然后再使用transform把想要转化的数据转化。
 
 
+## make piplines
+
+在sklearn中创建piplines有两种方法：
+- [sklearn.pipeline.make_pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.make_pipeline.html)
+- [sklearn.pipeline.Pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline)
+
+```python
+from sklearn.pipeline import make_pipeline,Pipeline
+
+pipe1 = make_pipeline(StandardScaler(),clf1)
+
+pipe2 = Pipeline([('sc',StandardScaler()), ('clf',clf1)])
+```
+
+> 第一种方法是直接把function放在make_pipeline中。第二种给function赋予名称，list of tuple。

@@ -152,6 +152,7 @@ For single-group bar plots, pass the single bar container:
 ax = sns.barplot(x='day', y='tip', data=groupedvalues)
 ax.bar_label(ax.containers[0])
 ```
+![single-group](https://i.stack.imgur.com/Pjmcy.png)
 
 For multi-group bar plots (with hue), iterate the multiple bar containers:
 ```python
@@ -159,6 +160,7 @@ ax = sns.barplot(x='day', y='tip', hue='sex', data=df)
 for container in ax.containers:
     ax.bar_label(container)
 ```
+![mutiple_group](https://i.stack.imgur.com/5ourr.png)
 
 ### [plt.scatter()](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html)
 

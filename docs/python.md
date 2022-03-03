@@ -265,6 +265,16 @@ pd.iloc[:,1:] # 第二列之后的所有列
 pd.iloc[:,0] # 第1列
 ```
 
+### [df.isin :Select rows based on column that in or not in the value list](https://www.codegrepper.com/code-examples/python/pandas+dataframe+select+rows+not+in+list)
+
+```python
+#filter dataframe with list that the value in the list
+df_runID_results_dropna = df_runID_results_dropna[df_runID_results_dropna['idType'].str.upper().isin(check_idTypes)] # check_idTypes is a list like['A','B','C']
+
+# filter dataframe with list that the value not in the list
+df_runID_results_dropna = df_runID_results_dropna[~df_runID_results_dropna['caseNo'].str.upper().isin(remove_caseNo)]
+```
+
 ---
 
 ## Numpy

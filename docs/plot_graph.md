@@ -47,6 +47,7 @@ axis.set_title('class distribution') # 添加标题
 axis.set_xlabel('Class') # 添加xlable
 axis.set_ylabel('Count')
 # axis.set_xlim([0.5,0.9]) # 也可以设置xlim和ylim
+plt.xticks(rotation=90) # 把x轴的字符进行90°旋转，这样长字符串就不会重叠了。
 plt.show()
 ```
 

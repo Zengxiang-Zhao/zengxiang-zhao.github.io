@@ -183,3 +183,11 @@ plt.scatter(x,y,
 Fill the area between two horizontal curves.
 
 The curves are defined by the points (x, y1) and (x, y2). This creates one or multiple polygons describing the filled area.
+
+### 完整保存图片 [plt.savefig()](https://blog.csdn.net/weixin_38314865/article/details/88633880)
+
+有时保存图片不完整，在边界部分的内容会丢失。You should add a parameters "bbox_inches = 'tight'" in plt.savefig Or fig.savefig from seaborn like below:
+
+```python
+plt.savefig('path',bbox_inches = 'tight')
+```

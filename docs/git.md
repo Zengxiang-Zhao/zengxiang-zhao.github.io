@@ -35,6 +35,17 @@ git init -b trunk
 ```
 `-b` is short for --initial-branch
 
+# [Pretty Git branch graphs](https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs)
+ 
+throw the following two aliases in ~/.gitconfig file:
+ 
+```bash
+[alias]
+lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+lg = !"git lg1"
+```
+
 # [Working with Remotes](https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes)
 
 - `git remote`: It lists the shortnames of each remote handle you’ve specified

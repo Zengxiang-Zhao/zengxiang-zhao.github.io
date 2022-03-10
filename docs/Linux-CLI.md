@@ -21,6 +21,9 @@ nav_order: 100
 
 ---
 
+## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
+此链接解释怎么在terminal 配置ohmyzsh shell.
+
 ## [vim 配置](https://blog.csdn.net/qingdujun/article/details/81411197)
 
 我的vim配置如下：

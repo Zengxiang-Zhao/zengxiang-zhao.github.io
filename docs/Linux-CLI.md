@@ -21,6 +21,37 @@ nav_order: 100
 
 ---
 
+## [vim 配置](https://blog.csdn.net/qingdujun/article/details/81411197)
+
+我的vim配置如下：
+```bash
+set number
+set nocompatible
+
+" hight the syntax
+syntax on
+
+set showmode
+set autoindent
+set smartindent
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+
+set showmatch
+set hlsearch
+set incsearch
+set ignorecase
+
+" 自动补全括号
+inoremap ' ''<ESC>i
+inoremap " ""<ESC>i
+inoremap ( ()<ESC>i
+inoremap [ []<ESC>i
+
+```
+
 ## mkdir
 
 1. `mkdir -p d1/d2/d3 `一次生成多个folder，即使d2,d3不存在，同样可以建立.
@@ -86,4 +117,5 @@ find . -size -1M
 > `+1M`中的+号表明文件大于1M。如果是想查看小于1M的则可以使用`-` 号。
 
 
+## [awk 的使用](https://linuxize.com/post/awk-command/)
 

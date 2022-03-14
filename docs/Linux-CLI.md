@@ -24,6 +24,11 @@ nav_order: 100
 ## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
 此链接解释怎么在terminal 配置ohmyzsh shell.
 
+如果是在Ubuntu中进行修改则需要注意以下几点：
+  1. [安装OhMyZsh](https://ohmyz.sh/)，在ternimal输入 : `$ sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"`
+  2. 更改 zsh-syntax-highlighting的背景颜色，不然在Dark solarized的背景下看不清：在 `~/.zshrc`中添加 `ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=yellow"`
+
+
 ## [vim 配置](https://blog.csdn.net/qingdujun/article/details/81411197)
 
 我的vim配置如下：

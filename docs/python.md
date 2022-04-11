@@ -195,7 +195,8 @@ q.popleft() # 从左端排出
 
 ## Pandas.DataFrame
 
-###[pd['column_name'].astype(bool)](https://stackoverflow.com/questions/29314033/drop-rows-containing-empty-cells-from-a-pandas-dataframe)
+### [pd['column_name'].astype(bool)](https://stackoverflow.com/questions/29314033/drop-rows-containing-empty-cells-from-a-pandas-dataframe)
+
 有时需要根据某一列中的值删除列。例如 Id 列中有 empty string ‘’，那么使用 `df.dropna(subset='Id')` 并不管用，此时可以使用 ·pd[pd['Id'].astype(bool)]· 来删除不想要的rows。
 
 ### [pandas.DataFrame.sort_values](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_values.html)

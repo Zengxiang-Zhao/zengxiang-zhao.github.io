@@ -94,3 +94,113 @@ def message(message,color=bcolors.OKGREEN):
 ```
 
 ![color word](/assets/images/other/color_word.png)
+
+# 使用Google API 和 Python处理spreadsheet
+
+```python
+import os
+import pandas as pd
+import os.path
+
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+
+from utils import bcolors, message
+
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+
+
+def gsheet_api_check(path_json_cred,SCOPES):
+    """Check and create credential
+    Parameters:
+    ---------
+    - path_json_cred : str
+    - SCOPES : str
+        like : ['https://www.googleapis.com/auth/spreadsheets.readonly']
+    
+    Reuturns:
+    ---------
+    - creds 
+    
+    """
+    creds = None
+    if os.path.exists('token_spreadsheet.json'):
+        creds = Credentials.from_authorized_user_file('token_spreadsheet.json', SCOPES)
+
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(path_json_cred,SCOPES)
+            creds = flow.run_local_server(port=0)
+
+        with open('token_spreadsheet.json','w') as token:
+            token.write(creds.to_json())
+            
+
+
+    return creds
+
+
+def pull_sheet_data(creds,SPREADSHEET_ID,DATA_TO_PULL):
+    """Extract values from spreadsheet
+    Parameters:
+    ---------
+    - creds : output of gsheet_api_check
+    - SPREADSHEET_ID : str
+    - DATA_TO_PULL : str, A1 notation (https://developers.google.com/sheets/api/guides/concepts)
+     like : 'Sheet1!A:A'
+     
+     Returns:
+     ---------
+     - values : List
+    
+    """
+    service = build('sheets', 'v4', credentials=creds)
+    sheet = service.spreadsheets()
+    result = sheet.values().get(
+        spreadsheetId=SPREADSHEET_ID,
+        range=DATA_TO_PULL,majorDimension = "COLUMNS").execute()
+    values = result.get('values', [])
+
+    if not values:
+        message(f'No data found in {DATA_TO_PULL}',bcolors.FAIL)
+    else:
+        return values
+    
+def convert_spreadsheet2df(spreadsheet_id,sheet_name,list_columns, columns_name=None):
+    """Get data from spreadsheet and convert the data to dataframe
+    Paramerters:
+    ---------
+    - spreadsheet_id : str
+    - sheet_name : str
+    -list_columns: list of string
+        like ['A','B','E']
+    - columns_name : list of string
+        like ['name','age','sex']
+    
+    """
+    list_df = []
+    length = None
+    for c,n in zip(list_columns,columns_name):
+        data_range = f'{sheet_name}!{c}:{c}'
+        data = pull_sheet_data(creds,spreadsheet_id,data_range)
+        df = pd.DataFrame({n:data[0][1:]})
+        list_df.append(df)
+
+
+    df_concat = pd.concat(list_df,axis=1)    
+
+    return df_concat
+
+```
+
+![Create credentials](https://developers.google.com/workspace/guides/create-credentials)
+
+![A1 notation](https://developers.google.com/sheets/api/guides/concepts)
+
+![use python to handle spreadsheet](https://developers.google.com/sheets/api/quickstart/python)

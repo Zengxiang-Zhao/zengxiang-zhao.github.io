@@ -406,6 +406,14 @@ result = re.match(pattern, string)
 
 这两种方式的结果是相同的。但是如果多次使用regular expression。则使用re.compile 的效率更高。
 
+### 匹配多种可能性
+
+使用`()`和`|`进行组合匹配多种可能性。如下，reports后面加上？表示s可有可无。`(is|are|were|was)` 表示这个位置有四种可能性的词。因为使用了`()`来寻找pattern，因此可以使用output.group(0)表示匹配到的句子或可能的内容。 `.*?` : 非贪婪匹配。
+```python
+output = re.search(r'Tax reports? (is|are|were|was) reported .*?(\n|\.)')
+output.group(0)
+```
+
 
 ## openpyxl
 

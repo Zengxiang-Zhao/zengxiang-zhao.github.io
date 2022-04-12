@@ -55,10 +55,42 @@ nav_order: 97
 <img src="https://render.githubusercontent.com/render/math?math=F1 = 2 \frac{PRE \times REC}{PRE %2B REC}
 ">
 
-## [install nodejs from source file](https://stackoverflow.com/questions/63312642/how-to-install-node-tar-xz-file-in-linux)
+# [install nodejs from source file](https://stackoverflow.com/questions/63312642/how-to-install-node-tar-xz-file-in-linux)
 
 ```bash
 sudo cp -r node-v14.15.5-linux-x64/{bin,include,lib,share} /usr/
 ```
 其中核心思想就是把想要安装的package中的bin,include,lib,share 文件夹中的内容放到你当前env下的相同文件夹中。可使用 ·which node·来查看当前node安装的路径。
 然后把 /usr/ 换成env下的路径。此方法可以延伸到手动安装其他的package
+
+# python 在terminal输出颜色标记的文字
+
+```python
+
+from datetime import datetime
+
+class bcolors:
+    HEADER = '\033[95;1m'
+    OKBLUE = '\033[34;1m'
+    OKCYAN = '\033[35m'
+    OKGREEN = '\033[32;1m'
+    WARNING = '\033[91m'
+    FAIL = '\033[31;4m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    RED = "\033[31;3m"
+    GREEN = '\033[32;1m'
+
+def message(message,color=bcolors.OKGREEN):
+    """print the message using color and time stamp
+    color : bcolors
+    message : string
+    """
+    timeStamp = datetime.now().strftime('%Y-%m-%d %I:%M%p')
+
+    print(f'[{timeStamp}] : {color}{message}{bcolors.ENDC}')
+   
+```
+
+![color word](/assets/images/other/color_word.png)

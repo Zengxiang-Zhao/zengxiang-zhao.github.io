@@ -199,8 +199,8 @@ def convert_spreadsheet2df(spreadsheet_id,sheet_name,list_columns, columns_name=
 
 ```
 
-![Create credentials](https://developers.google.com/workspace/guides/create-credentials)
+[Create credentials](https://developers.google.com/workspace/guides/create-credentials)
 
-![A1 notation](https://developers.google.com/sheets/api/guides/concepts)
+[A1 notation](https://developers.google.com/sheets/api/guides/concepts)
 
-![use python to handle spreadsheet](https://developers.google.com/sheets/api/quickstart/python)
+[use python to handle spreadsheet](https://developers.google.com/sheets/api/quickstart/python)

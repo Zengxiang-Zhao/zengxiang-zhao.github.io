@@ -407,4 +407,34 @@ result = re.match(pattern, string)
 这两种方式的结果是相同的。但是如果多次使用regular expression。则使用re.compile 的效率更高。
 
 
+## openpyxl
+
+### 给excel 中的cell填充颜色
+from openpyxl.styles import PatternFill
+
+```python
+def color_ws_reportDate(ws,column='M'):
+    """Color the report date in ws : reported : green , unreported: red
+    - ws : worksheet opened by openpyxl
+    """
+    fillGreen = PatternFill(fill_type='solid',
+              start_color='6BCB77',
+              end_color='6BCB77')
+
+    fillRed = PatternFill(fill_type='solid',
+              start_color='FF6B6B',
+              end_color='FF6B6B')
+    for cell in ws[column]:
+        try:
+            value = str(cell.value).strip()
+            if value and value != 'nan':
+                print(f'value is : {value}')
+                cell.fill=fillGreen
+            else:
+                cell.fill = fillRed
+        except:
+            message(f'Error when color report date in cell contain: {cell.value}',bcolors.FAIL)
+            
+```
+
 

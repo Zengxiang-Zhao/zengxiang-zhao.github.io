@@ -95,6 +95,23 @@ def message(message,color=bcolors.OKGREEN):
 
 ![color word](/assets/images/other/color_word.png)
 
+# 如何建立Google API
+
+首先需要在Google Developers Console中创建或选择一个项目，然后自动打开API。这一步操作可参考[python 读取Gmail](https://justcode.ikeepstudying.com/2019/09/python-%E8%AF%BB%E5%8F%96gmail-python-%E6%90%9C%E7%B4%A2gmail-python%E6%93%8D%E4%BD%9Cgmail-how-to-access-gmail-using-python/). 
+
+`Navigation Menu -> IAM & Admin -> Creat a Project -> write your project name and hit create`. Next step is to enable the APIs that you want to use.
+
+## 链接 Gmail
+
+Chose the Project name near Google Cloud Platform, Then choose `Enable APIs & services` and then hit `+ENABLE APIS AND SERVICES`. Now you can search the API name, such as "Gmail API" or "Google Sheets API". Hit Enable, now the API is enabled. The next step is to add CREDENTIALS. Hit CREDENTIALS and `+ CREATE CREDENTIALS` to select 'OAuth client ID' -> Configure consent screent -> internal -> create -> write the App information, fill all the asterisk cell.
+
+If you are in the newly created project, you need to configure the consent screen at first. After that, hit Enabled APIs & services to add and enalbe APIs. Search the APIs and enable.
+
+Download the credential, if there are some token.json that revoked or despired. You need to delete them first, and use the newly gnerated credential.json to log in your gmail account to generate new token.json files.
+
+All Done!
+
+
 # 使用Google API 和 Python处理spreadsheet
 
 ```python

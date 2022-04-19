@@ -114,6 +114,13 @@ All Done!
 
 # 使用Google API 和 Python处理spreadsheet
 
+
+[Create credentials](https://developers.google.com/workspace/guides/create-credentials)
+
+[A1 notation](https://developers.google.com/sheets/api/guides/concepts)
+
+[use python to handle spreadsheet](https://developers.google.com/sheets/api/quickstart/python)
+
 ```python
 import os
 import pandas as pd
@@ -216,8 +223,3 @@ def convert_spreadsheet2df(spreadsheet_id,sheet_name,list_columns, columns_name=
 
 ```
 
-[Create credentials](https://developers.google.com/workspace/guides/create-credentials)
-
-[A1 notation](https://developers.google.com/sheets/api/guides/concepts)
-
-[use python to handle spreadsheet](https://developers.google.com/sheets/api/quickstart/python)

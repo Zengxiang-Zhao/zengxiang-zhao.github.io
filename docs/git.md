@@ -35,6 +35,15 @@ git init -b trunk
 ```
 `-b` is short for --initial-branch
 
+# git checkout
+
+```bash
+git checkout id_number | tag_name
+
+git checkout tags/<tag_name>
+
+```
+
 # [Pretty Git branch graphs](https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs)
  
 throw the following two aliases in ~/.gitconfig file:

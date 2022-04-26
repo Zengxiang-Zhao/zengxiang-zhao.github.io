@@ -39,6 +39,28 @@ conda install 'package_name<= version'
 
 ## Python
 
+### use * to unpack the list
+
+```python
+
+for a in zip([[1,2,3],[4,5,6]]):
+    print(a)
+
+# output 
+#([1, 2, 3],)
+#([4, 5, 6],)
+
+for a in zip(*[[1,2,3],[4,5,6]]): # add * to unpack a list
+    print(a)
+    
+# output
+#(1, 4)
+#(2, 5)
+#(3, 6)
+
+
+```
+
 ### format string
 
 参考[realpython](https://realpython.com/python-formatted-output/)

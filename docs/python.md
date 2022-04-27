@@ -39,6 +39,28 @@ conda install 'package_name<= version'
 
 ## Python
 
+### use glob to search specific files in specific depth
+
+If you don't care about the depth of the dictionary, then you can use `pathlib.Path.rglob(pattern)` to search the files. 
+But the problem is that when the file or path has a long time, this method will generate error. 
+Another method is to use glob to search the files with a specific depth in the dictionary. Show as below.
+
+```python
+from pathlib import Path
+import os,glob
+
+pattern_file = r'Chip Loading*.xlsm'
+path_folder = Path(/mnt/hgsf/test)
+list_desiredFiles = path_folder.rglob(pattern_file)
+
+# another method
+#zero depth
+list_desiredFiles_d0 = glob.glob(os.path.join(path_folder,pattern))
+list_desiredFiles_d1 = glob.glob(os.path.join(path_folder,'*',pattern))
+list_desiredFiles_d2 = glob.glob(os.path.join(path_folder,'*','*' ,pattern)) # how many star * means how many depths of the dictionary
+
+```
+
 ### use * to unpack the list
 
 ```python

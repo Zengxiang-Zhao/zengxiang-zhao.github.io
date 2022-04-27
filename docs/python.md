@@ -42,7 +42,7 @@ conda install 'package_name<= version'
 ### use glob to search specific files in specific depth
 
 If you don't care about the depth of the dictionary, then you can use `pathlib.Path.rglob(pattern)` to search the files. 
-But the problem is that when the file or path has a long time, this method will generate error. 
+But the problem is that when the file or path has a long name, this method will generate error. 
 Another method is to use glob to search the files with a specific depth in the dictionary. Show as below.
 
 ```python

@@ -21,6 +21,16 @@ nav_order: 97
 
 ---
 
+# 在Linux电脑上安装wine来运行Windows软件
+
+以下以在Ubuntu OS上安装wine，使用wine安装python3.8，然后使用pyinstaller生成可以在windows上运行的脚本软件
+
+1. 在Ubuntu上安装wine ： `sudo apt-get install wine`
+2. 下载windows运行的software . 例如下载python ： `wget https://www.python.org/ftp/python/3.8.10/python-3.8.10-amd64.exe`
+3. 安装exe文件 `wine some.exe` ： `wine python-3.8.10-amd64.exe`。可以customize the insntallation process
+4. 安装 pyinstaller ：`wine pip install pyinstaller`
+5. 使用pyinstaller生成可运行的windows software ： `wine pyinstaller test.py`
+
 # 更改GitHub personal token
 
 ## [创建新的Personal Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)

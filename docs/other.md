@@ -21,6 +21,35 @@ nav_order: 97
 
 ---
 
+# [在Linux电脑上进行zip和unzip](https://linuxize.com/post/how-to-zip-files-and-directories-in-linux/)
+
+[zip](https://linuxize.com/post/how-to-zip-files-and-directories-in-linux/) / [unzip](https://linuxize.com/post/how-to-unzip-files-in-linux/)
+
+
+`zip OPTIONS ARCHIVE_NAME FILES` like `zip archivename.zip filename1 filename2 filename3`
+
+``` bash
+zip archivename.zip filename1 filename2 filename3
+
+zip -q archivename.zip filename1 filename2 filename3
+# quiet
+
+zip -r archivename.zip directory_name
+# subdirectory in directory
+
+# unzip
+
+unzip latest.zip
+
+unzip -q filename.zip
+# quiet
+
+unzip filename.zip -d /path/to/directory
+# to another folder
+
+```
+
+
 # 在Linux电脑上安装wine来运行Windows软件
 
 以下以在Ubuntu OS上安装wine，使用wine安装python3.8，然后使用pyinstaller生成可以在windows上运行的脚本软件

@@ -39,6 +39,15 @@ conda install 'package_name<= version'
 
 ## Python
 
+### [use `pipreqs` to extract the packages used in the script](https://stackoverflow.com/questions/58737741/how-to-list-all-python-packages-used-by-a-script-in-python3)
+
+```bash
+pip3 install pipreqs
+
+pipreqs ./your_script_directory
+
+```
+
 ### use glob to search specific files in specific depth
 
 If you don't care about the depth of the dictionary, then you can use `pathlib.Path.rglob(pattern)` to search the files. 

@@ -21,6 +21,15 @@ nav_order: 99
 
 ---
 
+# [Using git to show the difference of file in different tags or branches](https://stackoverflow.com/questions/3211809/how-to-compare-two-tags-with-git)
+
+```bash
+$ git diff tag1 tag2 
+
+$ git diff tag1 tag2 -- some/file/name
+
+```
+
 # Delete a Git branch locally and remotely:
 
     * `git push -d <remote_name> <branch_name>` ,and `<remote_name>` may be origin.删除remote端brach

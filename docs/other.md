@@ -21,6 +21,13 @@ nav_order: 97
 
 ---
 
+# 在Linux电脑上安装Java
+
+1. 从官方[下载Java安装包](https://www.oracle.com/java/technologies/downloads/) : 如果是 Ubuntu 选择 “x64 Compressed Archive”
+2. 把下载的文件夹放到你想放的目录下，你可以选择创建一个文件夹例如：/usr/java/
+3. 解压Java压缩文件: `tar zxvf jdk-18_linux-x64_bin.tar.gz`
+4. 把java目录添加到Linux Path中。可以在 `~/.zshrc` 中进行修改：`PATH=$PATH:/usr/java/jdk-18.0.1.1/bin` 。这是因为java的可执行文件放在bin中所以
+
 # [在Linux电脑上进行zip和unzip](https://linuxize.com/post/how-to-zip-files-and-directories-in-linux/)
 
 [zip](https://linuxize.com/post/how-to-zip-files-and-directories-in-linux/) / [unzip](https://linuxize.com/post/how-to-unzip-files-in-linux/)

@@ -39,6 +39,11 @@ conda install 'package_name<= version'
 
 ## Python
 
+### use shutil to copy files
+
+When I use VSCode to link the remote server and run code in VSCode. The code `shutil.copy(path_src,path_dest)` will show errors that `Permission Deny`. Anyway you can't copy files to some directory.
+如果换了文件夹，则可以成功复制。后面使用`shutil.copyfile(file_src,file_dest)`则没有问题。
+
 ### [use `pipreqs` to extract the packages used in the script](https://stackoverflow.com/questions/58737741/how-to-list-all-python-packages-used-by-a-script-in-python3)
 
 ```bash

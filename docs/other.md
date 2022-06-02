@@ -21,6 +21,17 @@ nav_order: 97
 
 ---
 
+# VSCode 链接remote server
+
+本地电脑不给力，想充分利用远端server的算力。那么可以使用VSCode，直接链接remote server。方法非常简单
+
+1. [下载VScode](https://code.visualstudio.com/download)并安装
+2. 打开VSCode并在下载界面安装Microsoft出的`Remote - SSH`插件
+3. 在最左侧边栏会出现`Remote Explorer`，点击并连接
+4. 你可以能也需要安装`Pylance`插件，来帮助你选择在server端的环境
+5. 如果你想在VSCode中使用Jupytr Notebook，则需要在虚拟环境下安装 `conda install -n recon ipykernel --update-deps --force-reinstall`
+6. 现在准备工作完成，可以开心的写代码了。
+
 # 在Linux电脑上安装Java
 
 1. 从官方[下载Java安装包](https://www.oracle.com/java/technologies/downloads/) : 如果是 Ubuntu 选择 “x64 Compressed Archive”

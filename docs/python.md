@@ -39,6 +39,15 @@ conda install 'package_name<= version'
 
 ## Python
 
+### [使用yml格式作为config 文件格式](https://circleci.com/blog/what-is-yaml-a-beginner-s-guide/#:~:text=YAML%20is%20a%20digestible%20data,that%20JSON%20can%20and%20more.)
+
+ymal : "Yet Another Makeup Language"
+
+1. install: `pip install PyYAML`
+2. import : `import yaml`
+3. load : `with open('config.yml','r') as f: config = ymal.safe_load(f)`
+5. dump : 'with open('config.yml','w') as f: config = ymal.safe_dump(f)'
+
 ### use shutil to copy files
 
 When I use VSCode to link the remote server and run code in VSCode. The code `shutil.copy(path_src,path_dest)` will show errors that `Permission Deny`. Anyway you can't copy files to some directory.

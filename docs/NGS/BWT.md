@@ -28,4 +28,5 @@ Wikipedia里面举了一个例子。一长串字符里面有`the` 这个单词�
 # BWT在生物信息学中的作用
 
 使用BWT对全基因组生成index，方便后续reads进行查找比对。详细的还需要进一步研究： suffix tree
+可以参考[这篇文章](http://www.bioinfo.online/html_article_20222618975.html)
 

@@ -3,7 +3,7 @@ layout: default
 title: HGNC-api
 parent: NGS
 date:   2021-11-10 20:28:05 -0400
-categories: bioinfo
+categories: NGS
 ---
 
 ## [使用HGNC-api来提取基因的信息](https://www.genenames.org/help/rest/)

@@ -39,6 +39,25 @@ conda install 'package_name<= version'
 
 ## Python
 
+### [使用dateutil 对string转换成datetime](https://dateutil.readthedocs.io/en/stable/parser.html)
+
+```python
+from dateutil import parser
+import pandas as pd
+
+s = '7/1/2021 6:29'
+parser.parse(s)
+# output: datetime.datetime(2021, 7, 1, 6, 29)
+
+parser.parse(s).strftime('%m/%d/%Y')
+# output: '07/01/2021'
+
+# calculate the TAT. the endDate and startDate are datetime style
+tat = round((endDate-startDate)/pd.Timedelta(hours=24), 1)
+```
+
+Now you can use the result get what kind of format you'd like to convert. This package is easy and friendly. It just convert the string to datetime directly.
+
 ### [使用yml格式作为config 文件格式](https://circleci.com/blog/what-is-yaml-a-beginner-s-guide/#:~:text=YAML%20is%20a%20digestible%20data,that%20JSON%20can%20and%20more.)
 
 ymal : "Yet Another Makeup Language"

@@ -21,6 +21,18 @@ nav_order: 99
 
 ---
 
+# [Change the editor to vi(vim) when git commit](https://askubuntu.com/questions/1211050/default-editor-for-git-set-to-nano-how)
+
+Sometimes when you write the command line "git commit" to write some message, the nano editor will pop out. If you don't like to use this editor, you can convert it to vi(vim) editor as shown below
+
+```bash
+git config --global core.editor "vim"
+
+OR 
+
+git config --global core.editor "vi"
+```
+
 # [Using git to show the difference of file in different tags or branches](https://stackoverflow.com/questions/3211809/how-to-compare-two-tags-with-git)
 
 ```bash

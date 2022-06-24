@@ -21,6 +21,17 @@ nav_order: 97
 
 ---
 
+# implement OCR on PC
+
+You can create a OCR app directily on Linux or Windows PC. The process as below.
+
+1. Write Python code to convert image to palin text. Firstly, you need to download tesseract(this is the engine for OCR) and pytesseract(python inferace for tesseract). This step is simple
+2. use pyintstaller to generate a executable file. If you use Linux system, and want the file run on Windows. You need to install "wine" on your Linux OS. Don't foget to install the associated packages used in python code. Actually you could use ["piprequest" to get the necessary packages](docs/python.html#use-pipreqs-to-extract-the-packages-used-in-the-script). 
+3. If you'd like to generate a icon for your app. You can wirte like these to add an icon `wine pyinstaller --icon=OCR2.ico -F app_OCR.py`. Use the [online method](https://icoconvert.com/) to convert your picture to an windows icon.
+4. Meanwhile if you run the software,you need to install tesseract on you Windows PC. Here is the [Windows tesseract installer](https://github.com/UB-Mannheim/tesseract/wiki#tesseract-installer-for-windows). Install it in a specific folder, because we need the "tesseract.exe" in that folder.
+5. now you can change the link of pytesseract.pytesseract.tesseract_cmd like `pytesseract.pytesseract.tesseract_cmd = config['path_tesseract_cmd']`. config['path_tesseract_cmd'] is the absolute path to the "tesseract.exe"
+6. Create a soft link and place it on the desktop. Now you can use the OCR technique to convert the picture to plain text
+
 # VSCode 链接remote server
 
 本地电脑不给力，想充分利用远端server的算力。那么可以使用VSCode，直接链接remote server。方法非常简单

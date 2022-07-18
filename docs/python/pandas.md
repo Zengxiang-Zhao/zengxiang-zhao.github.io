@@ -21,7 +21,27 @@ categories: python
 
 ---
 
-## Pandas.DataFrame
+### [Updating value in iterrow for pandas](https://stackoverflow.com/questions/25478528/updating-value-in-iterrow-for-pandas)
+
+有时需要在df.iterrows()中对某一个cell的值进行修改。此时会出现error, 如下所示
+
+```python
+for i, row in df_pending.iterrows():
+    worksheet = str(row['Work Sheet']).strip()
+    panel = str(row['Test']).strip()
+    if panel.startswith('NGS'):
+        df_pending.loc[i]['Test'] = 'Some Value'
+
+# Error message:
+# /tmp/ipykernel_457822/3880957583.py:1: SettingWithCopyWarning: 
+# A value is trying to be set on a copy of a slice from a DataFrame
+        
+```
+
+此时应该使用`df_pending.loc[i,'Test']="Some Value"` 来进行修改
+
+
+---
 
 ### [pd['column_name'].astype(bool)](https://stackoverflow.com/questions/29314033/drop-rows-containing-empty-cells-from-a-pandas-dataframe)
 

@@ -278,3 +278,72 @@ q.popleft() # 从左端排出
 - 如果既有if又有else，可以这样写`[x if x%2==0 else x*10 for x in range(10)]`
 
 ---
+
+## re
+
+python使用Regular expression operations。需使用re package。
+```python
+import re
+```
+- 一般我们使用`r'pattern'`来表示regular expression 中的pattern。其目的是可以防止`\`带来的困扰。例如想查找string中是否存在`\\`，则pattern需要这样写：`\\\\` or `r'\\'`。因此使用r 可以让pattern更容易些，也更容易理解，引号里面是什么就是查找什么内容。不需要对特殊字符进行转化。
+
+- `\w`: For Unicode (str) patterns, like [a-zA-Z0-9_].表示所有的小写字母，大写字母，0到9的数字和下划线。
+
+### re 的使用
+
+re 的使用有两种方式：
+
+1. 使用compile方式
+
+```python
+prog = re.compile(pattern)
+result = prog.match(string)
+```
+首先使用re.compile(pattern)生成regular expresssion object。然后再使用re的function，like match(), search()
+
+2. 直接使用re的function。function中要有pattern和string。
+
+```python
+result = re.match(pattern, string)
+```
+
+这两种方式的结果是相同的。但是如果多次使用regular expression。则使用re.compile 的效率更高。
+
+### 匹配多种可能性
+
+使用`()`和`|`进行组合匹配多种可能性。如下，reports后面加上？表示s可有可无。`(is|are|were|was)` 表示这个位置有四种可能性的词。因为使用了`()`来寻找pattern，因此可以使用output.group(0)表示匹配到的句子或可能的内容。 `.*?` : 非贪婪匹配。
+```python
+output = re.search(r'Tax reports? (is|are|were|was) reported .*?(\n|\.)')
+output.group(0)
+```
+
+
+## openpyxl
+
+### 给excel 中的cell填充颜色
+from openpyxl.styles import PatternFill
+
+```python
+def color_ws_reportDate(ws,column='M'):
+    """Color the report date in ws : reported : green , unreported: red
+    - ws : worksheet opened by openpyxl
+    """
+    fillGreen = PatternFill(fill_type='solid',
+              start_color='6BCB77',
+              end_color='6BCB77')
+
+    fillRed = PatternFill(fill_type='solid',
+              start_color='FF6B6B',
+              end_color='FF6B6B')
+    for cell in ws[column]:
+        try:
+            value = str(cell.value).strip()
+            if value and value != 'nan':
+                print(f'value is : {value}')
+                cell.fill=fillGreen
+            else:
+                cell.fill = fillRed
+        except:
+            message(f'Error when color report date in cell contain: {cell.value}',bcolors.FAIL)
+            
+```

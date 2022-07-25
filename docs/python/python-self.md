@@ -279,7 +279,7 @@ q.popleft() # 从左端排出
 
 ---
 
-## re
+## [re](https://blog.csdn.net/abe_abd/article/details/73611175)
 
 python使用Regular expression operations。需使用re package。
 ```python

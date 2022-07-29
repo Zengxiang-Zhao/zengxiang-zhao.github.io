@@ -239,7 +239,7 @@ The numeric types, DEC and INT, do not.`
 VALUES
 ('Funyon','Steve','steve@onionflavoredrings. com', 'M', '1970-04-01', 'Punk','Grover''s Mill,  NJ','Single','smashing the state','compatriots,  guitar players');`. **'Grover''s Mill**
 
-在字符串的开始和结束使用但括号，是因为在字符串中存在空格，用单括号可以确定开始和结束。如果字符串中存在单括号，那么SQL就会出现混淆出错。而数字不需要因为数字很容易区分开始和结束，中间不存在空格。在MySQL语句中，双引号与单引号的作用相同，可以使用双引号包含单引号。
+在字符串的开始和结束使用单引号，是因为在字符串中存在空格，用单引号可以确定开始和结束。如果字符串中存在单引号，那么SQL就会出现混淆而出错。而数字不需要，因为数字很容易区分开始和结束，中间不存在空格。在MySQL语句中，双引号与单引号的作用相同，可以使用双引号包含单引号。
 
 > 从网上复制的SQL 命令在粘贴到terminal时应该先粘贴到text editor。然后查看有没有特殊字符，然后删除掉后再复制到terminal中。
 

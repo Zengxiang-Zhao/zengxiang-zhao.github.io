@@ -40,6 +40,15 @@ for i, row in df_pending.iterrows():
 
 此时应该使用`df_pending.loc[i,'Test']="Some Value"` 来进行修改
 
+[还有一种方法可以对Dataframe中cell的值进行修改，使用at or iat](https://re-thought.com/how-to-change-or-update-a-cell-value-in-python-pandas-dataframe/)如下：
+
+```python
+# Now let's update cell value with index 2 and Column age
+# We will replace value of 45 with 40
+
+df.at[2,'age']=40
+
+```
 
 ---
 

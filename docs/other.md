@@ -21,6 +21,21 @@ nav_order: 97
 
 ---
 
+# how to install wine in Ubuntu
+
+If you want to use pyinstaller to generate apps that can be run in Windows system, wine is an option that you can choose. Because even if you only have Ubuntu OS, you still can generte two different apps that run in Linux and Windows.
+
+1. Open Terminal and login the super user that has the right to use sudo
+2. install wine:  `sudo apt install wine` 
+3. confirm the wine has been installed : `wine --help`
+4. Download python executable file to a specific folder you want to save the file : `wget https://www.python.org/ftp/python/3.8.10/python-3.8.10-amd64.exe`
+5. Here you must have the Linux GUI to install the python through wine : `wine python-3.8.10-amd64.exe` . A window will pop up as shwon below. That's the reason why we need a Linux GUI. Otherwise the window will not pop using this method.Here you must choose the option "Add Python 3.8 to PATH" to enable that you can use the command line `wine python` to activate the python in wine. Thus you can install
+python packages through `wine pip install package`.
+![wine install python](/assets/images/other/wine-install-python.png)
+7. You can choose "Install Now" or "Customize installation". Here I choose "Install Now".
+8. Check whether you can use python and pip in wine : `wine python` and `wine pip install pandas`
+9. Done!
+
 # implement OCR on PC
 
 You can create a OCR app directily on Linux or Windows PC. The process as below.

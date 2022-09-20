@@ -63,7 +63,7 @@ from sklearn import metrics
 
 the original above test is that :
 
-```
+```bash
 {% capture code%}
 {% highlight python linenos %}
 

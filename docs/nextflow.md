@@ -72,8 +72,14 @@ result.subscribe {println it}
 
 1. if you want to assign the channel to multiple variables in nextflow, you can use [`into` operator](https://www.nextflow.io/docs/latest/operator.html#operator-into)
 2. If you just want to assign one variable just use equal sign `=`
-3. `projectDir` can be used to as the UnixPath variable. It point to the folder where the nextflow script located in. And you can use to specify other files in the same folder like `'$folder_path/hello_world.txt'`
+3. `projectDir` can be used to as the UnixPath variable. It point to the folder where the nextflow script located in. And you can use it to specify other files in the same folder like `'$folder_path/hello_world.txt'`
 4. `println folder_path` is to print the varilabe. If you'd like to print some value for confirmation, then you can use `println` directly
 5. If you want to see the value of `Channel`, then you'd have to use `subscribe` and `view`. 
 6. If you want to use view to show the content of the Channel, then you use `()`. If you'd like to use some pattern, then use `{'some pattern :'+it}`
-7. 
+7. define the nextflow process using keyword `process` like `process process_name { content }`
+8. `publishDir 'out'` : here nextflow will create a folder named "out" if there's no such folder int the `projectDir`. and all the output files that you define in the `output` will be saved in the "out" folder. 
+9. define [input variables](https://www.nextflow.io/docs/latest/process.html#inputs) through keyword `input`. There are 7 qualifiers in input: `val, env, file, path, stdin, tuple, each`. More detailed information please check [website](https://www.nextflow.io/docs/latest/process.html#inputs)
+![input qualifier](/assets/images/nextflow/input_qualifier.png)
+10. define output variables through keyword `output`. the qualifiers of output as shown below. Here `file 'output.txt'` must be used in the python script. And the name must be kept same. Otherwise, nextflow will confuse and show errors.
+![output qualifier](/assets/images/nextflow/output_qualifier.png)
+11. 

@@ -60,3 +60,24 @@ from sklearn import metrics
 {% endhighlight %}
 {% endcapture %}
 {% include fix_linenos.html code=code %}
+
+the original above test is that :
+
+```
+{% capture code%}
+{% highlight python linenos %}
+
+from sklearn import metrics
+   def get_scores(y_preds,y):
+       return {
+            "Accuracy":metrics.accuracy_score(y_preds,y),
+            'Precision':metrics.precision_score(y_preds,y),
+            'Recall':metrics.recall_score(y_preds,y),
+            'F1':metrics.f1_score(y_preds,y),
+            'ROC_AUC':metrics.roc_auc_score(y_preds,y)
+        }
+
+{% endhighlight %}
+{% endcapture %}
+{% include fix_linenos.html code=code %}
+```

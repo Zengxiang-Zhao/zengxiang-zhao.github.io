@@ -78,8 +78,12 @@ result.subscribe {println it}
 6. If you want to use view to show the content of the Channel, then you use `()`. If you'd like to use some pattern, then use `{'some pattern :'+it}`
 7. define the nextflow process using keyword `process` like `process process_name { content }`
 8. `publishDir 'out'` : here nextflow will create a folder named "out" if there's no such folder int the `projectDir`. and all the output files that you define in the `output` will be saved in the "out" folder. 
-9. define [input variables](https://www.nextflow.io/docs/latest/process.html#inputs) through keyword `input`. There are 7 qualifiers in input: `val, env, file, path, stdin, tuple, each`. More detailed information please check [website](https://www.nextflow.io/docs/latest/process.html#inputs)
+9. define [input variables](https://www.nextflow.io/docs/latest/process.html#inputs) through keyword `input`. There are 7 qualifiers in input: `val, env, file, path, stdin, tuple, each`. More detailed information please check [website](https://www.nextflow.io/docs/latest/process.html#inputs). 
 ![input qualifier](/assets/images/nextflow/input_qualifier.png)
-10. define output variables through keyword `output`. the qualifiers of output as shown below. Here `file 'output.txt'` must be used in the python script. And the name must be kept same. Otherwise, nextflow will confuse and show errors.
+10. `path x from file_ch`: here `file_ch` is a channel. And the qualifier of the x is `path`, thus it will contain all the UnixPath format information. Here if we replace the qualifier with `file`, then it will only contain the file name. Acually it will only contain the stem of the filename like 'Hell_world' from 'Hello_world.txt'.
+11. define output variables through keyword `output`. the qualifiers of output as shown below. Here `file 'output.txt'` must be used in the python script. And the name must be kept same. Otherwise, nextflow will confuse and show errors.
 ![output qualifier](/assets/images/nextflow/output_qualifier.png)
-11. 
+11. If you'd like to show the results on the terminal, then you need to use `stdout`. Actually in `stdout result`, the `result` acts as a channel that all the print stuff in the python script or other stuff show up in the terminal will be sent to the result as a queue. Thus we can use `view` or `subscribe` to show the content of the channel.
+12. In the script, we need to specify the python environment through `#!`
+13. Actually the variables in the current process or the variables in the nextflow head part can be accessed through `'$variable'`. Please remember that we use `''` or `""` to enclose the variable.
+

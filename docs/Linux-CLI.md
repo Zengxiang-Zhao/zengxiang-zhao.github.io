@@ -146,4 +146,21 @@ cat download-list.txt | xargs -d '\n'  -I{} /home/user/Softwares/linux-amd64/ica
 2. [`xargs`](https://linuxhint.com/xargs_linux/) can be used to redirect the arguments to other command. Here `-d` define the delimer; `-I{}` define a variable named `{}` that can be used in other command 
 3. `/home/user/Softwares/linux-amd64/icav2`: specify the absolute path to the command, if you just use the `icav2`, it cannot work. Even though you use alias and operate the command in bash terminal.
 
+## How to find all files containing specific text (string) on Linux
+
+```bash
+grep -rnw '/path/to/somewhere/' -e 'pattern'
+```
+
+1. `-r` or `-R` is recursive,
+2. `-n` is line number, it will show the line number in the output
+3. `-w` stands for match the whole word. if no such parameter, then it may find the pattern within one word. For example, we want to search 'name' in all files. If we use `-w`, then only the world `name` satisfy the requirement. Without this parameter, `hello_name` also satisfy the requierement. 
+4. `-l` (lower-case L) can be added to just give the file name of matching files. Don't output the details, just give you the file name that match the pattern
+5. `-L` (upper-case L) can be added to just give the file name of `without matching` files. The opposite output files name of `-l`
+6. `-i` : ignore case distingctions in patterns.
+7. `-e` is the pattern used during the search
+
+```bash
+grep -rnwil './' -e 'id'
+```
 

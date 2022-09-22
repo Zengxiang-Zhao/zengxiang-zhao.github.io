@@ -127,3 +127,23 @@ find . -size -1M
 
 ## [awk 的使用](https://linuxize.com/post/awk-command/)
 
+`awk` is a command to process the output of other command, and then extract the interested content.
+
+```bash
+cat failed_vcf.txt| awk -F '/' '$1 ~ /09ab/ {print $NF}' | xargs -d '\n' -I{} touch {}
+```
+
+1. `-F` define the delimer, here is `/`
+2. `$NF` means the last collumn
+3. `$1 ~ /09ab/` : regex that the first collum need to contain `09ab`
+
+## download multiple illumina project data through `xargs`
+
+```bash
+cat download-list.txt | xargs -d '\n'  -I{} /home/user/Softwares/linux-amd64/icav2 projectdata download {}
+```
+1. `download-list.txt` contains the folder Id or file ID that you can find in the illumina ICA
+2. [`xargs`](https://linuxhint.com/xargs_linux/) can be used to redirect the arguments to other command. Here `-d` define the delimer; `-I{}` define a variable named `{}` that can be used in other command 
+3. `/home/user/Softwares/linux-amd64/icav2`: specify the absolute path to the command, if you just use the `icav2`, it cannot work. Even though you use alias and operate the command in bash terminal.
+
+

@@ -20,6 +20,14 @@ nav_order: 102
 
 ---
 
+## How to know the command that you should use in the docker container
+
+1. In the docker hub, search the image name and hit the tags. For example [this address use picard](https://hub.docker.com/layers/broadinstitute/picard/latest/images/sha256-1a7c4c708896d685057079995096c2dd4938f51892db9c6bcdc7dc6d5824ff4d?context=explore).
+2. From the `IMAGE LAYERS`, you may find a varialbe named `WORKDIR`. In the picard, the WORKDIR is `WORKDIR /usr/picard`
+3. In the terminal, try `sudo docker run broadinstitute/picard:latest java -jar /usr/picard/picard.jar FastqToSam` to test the command
+4. If the above method can not determine the command. Then you need to use the docker interface to try and find the command that you can use
+5. `sudo docker run -it container`. Check folders like `/usr/` and `/usr/bin` and `/bin`
+
 ## How to use docker container in nextflow
 
 1. install `docker` on Ubuntu. Please refer [this Website](https://www.simplilearn.com/tutorials/docker-tutorial/how-to-install-docker-on-ubuntu)

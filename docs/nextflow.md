@@ -20,6 +20,35 @@ nav_order: 102
 
 ---
 
+## How to use docker container in nextflow
+
+1. install `docker` on Ubuntu. Please refer [this Website](https://www.simplilearn.com/tutorials/docker-tutorial/how-to-install-docker-on-ubuntu)
+2. create a new environment through `conda` : `conda create -n nextflow python=3.8`
+3. activate the nextflow environment: `conda activate nextflow`
+4. install nextflow through conda : `conda install -c bioconda nextflow `
+5. create a `nextflow.config` file in the current project. About the `nextflow.config` file please refer  [Official Website](https://www.nextflow.io/docs/latest/config.html)
+6. write docker setting in nextflow.config file. refer [this link](https://www.nextflow.io/docs/latest/config.html#scope-docker).If you'd like to use more different containers then you should write the nextflow.config like below. `fastq2bam` and `bam2vcf` are the process names that you defined in the nextflow file. Within the `{}`, define the container that you want to use. And you also need to make `docker {enabled=true}`. Please refer [this website](https://www.annasyme.com/docs/docker-nextflow.html)
+```nextflow
+process {
+    withName:fastq2bam {
+        container = 'python:3.8'
+    }
+
+    withName:bam2vcf {
+        container = 'zlskidmore/fgbio:latest' 
+    }
+}
+
+docker {
+    enabled = true
+}
+```
+8. If you run the nextflow file now. You'll get the error. Because you can't run the docker directly. If you'd like to run docker in the terminal. Then you should use `sudo`, like `sudo docker run container`. In this case, we don't want to use `sudo` to run the docker. So we need to do the following stuff. Please refer [this website](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket)
+9. Create the docker group: `sudo groupadd docker`
+10. Add your user to the docker group : `sudo usermod -aG docker ${USER}`. Here `${USER}` refer to the current user. Try `echo ${USER}` to show the current user name
+11. You would need to loog out and log back in so that your group membership is re-evaluated or type the following command: `su -s ${USER}`
+12. Verify that you can run docker commands without sudo. `docker run hello-world` . If this command run successfully, then you can use the docker container in the nextflow now.
+
 ## How to use python script in nextflow process
 
 {% capture code%}

@@ -20,6 +20,28 @@ nav_order: 102
 
 ---
 
+## How to use the same file twice in two following process
+
+Assign this file to different channels. And then you can use the file twice in the following channels. 
+
+```nextflow
+process p1 {
+  output:
+    file 'hello_world.txt' into ch_a
+    file 'hello_world.txt' into ch_b
+}
+
+process p2 {
+  input:
+    file welcome from ch_a
+}
+
+process p3 {
+  input:
+    file welcome from ch_b
+}
+```
+
 ## How to know the command that you should use in the docker container
 
 1. In the docker hub, search the image name and hit the tags. For example [this address use picard](https://hub.docker.com/layers/broadinstitute/picard/latest/images/sha256-1a7c4c708896d685057079995096c2dd4938f51892db9c6bcdc7dc6d5824ff4d?context=explore).

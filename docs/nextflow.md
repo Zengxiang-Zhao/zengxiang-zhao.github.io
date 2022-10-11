@@ -20,11 +20,52 @@ nav_order: 102
 
 ---
 
+## [How to use `bwa index`](https://groups.google.com/g/nextflow/c/Haj6UH0B_6Y)
+
+`bwa index` is the former step to use the command `bwa mem`. If you'd like to use multiple times of `bwa meme`, and every time you use `bwa index` at the same process. If the reference genome is big, it will take a long time. So we need to reuse the index like below
+
+```nextflow
+process bwa_index {
+    publishDir 'output'
+    container "staphb/bwa:latest"
+    input:
+        path ref from ref_ch7
+    output:
+        file 'chr1_GL383518v1_alt.fa.*' into bwa_index // we use `chr1_GL383518v1_alt.fa.*` to refer all the output files with the same prefix name
+        
+
+    """
+    bwa index $ref
+    """
+}
+
+process reAlign_bwa {
+    publishDir 'output'
+    container "staphb/bwa:latest"
+    input:
+        file new_read1 from deplex_read1_ch
+        file new_read2 from deplex_read2_ch
+        path ref from ref_ch5
+        file '*' from bwa_index // we use '*' to refer all files in the Channel, thus this process folder will contain all the index files
+        // path path_ref from ref_path
+    output:
+        file 'realign.bam' into realign_ch
+
+    """
+    bwa mem $ref $new_read1 $new_read2 > realign.bam
+    """
+}
+```
+
+
+
 ## The arrangement of process
 
 Recently I always got the error that said there's no such file that the command need to use. And I checked the output publishDir and found that the file existed in the folder. The process complains the error again and again.
 ![nextflow error](/assets/images/nextflow/nextflow-error.png)
+
 ![error reason](/assets/images/nextflow/error-reason.png)
+
 From the above picture, You can see that there's noly one process failed. And it complains that some file didn't exist. We should figure out where this setence means the file not exists. And at last I know that the place means the process folder, not the `publishDir` folder. See the first column of the executor. The first column is the position of this process like [2a/0cbbf7]. `2a` is folder name in the work folder like below. `0cbbf7` is the subfolder. All the files this process needed are stored here.
 ![arrange work](/assets/images/nextflow/arrange-work.png)
 

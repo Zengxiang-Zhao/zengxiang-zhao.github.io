@@ -20,6 +20,60 @@ nav_order: 102
 
 ---
 
+## The arrangement of process
+
+Recently I always got the error that said there's no such file that the command need to use. And I checked the output publishDir and found that the file existed in the folder. The process complains the error again and again.
+![nextflow error](/assets/images/nextflow/nextflow-error.png)
+![error reason](/assets/images/nextflow/error-reason.png)
+From the above picture, You can see that there's noly one process failed. And it complains that some file didn't exist. We should figure out where this setence means the file not exists. And at last I know that the place means the process folder, not the `publishDir` folder. See the first column of the executor. The first column is the position of this process like [2a/0cbbf7]. `2a` is folder name in the work folder like below. `0cbbf7` is the subfolder. All the files this process needed are stored here.
+![arrange work](/assets/images/nextflow/arrange-work.png)
+
+```nextflow
+process create_index {
+    publishDir 'output'
+    container "staphb/samtools:latest"
+
+    input:
+        path ref from ref_ch3
+
+    output:
+        file 'chr1_GL383518v1_alt.fa.fai' into fai_ch
+
+
+    """
+    samtools faidx $ref
+    """
+
+}
+```
+
+Now let's see the failed process `collectHsMetrics`. It needs "chr1_GL383518v1_alt.fa.fai". But it donesn't exist in the process folder (align.bam  chr1_GL383518v1_alt.fa  list.interval_list). So we need to add it through the `input` like below
+
+```nextflow
+process collectHsMetrics {
+    publishDir 'output'
+    container 'broadinstitute/picard:latest'
+
+    input:
+        // file bed from bed_ch
+        file align_bam from align_ch2
+        path ref from ref_ch4
+        file interval from interval_ch
+        file index from fai_ch
+    output:
+        file "output_hs_metrics.txt"
+
+    """
+    java -jar /usr/picard/picard.jar CollectHsMetrics -I $align_bam -O output_hs_metrics.txt -R $ref -BAIT_INTERVALS list.interval_list -TARGET_INTERVALS list.interval_list
+    """
+
+}
+```
+
+we added the index through the input `file index from fai_ch`. And you can generate the index in another process and just place it into a channel. So this process can get it throuh the channel.
+
+Note: you should specify all the input files that you need to use in the command line. Because each process has a process folder, all the files that this process needed are saved in the process folder. 
+
 ## How to use the same file twice in two following process
 
 Assign this file to different channels. And then you can use the file twice in the following channels. 

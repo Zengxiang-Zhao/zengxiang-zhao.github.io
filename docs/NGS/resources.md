@@ -2,7 +2,7 @@
 layout: default
 title: Resources the NGS will need
 parent: NGS
-date:   2022-10-31 12:15: -0400
+date:   2022-10-31 12:15:05 -0400
 categories: NGS
 ---
 

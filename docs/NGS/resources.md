@@ -19,3 +19,6 @@ categories: NGS
 ## [生物星球](https://www.jieandze1314.com/post/enposts/cancer-biology/)
 
 这里面的文章很不错，介绍了生物信息的相关知识，可以作为基因测序的知识入门。
+
+## [生物星球-solid tumor 介绍](https://www.jieandze1314.com/post/cnposts/102/)
+

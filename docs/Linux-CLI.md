@@ -79,6 +79,19 @@ inoremap [ []<ESC>i
 5. put the executable scripts in an separate folder. 
 6. Do some test to confirm your process is ok
 
+
+## [Manage a group and user in linux](https://linuxize.com/post/how-to-create-groups-in-linux/)
+
+- show groups : `cat /etc/group`
+- show users : `cat /etc/passwd`
+- add a group : `sudo groupadd appUser`
+- [delete a group](https://linuxize.com/post/how-to-delete-group-in-linux/) : `sudo groupdel appUser`
+- display who is a member of a group : `getent group group-name`
+- [add a group to a user](https://www.pluralsight.com/blog/tutorials/linux-add-user-command?exp=3) : `sudo usermod -a -G appUser testuser`. You need to login in a user that has the sudo permission.
+- [create a new user to a group](https://careerkarma.com/blog/linux-add-user-to-group/#:~:text=You%20can%20add%20a%20user,user%20and%20the%20user's%20username.) : `sudo useradd -g primary_group -G another_group new_user`
+- [delete a user](https://linuxize.com/post/how-to-delete-users-in-linux-using-the-userdel-command/) : `userdel username`
+
+
 ## mkdir
 
 1. `mkdir -p d1/d2/d3 `一次生成多个folder，即使d2,d3不存在，同样可以建立.

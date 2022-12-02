@@ -59,6 +59,12 @@ inoremap ( ()<ESC>i
 inoremap [ []<ESC>i
 
 ```
+
+## [How to parse bash script arguments](https://www.shellscript.sh/tips/getopt/index.html)
+
+- use `getopt`
+
+
 ## 如何在Linux系统中管理用户并赋予相应的权限
 
 如果我们写了一些程序想让别人运行，但是并不像让他们对文件进行操作，例如查看，修改。只是让他们运行文件而已。

@@ -63,6 +63,7 @@ inoremap [ []<ESC>i
 ## [How to parse bash script arguments](https://www.shellscript.sh/tips/getopt/index.html)
 
 - use `getopt`
+- [Resouce 2](https://stackabuse.com/how-to-parse-command-line-arguments-in-bash/)
 
 
 ## 如何在Linux系统中管理用户并赋予相应的权限

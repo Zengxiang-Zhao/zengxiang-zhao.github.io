@@ -95,7 +95,7 @@ inoremap [ []<ESC>i
 - [delete a group](https://linuxize.com/post/how-to-delete-group-in-linux/) : `sudo groupdel appUser`
 - display who is a member of a group : `getent group group-name`
 - [add a group to a user](https://www.pluralsight.com/blog/tutorials/linux-add-user-command?exp=3) : `sudo usermod -a -G appUser testuser`. You need to login in a user that has the sudo permission.
-- [create a new user to a group](https://careerkarma.com/blog/linux-add-user-to-group/#:~:text=You%20can%20add%20a%20user,user%20and%20the%20user's%20username.) : `sudo useradd -g primary_group -G another_group -m new_user`. Here `-m` means create a homde directory for new user
+- [create a new user to a group](https://careerkarma.com/blog/linux-add-user-to-group/#:~:text=You%20can%20add%20a%20user,user%20and%20the%20user's%20username.) : `sudo useradd -g primary_group -G another_group -s /usr/bin/bash -m new_user`. Here `-m` means create a homde directory for new user; `-s` means using specific shell.
 - [change passwd for new user](https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/): `sudo passwd new_user`
 - [delete a user](https://linuxize.com/post/how-to-delete-users-in-linux-using-the-userdel-command/) : `userdel username`
 

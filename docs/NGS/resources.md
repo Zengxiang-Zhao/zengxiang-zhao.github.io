@@ -26,3 +26,6 @@ categories: NGS
 
 This website contain the FDA drugs and biomarkers
 
+## [a website for labeling drugs for biomarker](https://www.pharmgkb.org/downloads)
+
+This website contain detailed information. Need to read the infor in detail

@@ -29,3 +29,8 @@ This website contain the FDA drugs and biomarkers
 ## [PharmGKB website](https://www.pharmgkb.org/downloads)
 
 This website contain detailed information about drug labeling. Need to read the infor in detail
+
+## [How to define the Tier Level](https://www.pharmgkb.org/page/clinAnnLevels)
+
+Clinical Annotation Levels of Evidence
+

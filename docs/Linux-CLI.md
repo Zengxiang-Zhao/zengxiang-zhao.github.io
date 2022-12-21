@@ -65,6 +65,83 @@ inoremap [ []<ESC>i
 - use `getopt`
 - [Resouce 2](https://stackabuse.com/how-to-parse-command-line-arguments-in-bash/)
 
+```bash
+#!/usr/bin/bash
+MAG="\e[35m"
+RED="31"
+GREEN="32"
+BOLDGREEN="\e[1;${GREEN}m"
+ITALICRED="\e[3;${RED}m"
+ERROR="\e[4;3;1;${RED}m"
+ENDCOLOR="\e[0m"
+
+WORKFLOW="/scripts/workflow_autoReport.py"
+environment='docx'
+
+help()
+{
+    echo -e "Usage: Render Report from template using tsv format OKR, VCF file and comment database 
+            [-h, --help] Show this help message and exit
+            [-i, --path_catalog] A csv foramt file that contains the path of VCF and OKR, which has two columns: path_tsv_OKR, path_vcf
+            [-t , --name_template] The template Name.
+            [-d , --path_database] The path of comment database.
+            "
+    exit 2
+}
+
+SHORT=i:,t:,d:,h
+LONG=path_catalog,name_template,path_database,help
+OPTS=$(getopt -a -n render_template --options $SHORT --longoptions $LONG -- "$@")
+
+VALID_ARGUMENTS=$# # Returns the count of arguments that are in short or long options
+
+if [ "$VALID_ARGUMENTS" -eq 0 ]; then
+  help
+fi
+
+eval set -- "$OPTS" 
+
+while :
+do
+  case "$1" in
+    -i | --path_catalog )
+      path_catalog="$2"
+      shift 2
+      ;;
+    -t | --name_template )
+      name_template="$2"
+      shift 2
+      ;;
+    -d | --path_database)
+      path_database="$2"
+      shift 2
+      ;;
+    -h | --help)
+      help
+      ;;
+    --)
+      shift;
+      break
+      ;;
+    *)
+      echo -e "Unexpected option: $1"
+      help
+      ;;
+  esac
+done
+
+# ! check the input args
+[ -z "$path_catalog" ] && echo -e "${ERROR}Please provide the catlog file using the option -i${ENDCOLOR}" && help
+[ -z "$name_template" ] && echo -e "${ERROR}Please provide the template name using the option -t${ENDCOLOR}" && help
+[ -z "$path_database" ] && echo -e "${ERROR}Please provide the comment database path using the option -d${ENDCOLOR}" && help
+
+echo "path_catalog is : ${path_catalog}, name_template is : $name_template, path_database is : $path_database"
+
+#! go to the folder 
+
+$WORKFLOW -i "$path_catalog" -t "$name_template" -d "$path_database"
+```
+
 
 ## 如何在Linux系统中管理用户并赋予相应的权限
 

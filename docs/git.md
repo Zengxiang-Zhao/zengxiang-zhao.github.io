@@ -47,14 +47,14 @@ $ git diff tag1 tag2 -- some/file/name
     * `git push -d <remote_name> <branch_name>` ,and `<remote_name>` may be origin.删除remote端brach
     * `git branch -D branch_name` : delete local branch
 
-# git init --initial-branch=main
+# [change the branch name from "master" to "main"](https://www.git-tower.com/learn/git/faq/git-rename-master-to-main)
 
-git 初始化时把branch的名称改为main。
+when your branch name is master, you can use the following command to change it to main.
 
 ```bash
-git init -b trunk
+$ git branch -m master main
 ```
-`-b` is short for --initial-branch
+
 
 # git checkout
 

@@ -103,3 +103,15 @@ $ git remote add pb https://github.com/paulboone/ticgit
 当在本地创建一个新的respotory，然后想上传到已有的github respotir 中，可以强行上传使其融合。
 
 `-f`: force 
+
+# git push your local repository to a new github repository
+
+1. Create a new repository in your github
+2. commit your local respository. If you haven't inited your local respository. 
+3.'git init'
+4. [rename the branch name from 'master' to 'main'](https://www.git-tower.com/learn/git/faq/git-rename-master-to-main) : `git branch -m master main`
+5. `git remote add <remote-name> <remote-github-url>`
+6. [pull the remote repository locally](https://www.educative.io/answers/the-fatal-refusing-to-merge-unrelated-histories-git-error) `git pull <remote-name> main --allow-unrelated-histories` Here `--allow-unrelated-histories` is essential. Otherwise you'll encourter a git error: “fatal: refusing to merge unrelated histories”
+7. commit the changes and push to the remote github: `git push <remote-name> main`
+8. The first time you use `pull` or `push` may need to do the autorization.
+

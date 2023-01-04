@@ -64,7 +64,7 @@ inoremap [ []<ESC>i
 
 - use `getopt`
 - [Resouce 2](https://stackabuse.com/how-to-parse-command-line-arguments-in-bash/)
-
+- `the colon (:) to indicate that an argument expects a value, like "-d=river" rather than a simple "-d."`
 ```bash
 #!/usr/bin/bash
 MAG="\e[35m"

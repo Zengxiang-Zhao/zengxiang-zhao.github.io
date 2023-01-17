@@ -312,10 +312,23 @@ result = re.match(pattern, string)
 ### [use the seperator semicolon but the semicolon not in Square brackets](https://stackoverflow.com/questions/36519738/regex-to-select-every-semicolon-except-the-ones-enclosed-within-square-brackets)
 
 ```python
-strung = filter(None, re.split(r';(?![^\[\]]*\])', string))
+strung = filter(None, re.split(r';(?!)', string))
 ```
 
-`(?![^\[\]]*\])` is the negative lookahead to assert that `;` is not within `[...]`.
+`(?![^\[\]]*\])` is the negative lookahead to assert that `;` is not within `[...]`. However, this regex does not check if the semicolon is really inside the square brackets, it only matches them before a closing square bracket without checking for the opening one
+
+
+### [use the seperator semicolon but the semicolon not in parenthese](https://stackoverflow.com/questions/2785755/how-to-split-but-ignore-separators-in-quoted-strings-in-python)
+
+```python
+re.split(''';(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', data)
+```
+
+Each time it finds a semicolon, the lookahead scans the entire remaining string, making sure there's an even number of single-quotes and an even number of double-quotes. (Single-quotes inside double-quoted fields, or vice-versa, are ignored.) If the lookahead succeeds, the semicolon is a delimiter. 
+
+If the double-quoted and single quotes are odd, then the semicolon must be in the parenthese. So this semicolon will not be treated as a seperator.
+
+
 
 ### 匹配多种可能性
 

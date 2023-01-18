@@ -281,3 +281,7 @@ grep -rnw '/path/to/somewhere/' -e 'pattern'
 grep -rnwil './' -e 'id'
 ```
 
+
+## [What is the difference between the Bash operators `[[` vs `[` vs `(` vs `((`?](https://unix.stackexchange.com/questions/306111/what-is-the-difference-between-the-bash-operators-vs-vs-vs)
+
+

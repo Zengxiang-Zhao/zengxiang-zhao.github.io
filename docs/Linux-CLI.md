@@ -63,6 +63,7 @@ inoremap [ []<ESC>i
 
 ## [How to add file header using vim](https://medium.com/@venumadhav888/how-to-configure-custom-headers-to-the-shell-script-files-automatically-a2d53aa4d0d2)
 
+Using space to align the row instead of tab, otherwise it cannot search the pattern correctly.
 
 ```bash
 " Add file header

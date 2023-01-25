@@ -31,7 +31,8 @@ nav_order: 100
 
 ## [vim 配置](https://blog.csdn.net/qingdujun/article/details/81411197)
 
-我的vim配置如下：
+[Another web source that shows the details of `.vimrc`](https://gist.github.com/shreeshga/1405763)
+我的vim配置如下：create a .vimrc in the home directory if there's no such file.
 ```bash
 set number
 set nocompatible
@@ -59,6 +60,8 @@ inoremap ( ()<ESC>i
 inoremap [ []<ESC>i
 
 ```
+
+## [How to add file header using vim](https://medium.com/@venumadhav888/how-to-configure-custom-headers-to-the-shell-script-files-automatically-a2d53aa4d0d2)
 
 ## [How to parse bash script arguments](https://www.shellscript.sh/tips/getopt/index.html)
 

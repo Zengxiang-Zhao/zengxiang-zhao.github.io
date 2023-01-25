@@ -63,6 +63,16 @@ inoremap [ []<ESC>i
 
 ## [How to add file header using vim](https://medium.com/@venumadhav888/how-to-configure-custom-headers-to-the-shell-script-files-automatically-a2d53aa4d0d2)
 
+
+```bash
+" Add file header
+au bufnewfile *.sh 0r ~/.vim/sh_header.temp
+au bufnewfile *.py 0r ~/.vim/py_header.temp
+autocmd bufnewfile *.sh,*.py exe "1," . 10 . "g/Script Name    :.*/s//Script Name    :".expand("%")
+autocmd bufnewfile *.sh,*.py exe "1," . 10 . "g/Creation Date  :.*/s//Creation Date  :".strftime("%Y-%m-%d")
+autocmd Bufwritepre,filewritepre  *.sh,*.py exe "1," . 11 . "g/Last Modified  :.*/s//Last Modified  :".strftime("%c")
+```
+
 ## [How to parse bash script arguments](https://www.shellscript.sh/tips/getopt/index.html)
 
 - use `getopt`

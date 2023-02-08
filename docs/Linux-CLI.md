@@ -288,7 +288,7 @@ do
   esac
 done
 
-# ! check the input args
+
 [ -z "$path_catalog" ] && echo -e "${ERROR}Please provide the catlog file using the option -i${ENDCOLOR}" && help
 [ -z "$name_template" ] && echo -e "${ERROR}Please provide the template name using the option -t${ENDCOLOR}" && help
 [ -z "$path_database" ] && echo -e "${ERROR}Please provide the comment database path using the option -d${ENDCOLOR}" && help

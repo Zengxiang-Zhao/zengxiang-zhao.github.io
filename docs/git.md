@@ -114,3 +114,7 @@ $ git remote add pb https://github.com/paulboone/ticgit
 7. commit the changes and push to the remote github: `git push <remote-name> main`
 8. The first time you use `pull` or `push` may need to do the autorization.
 
+
+# [password authentication](https://stackoverflow.com/questions/68775869/message-support-for-password-authentication-was-removed-please-use-a-personal)
+
+当你不能pull或者push的时候需要重新使用token 认证。参照上面的步骤进行。

@@ -118,3 +118,9 @@ $ git remote add pb https://github.com/paulboone/ticgit
 # [password authentication](https://stackoverflow.com/questions/68775869/message-support-for-password-authentication-was-removed-please-use-a-personal)
 
 当你不能pull或者push的时候需要重新使用token 认证。参照上面的步骤进行。
+
+# [untrack some file after commit command](https://stackoverflow.com/questions/6535362/gitignore-after-commit)
+
+There are some situations that you'd like to untrack some files after you have commited. E.g. you'd like to untrack the database `original.db`. then use the following command to remove it from the tracked files.
+
+`git rm --cached /\*.db` or `git rm --cached path-to/original.db`

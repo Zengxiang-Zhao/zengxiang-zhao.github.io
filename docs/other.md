@@ -21,6 +21,11 @@ nav_order: 97
 
 ---
 
+# How to install docker engine on Ubuntu
+
+1. install the docker engine based on [official website doc](https://docs.docker.com/engine/install/ubuntu/)
+2. [If you can not use the docker command directly, which means you have to use sudo before the docker.](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo) Then you need to use `sudo setfacl -m user:$USER:rw /var/run/docker.sock`. You need to replace the `$USER` to the specific user that can use the `docker` command directly.
+
 # how to install wine in Ubuntu
 
 If you want to use pyinstaller to generate apps that can be run in Windows system, wine is an option that you can choose. Because even if you only have Ubuntu OS, you still can generte two different apps that run in Linux and Windows.

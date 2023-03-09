@@ -21,6 +21,10 @@ nav_order: 97
 
 ---
 
+# [How to organize your python project files and folders](https://docs.python-guide.org/writing/structure/)
+
+This is a very good description about python project structure. 
+
 # How to install docker engine on Ubuntu
 
 1. install the docker engine based on [official website doc](https://docs.docker.com/engine/install/ubuntu/)

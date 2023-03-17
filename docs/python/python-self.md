@@ -21,6 +21,25 @@ categories: python
 
 ---
 
+## Structure the project folder
+
+If you have a complicated structrue for a project and you use relative package in the submodule, then you can run the python file in a submodule. It give you the error
+like `ImportError: attempted relative import with no known parent package`. That's because this file don't know the current package. If you write the code in the file
+`print(__package__)`, it will return `None`. So it don't known the parent package. But if you want to run the submodule in a script that locates in a upper level, then 
+you have to use the relative package mode to let the submodule know where it locates. If you ran it on a upper level. Then the package will be the folder name that the submodule locates.
+
+In order to solve this problem, you'd better use `pathlib and sys` to locate the package to the project folder not the submodule.
+
+```python
+import sys
+import pathlib
+
+sys.path.append(pathlib.Path(__file__).resolve().parent.parent) # you need to specify how many parent you should use to locate to the project folder
+
+```
+
+At last, you can use the submodule independent or in an upper level script file.
+
 ## install packages
 
 ### conda

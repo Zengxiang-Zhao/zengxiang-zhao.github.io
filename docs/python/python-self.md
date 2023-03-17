@@ -34,7 +34,7 @@ In order to solve this problem, you'd better use `pathlib and sys` to locate the
 import sys
 import pathlib
 
-sys.path.append(pathlib.Path(__file__).resolve().parent.parent) # you need to specify how many parent you should use to locate to the project folder
+sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent.parent)) # you need to specify how many parent you should use to locate to the project folder
 
 ```
 

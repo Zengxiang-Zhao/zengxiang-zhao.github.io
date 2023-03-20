@@ -21,6 +21,11 @@ nav_order: 99
 
 ---
 
+# Show all the tracked files or ignored files
+
+1. Show all the tracked files: `git status --untracked-files=all`
+2. Show all the ignored files: `git status --ignored`
+
 # [Change the editor to vi(vim) when git commit](https://askubuntu.com/questions/1211050/default-editor-for-git-set-to-nano-how)
 
 Sometimes when you write the command line "git commit" to write some message, the nano editor will pop out. If you don't like to use this editor, you can convert it to vi(vim) editor as shown below

@@ -20,6 +20,16 @@ nav_order: 100
 </details>
 
 ---
+## [Backup in Linux](https://averagelinuxuser.com/automatically-backup-linux/)
+If you build a database and you'd like to backup the database periodically, then you can use `rsync` and `crontab`
+
+1. You should use the user account that has the `sudo` permission
+2. Test [`rsync`](https://averagelinuxuser.com/backup-and-restore-your-linux-system-with-rsync/) : `rsync -aAXv --delete --dry-run --exclude=/dev/* --exclude=/proc/* --exclude=/sys/* --exclude=/tmp/* --exclude=/run/* --exclude=/mnt/* --exclude=/media/* --exclude="swapfile" --exclude="lost+found" --exclude=".cache" --exclude="Downloads" --exclude=".VirtualBoxVMs"--exclude=".ecryptfs" / /run/media/alu/ALU/` . The `--exclude` can recognize regex pattern, `--delete` means if you delete some files from the source, then this file will also be deleted from the target. `--dry-run`: just test not run in real case, you can use it test whether the files are what you want.
+4. Enter command : `sudo crontab -e`, it will use the root permission to run the command, so you don't need to add `sudo` at the head of the command line.
+5. Write down the `rsync` command based on the creteria to write down the command that you'd like to run periodically.
+7. Save it.
+
+If you'd like to run the command every minutes, then you need to write the time like : `* * * * *`
 
 ## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
 此链接解释怎么在terminal 配置ohmyzsh shell.

@@ -30,6 +30,99 @@ This is a very good description about python project structure.
 1. install the docker engine based on [official website doc](https://docs.docker.com/engine/install/ubuntu/)
 2. [If you can not use the docker command directly, which means you have to use sudo before the docker.](https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo) Then you need to use `sudo setfacl -m user:$USER:rw /var/run/docker.sock`. You need to replace the `$USER` to the specific user that can use the `docker` command directly.
 
+# How to use the Docker container to launch streamlit website
+
+1. create the streamlit app folder and nginx folder as shown below
+2. build up a streamlit website as usual
+3. Add `.dockerignore` file to ignore the files that you don't like to add the files to the docker container
+4. Add the `Dockerfile`  that contain the configuration for this folder
+5. nginx is a websever that will handle the URL.  
+
+```bash
+.
+├── app
+│   ├── 0_Home.py
+│   ├── 0_Setting.py
+│   ├── activity.csv
+│   ├── app_config.py
+│   ├── auth_setting.yaml
+│   ├── cat.json
+│   ├── Dockerfile
+│   ├── hello.py
+│   ├── __init__.py
+│   ├── pages
+│   ├── pictures
+│   ├── __pycache__
+│   ├── README.md
+│   ├── requirements.txt
+│   ├── temp
+│   ├── test.ipynb
+│   ├── tests
+│   └── utils
+├── docker-compose.yml
+├── nginx
+│   ├── default.conf
+│   └── Dockerfile
+└── README.md
+```
+`Dockerfile` in the app folder
+
+```Docker
+FROM python:3.8 # The base Docker container that you'll use to build up your Docker container
+
+WORKDIR usr/src/app # the path of the folder in the Docker container
+
+COPY requirements.txt . # Copy the file to the WORKDIR
+RUN pip install --no-cache-dir -r requirements.txt # command line that will run in the Docker container
+COPY . . # Copy all the files to the WORKDIR. the first dot means the current directory, the second dot means the WORKDIR
+```
+
+`default.conf` in nginx folder
+```configure
+server {
+    location / { # the address of the url
+        proxy_pass http://streamlit_app:8506; # the url / will redirect to http://streamlit_app:8506; the name stream_app is the name of the container name in the docker-compose.yml file
+    }
+}
+```
+
+`Dockerfile` in the nginx folder
+
+```docker
+FROM nginx:1.15.8 # The base Docker container 
+COPY default.conf /etc/nginx/conf.d/default.conf # cover the original default.conf file with the new one
+```
+
+
+`docker-compose.yml`
+
+```Docker
+version : '3' # version number
+
+services: # list the containers
+    streamlit_app: # one container name
+        container_name: streamlit_app
+        restart: always # we need the website could restart itself, thus use always
+
+        build: ./app # the address of the app folder which means the curent app folder
+        tty: true # can access the content of the container
+        volumes:
+            - /home/path_to/README.md:/usr/src/app/README.md # mount the volume to the container. Actually you can make the same address
+        ports:
+            - "8506:8506" # map the container port number(first one 8506) to the stream app port number (the second one) 
+        command: streamlit run 0_Home.py --server.port 8506 # the command will run in the Docker container
+
+    combiner_nginx:
+        container_name: combiner_nginx
+        restart: always
+        build: ./nginx
+        ports:
+            - "8083:8083"
+        depends_on:
+            - streamlit_app # the combiner_nginx will only run when the container streamlit_app is on
+```
+
+
 # how to install wine in Ubuntu
 
 If you want to use pyinstaller to generate apps that can be run in Windows system, wine is an option that you can choose. Because even if you only have Ubuntu OS, you still can generte two different apps that run in Linux and Windows.

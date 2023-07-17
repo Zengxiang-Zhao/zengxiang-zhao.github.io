@@ -108,4 +108,14 @@ services:
 
 # [How to use MongoDB docker container](https://earthly.dev/blog/mongodb-docker/)
 
+# How to combine Flask, MongoDB and Docker
+
+1. Create Flask app and using pymongo to access the mongodb data. Here you need to pay attention to the mongodb host address: `docker-data:/data/db`
+2. Create a Dockerfile in the Flask app folder
+3. Create a Dockerfile for Mongodb
+4. Create a docker-compose.yml file to combine Flask app and Mongodb : persist the mongodb data by docker volume. mount the MongoDB data to the /data/db
+5. Check the mongodb host ip: `docker inspect mongodb-docker-container-name` and get the `IPAddress` from the `Networks`. And use this ip as the MongoDB host address
+6. `docker-compose up --build -d`
+
+
 

@@ -106,4 +106,6 @@ services:
             - flask_app
 ```
 
+# [How to use MongoDB docker container](https://earthly.dev/blog/mongodb-docker/)
+
 

@@ -124,6 +124,10 @@ $ git remote add pb https://github.com/paulboone/ticgit
 
 当你不能pull或者push的时候需要重新使用token 认证。参照上面的步骤进行。
 
+Create Personal Access Token on GitHub
+From your GitHub account, go to Settings → Developer Settings → Personal Access Token → Generate New Token (Give your password) → Fillup the form → click Generate token → Copy the generated Token, it will be something like ghp_sFhFsSHhTzMDreGRLjmks4Tzuzgthdvfsrta
+
+
 # [untrack some file after commit command](https://stackoverflow.com/questions/6535362/gitignore-after-commit)
 
 There are some situations that you'd like to untrack some files after you have commited. E.g. you'd like to untrack the database `original.db`. then use the following command to remove it from the tracked files.

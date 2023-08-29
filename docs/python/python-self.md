@@ -21,7 +21,7 @@ categories: python
 
 ---
 
-## Create temparory file and folder
+## [Create temparory file and folder](https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp)
 When you upload file to Flask server, you'd like to save the file to a temporary folder and delete it when finished using it. And you need to use `tempfile`.
 ``` python
 import tempfile

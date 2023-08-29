@@ -22,13 +22,12 @@ categories: python
 ---
 
 ## [Create temparory file and folder](https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp)
-When you upload file to Flask server, you'd like to save the file to a temporary folder and delete it when finished using it. And you need to use `tempfile`.
+When you upload file to Flask server, you'd like to save the file to a temporary folder and delete it when finished using it. And you need to use `tempfile`. The advantage of using `tempfile` is that the temporary files and folders can be deleted by themselves after the process is done.
 ``` python
 import tempfile
 path_temp = 'temp' # specify a customed tempory folder that you'd like to use
 path_tempCaseFolder = tempfile.TemporaryDirectory(dir=path_temp) # create a temporary folder in the customed folder
 path_okr_DNA = tempfile.NamedTemporaryFile(suffix='.txt',dir=path_tempCaseFolder.name).name # generate a txt file in the temporary folder. note that you need to use name to get the path of the temporary file and folder
-
 ```
 
 ## Structure the project folder

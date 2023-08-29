@@ -21,6 +21,16 @@ categories: python
 
 ---
 
+## Create temparory file and folder
+When you upload file to Flask server, you'd like to save the file to a temporary folder and delete it when finished using it. And you need to use `tempfile`.
+``` python
+import tempfile
+path_temp = 'temp' # specify a customed tempory folder that you'd like to use
+path_tempCaseFolder = tempfile.TemporaryDirectory(dir=path_temp) # create a temporary folder in the customed folder
+path_okr_DNA = tempfile.NamedTemporaryFile(suffix='.txt',dir=path_tempCaseFolder.name).name # generate a txt file in the temporary folder. note that you need to use name to get the path of the temporary file and folder
+
+```
+
 ## Structure the project folder
 
 If you have a complicated structrue for a project and you use relative package in the submodule, then you can run the python file in a submodule. It give you the error

@@ -114,7 +114,7 @@ services:
 2. Create a Dockerfile in the Flask app folder
 3. Create a Dockerfile for Mongodb
 4. Create a docker-compose.yml file to combine Flask app and Mongodb : persist the mongodb data by docker volume. mount the MongoDB data to the /data/db
-5. Check the mongodb host ip: `docker inspect mongodb-docker-container-name` and get the `IPAddress` from the `Networks`. And use this ip as the MongoDB host address
+5. Check the mongodb host ip: `docker inspect mongodb-docker-container-name` and get the `IPAddress` from the `Networks`. And use this ip as the MongoDB host address. If the `IPAdress` cannot work, then use the `GateWay` address. Or just don't use the host parameter in `MongoClient`.
 6. `docker-compose up --build -d`
 
 

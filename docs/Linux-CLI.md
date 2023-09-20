@@ -31,6 +31,10 @@ If you build a database and you'd like to backup the database periodically, then
 
 If you'd like to run the command every minutes, then you need to write the time like : `* * * * *`
 
+Sometimes, you do not have the sudo permission to use rsync command. Here's a solution to do that on the other way.
+1. make the folder that you'd like the sudo user have the write permission: [setfacl -R -m u:username:rwx myfolder](https://askubuntu.com/questions/487527/give-specific-user-permission-to-write-to-a-folder-using-w-notation)
+2. update the crontab file in the sudo user enviroment: `crontab -e`
+
 ## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
 此链接解释怎么在terminal 配置ohmyzsh shell.
 

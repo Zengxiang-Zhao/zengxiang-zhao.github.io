@@ -23,7 +23,7 @@ nav_order: 101
 
 ## [Radio, checkbox should in form tab](http://react.tips/radio-buttons-in-reactjs/)
 
-When you handle Radio, checkbox such options, you should put these stuff in a form as follows
+When you handle Radio, checkbox such options, you should put these stuff in a form as follows. Otherwise the radio will not act as you wish.
 
 ```javascript
 <form >

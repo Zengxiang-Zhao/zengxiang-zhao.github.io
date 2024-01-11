@@ -53,3 +53,5 @@ db.foo.update({}, {
 }, false, true);
 
 ```
+
+The false, true in the method above are: { upsert:false, multi:true }. You need the multi:true to update all your records.

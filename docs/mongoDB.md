@@ -33,6 +33,11 @@ nav_order: 12
 db.example.update({}, {$unset: {words:1}} , {multi: true});
 ```
 
+Add one filed in collection:
+```bash
+db.example.update({}, {$set: {'status':'active'}} , {multi: true});
+```
+
 ## [Rename the filed in collection](https://stackoverflow.com/questions/9254351/how-can-i-rename-a-field-for-all-documents-in-mongodb)
 
 go into the mongosh command line interface

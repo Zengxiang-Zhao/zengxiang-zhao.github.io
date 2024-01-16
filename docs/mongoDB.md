@@ -60,3 +60,9 @@ db.foo.update({}, {
 ```
 
 The false, true in the method above are: { upsert:false, multi:true }. You need the multi:true to update all your records.
+
+## [append an item to an array in mongoDB](https://stackoverflow.com/questions/33189258/append-item-to-mongodb-document-array-in-pymongo-without-re-insertion)
+
+```python
+coll.update({'ref': ref}, {'$push': {'tags': new_tag}})
+```

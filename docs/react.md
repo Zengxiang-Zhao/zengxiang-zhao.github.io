@@ -25,6 +25,28 @@ nav_order: 12
 That's because there's no key in the subcomponent, you should provide the key in the subcomponent to make sure the content is correct. React use key 
 to check whether this component should be rendered. If you use MongoDB, then the _id is a good choice to be the key.
 
+## [Connect to database directly without hitting a button](https://dev.to/darkmavis1980/fetching-data-with-react-hooks-and-axios-114h)
+
+Sometimes we'd like show some database content directly when we go into the web page not after hitting the button. we can use `useEffect` hook to do that. The logic is to use async function. Here you should also use `setLoading` state to let the front know when your data is ready.
+
+```
+useEffect(() => {
+        const fetchData = async () =>{
+        setLoading(true);
+        try {
+            const res = await axios.get('/path/get');
+            // console.log('resonpose is :',res.data)
+            setList(res.data);
+        } catch (error) {
+            console.error(error.message);
+        }
+        setLoading(false);
+        }
+        fetchData();
+    }, []);
+```
+
+Besides that, you can customize this function into a state.
 
 ## development and test port share the same ones
 

@@ -21,6 +21,29 @@ nav_order: 100
 
 ---
 
+# use docker command without sudo
+
+after you install docker successfully, then do the following steps:
+
+1. sudo groupadd docker
+2. sudo usermod -aG docker $USER
+3. if you write `docker ps` and give you error like below:
+
+   docker ps
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/containers/json": dial unix /var/run/docker.sock: connect: permission denied
+
+5. then you need to change the right of `/var/run/docker.sock`
+6. `ls -l /var/run/docker.sock`
+`srw-rw---- 1 root root 0 Jan 29 19:00 /var/run/docker.sock`
+7. `sudo chmod 666 /var/run/docker.sock`
+8. `ls -l /var/run/docker.sock`         
+`srw-rw-rw- 1 root root 0 Jan 29 19:00 /var/run/docker.sock`
+
+You see that the `srw-rw----` changed to `srw-rw-rw-`
+
+9. now the docker can run correctly.
+
+
 # Use Docker to contain Flask and Ngnix
 
 Here's the tree structure of the project

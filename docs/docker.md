@@ -21,6 +21,97 @@ nav_order: 100
 
 ---
 
+# Docker compose file use networks
+
+Sometimes the subnet of docker network will conflict with the current server or AWS server, thus you need to change the subnet. There are two solutions:
+
+1. You create one network, and add it in the docker-compose file
+2. create a new network directly in the docker-compose file
+
+### method 1:
+
+create a new network using docker
+`docker network create -d bridge --subnet=192.168.0.0/16 data-management`
+
+then write the docker-compose.yml file as following:
+
+```yaml
+version : '3'
+
+services:
+    data_management_backend:
+        container_name : data_management_backend
+        restart: always
+
+        build: ./backend
+        tty: true
+        ports:
+            - "3103:3003" # thus you can split the production and test environment
+        command: python run.py
+        volumes:
+            - /absolut-path/data-management/backend/temp:/absolut-path/data-management/backend/temp
+        networks:
+            - data-management
+
+    data_management_frontend:
+        container_name: data_management_frontend
+        restart: always
+        build: ./frontend
+        ports:
+            - "3104:3004"
+        command: npm run dev
+        depends_on:
+            - data_management_backend
+        networks:
+            - data-management
+
+networks:
+    data-management:
+        external:true
+
+```
+
+### method 2:
+
+```yaml
+version : '3'
+
+services:
+    data_management_backend:
+        container_name : data_management_backend
+        restart: always
+
+        build: ./backend
+        tty: true
+        ports:
+            - "3103:3003" # thus you can split the production and test environment
+        command: python run.py
+        volumes:
+            - /absolut-path/data-management/backend/temp:/absolut-path/data-management/backend/temp
+        networks:
+            - data-management
+
+    data_management_frontend:
+        container_name: data_management_frontend
+        restart: always
+        build: ./frontend
+        ports:
+            - "3104:3004"
+        command: npm run dev
+        depends_on:
+            - data_management_backend
+        networks:
+            - data-management
+
+networks:
+    data-management:
+        ipam:
+            config:
+                - subnet: 172.177.0.0/16
+```
+
+
+
 # [docker error: http: invalid Host header ](https://stackoverflow.com/questions/77225539/docker-compose-error-internal-booting-buildkit-http-invalid-host-header)
 
 This error come from the docker version `20.10.24`. We need to upgrade the docker version to the newest.

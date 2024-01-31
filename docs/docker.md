@@ -21,6 +21,14 @@ nav_order: 100
 
 ---
 
+# [docker error: http: invalid Host header ](https://stackoverflow.com/questions/77225539/docker-compose-error-internal-booting-buildkit-http-invalid-host-header)
+
+This error come from the docker version `20.10.24`. We need to upgrade the docker version to the newest.
+
+`sudo snap refresh docker --channel=latest/edge`
+
+please remeber to change the `/var/run/docker.sock` file permission.
+
 # use docker command without sudo
 
 after you install docker successfully, then do the following steps:

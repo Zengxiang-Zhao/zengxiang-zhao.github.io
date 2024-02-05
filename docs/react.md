@@ -20,6 +20,32 @@ nav_order: 12
 </details>
 
 ---
+
+## [JavaScript async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+Sometimes we'd like to fetch data from database using an API. We need to use `async functions` or `Promise functions`
+
+async function and Promise function
+```js
+function resolveAfter2Seconds() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const res = 3+4;
+      resolve(['resolvedddd',res]);
+    }, 2000);
+  });
+}
+
+async function asyncCall() {
+  console.log('calling');
+  const result = await resolveAfter2Seconds();
+  console.log(result);
+  // Expected output: "resolved"
+  return 'Get the result'
+}
+```
+
+In the above code, if you use Promise inside the function, then you shouldn't add `async` keyword before the function
+
 ## Subcomponent cannot show up content correctly
 
 That's because there's no key in the subcomponent, you should provide the key in the subcomponent to make sure the content is correct. React use key 

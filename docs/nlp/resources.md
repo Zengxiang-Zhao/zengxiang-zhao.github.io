@@ -27,3 +27,7 @@ Some tutorials about machine learning
 # [Jay Alammar blog](https://jalammar.github.io/illustrated-transformer/)
 
 Good description for some machine learning concepts
+
+# [The Annotated Transformer](https://nlp.seas.harvard.edu/annotated-transformer/)
+
+This is created by Harvard to illustrate how the transformer is created from scratch by pytorch framework.

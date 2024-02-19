@@ -21,6 +21,12 @@ categories: nlp
 
 ---
 
+# [Lena Voita's Post](https://lena-voita.github.io/posts.html)
+
+The author is a PHD student.
+
+Good description about ML and NLP
+
 # [ruder.io](https://www.ruder.io/)
 
 A blog about natural language processing and machine learning.

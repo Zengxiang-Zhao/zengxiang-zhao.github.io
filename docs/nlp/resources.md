@@ -21,6 +21,10 @@ categories: nlp
 
 ---
 
+# [Tokenizers: How machines read](https://blog.floydhub.com/tokenization-nlp/#wordpiece)
+
+Good tutorial about the NLP tokenizers. And it seems like a good resource about ML
+
 # [Summary of the tokenizers](https://huggingface.co/docs/transformers/tokenizer_summary)
 
 Describe some kinds of tokenizer methods, that we can decide which one is suitable for us to use.

@@ -20,9 +20,18 @@ categories: nlp
 </details>
 
 ---
+
+# [Lil'Log Posts](https://lilianweng.github.io/)
+
+Work in OpenAI, and create posts to describe the trend of the AI and good description about some machine learning models.
+
+# [Colah's Blog](https://colah.github.io/)
+Describe the concepts about machine learning models like Recurrent Neural Networks and so on.
+
 # [Neptune.ai](https://neptune.ai/blog/how-to-code-bert-using-pytorch-tutorial)
 
-Some tutorials about machine learning
+Good tutorials and summarization about machine learning. `You can also use it as an open entry to other good resources`. This is the place that I found other good
+resources.
 
 # [Jay Alammar blog](https://jalammar.github.io/illustrated-transformer/)
 

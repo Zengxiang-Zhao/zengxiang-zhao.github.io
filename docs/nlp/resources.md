@@ -21,6 +21,12 @@ categories: nlp
 
 ---
 
+# [ruder.io](https://www.ruder.io/)
+
+A blog about natural language processing and machine learning.
+
+## [The State of Transfer Learning in NLP](https://www.ruder.io/state-of-transfer-learning-in-nlp/)
+
 # [Tokenizers: How machines read](https://blog.floydhub.com/tokenization-nlp/#wordpiece)
 
 Good tutorial about the NLP tokenizers. And it seems like a good resource about ML

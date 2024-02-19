@@ -21,6 +21,10 @@ categories: nlp
 
 ---
 
+# [Summary of the tokenizers](https://huggingface.co/docs/transformers/tokenizer_summary)
+
+Describe some kinds of tokenizer methods, that we can decide which one is suitable for us to use.
+
 # [Lil'Log Posts](https://lilianweng.github.io/)
 
 Work in OpenAI, and create posts to describe the trend of the AI and good description about some machine learning models.

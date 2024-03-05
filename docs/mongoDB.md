@@ -20,6 +20,17 @@ nav_order: 12
 </details>
 
 ---
+
+## projection in pyMongo
+
+```python
+query = {'status':'active', 'testOrdered':testOrdered,'panel':panel,'specimen':specimen}
+list_tag = list(collection_rule_extraction.find(query, projection={'_id':False,'tag':True}))
+list_tag = [rule['tag'] for rule in list_tag]
+```
+
+You need to use `True` or `False` to specify which filed needed to be returned. 
+
 ## [Copy one collection from one database to another](https://stackoverflow.com/questions/11554762/how-to-copy-a-collection-from-one-database-to-another-in-mongodb)
 
 1. Install mongosh

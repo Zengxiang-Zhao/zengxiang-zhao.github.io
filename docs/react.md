@@ -21,6 +21,10 @@ nav_order: 12
 
 ---
 
+## Resources
+
+1. [Robin's Blog](https://www.robinwieruch.de/blog/)
+
 ## [JavaScript async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 Sometimes we'd like to fetch data from database using an API. We need to use `async functions` or `Promise functions`
 

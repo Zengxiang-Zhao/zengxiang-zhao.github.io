@@ -21,6 +21,16 @@ nav_order: 97
 
 ---
 
+# how to make excel cells non-editable
+
+To make a column non-editable:
+
+1. Select the whole worksheet, Right Click->Format Cells->Protection, and uncheck the "Locked" check box.
+
+2. Select the column or cells you want to protect, right Click-> Format Cells->Protection, and select the "Locked" check box.
+
+3. Review tab->Protect Sheet, select the "Protect worksheet and contents of locked cells" check box and protect the sheet using a password. make shure the check boxs are selected for "Select locked cells" and "Select unlocked cells".
+
 # [How to organize your python project files and folders](https://docs.python-guide.org/writing/structure/)
 
 This is a very good description about python project structure. 

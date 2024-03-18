@@ -26,6 +26,10 @@ nav_order: 12
 1. [Robin's Blog](https://www.robinwieruch.de/blog/)
 
 
+## [format HTML text](https://www.tutorialspoint.com/html/html_phrase_elements.htm)
+
+How to write HTML text using the original mark.
+
 ## [JS array delete duplicate element](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
 
 Using reducer to sort js array:

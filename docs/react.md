@@ -25,6 +25,26 @@ nav_order: 12
 
 1. [Robin's Blog](https://www.robinwieruch.de/blog/)
 
+
+## [JS array delete duplicate element](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
+
+Using reducer to sort js array:
+
+```javascript
+onst listTag = listJob.reduce((accumulator,item) => {
+        const listTag = item['listTag'];
+        listTag.forEach( item => {
+            if(!accumulator.includes(item)){
+                accumulator.push(item);
+            }
+        })
+        return accumulator; 
+    },[])
+```
+
+please note that: `[]` is the initial value of the `accumulator`. Thus in this case, the accumulator is a empty list. So inside the function. You handle the accumulaotr.
+
+
 ## [JavaScript async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 Sometimes we'd like to fetch data from database using an API. We need to use `async functions` or `Promise functions`
 

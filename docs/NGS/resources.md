@@ -8,6 +8,16 @@ categories: NGS
 
 
 ---
+
+## [How to install illumina bcl-convert software in Ubuntu](https://kb.10xgenomics.com/hc/en-us/articles/360001618231-How-to-troubleshoot-installing-bcl2fastq-or-bcl-convert)
+
+illumina has [bcl-convert packages](https://emea.support.illumina.com/sequencing/sequencing_software/bcl-convert.html) for centos. We have ubuntu OS. thus there is the solution to use the centos package in ubuntu.
+
+```bash
+rpm2cpio ./bcl-convert-3.9.3-2.el7.x86_64.rpm | cpio -idmv
+```
+
+
 ##  - [resource description for dbsnp and clinvar](https://www.ncbi.nlm.nih.gov/variation/docs/human_variation_vcf/)
 
 ## - [dbsnp resourec donwload](https://ftp.ncbi.nih.gov/snp/organisms/human_9606/VCF/)

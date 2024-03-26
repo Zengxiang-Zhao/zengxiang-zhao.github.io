@@ -9,6 +9,15 @@ categories: NGS
 
 ---
 
+## [NIH resources](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/DNA_Seq_Variant_Calling_Pipeline/)
+
+In NIH, some good resources that about: 
+
+1. [DNA-Seq analysis pipeline](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/DNA_Seq_Variant_Calling_Pipeline/#dna-seq-analysis-pipeline)
+2. [copy number variation (CNV) pipeline ](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/CNV_Pipeline/#copy-number-variation-analysis-pipeline)
+
+If you have time, then it's a good place to go through some basic concepts and workflow. The good point it that, it has the command line to tell you how to use the software.
+
 ## [How to install illumina bcl-convert software in Ubuntu](https://kb.10xgenomics.com/hc/en-us/articles/360001618231-How-to-troubleshoot-installing-bcl2fastq-or-bcl-convert)
 
 illumina has [bcl-convert packages](https://emea.support.illumina.com/sequencing/sequencing_software/bcl-convert.html) for centos. We have ubuntu OS. thus there is the solution to use the centos package in ubuntu.

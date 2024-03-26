@@ -9,6 +9,10 @@ categories: NGS
 
 ---
 
+## [ICGC Data Portal](https://dcc.icgc.org/)
+
+It contains the gene profile
+
 ## [NIH resources](https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/DNA_Seq_Variant_Calling_Pipeline/)
 
 In NIH, some good resources that about: 

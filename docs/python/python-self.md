@@ -21,6 +21,24 @@ categories: python
 
 ---
 
+## [decorator](https://realpython.com/primer-on-python-decorators/#a-few-real-world-examples)
+
+Here's is a good boilerplate template for building more complex decorators from RealPython
+
+```python
+import functools
+
+def decorator(func):
+    @functools.wraps(func)
+    def wrapper_decorator(*args, **kwargs):
+        # Do something before
+        value = func(*args, **kwargs)
+        # Do something after
+        return value
+    return wrapper_decorator
+
+```
+
 ## [Create temparory file and folder](https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp)
 When you upload file to Flask server, you'd like to save the file to a temporary folder and delete it when finished using it. And you need to use `tempfile`. The advantage of using `tempfile` is that the temporary files and folders can be deleted by themselves after the process is done.
 ``` python

@@ -39,6 +39,27 @@ def decorator(func):
 
 ```
 
+Here's a real example ellustrated in realPython
+
+```python
+import functools
+import time
+
+# ...
+
+def timer(func):
+    """Print the runtime of the decorated function"""
+    @functools.wraps(func)
+    def wrapper_timer(*args, **kwargs):
+        start_time = time.perf_counter()
+        value = func(*args, **kwargs)
+        end_time = time.perf_counter()
+        run_time = end_time - start_time
+        print(f"Finished {func.__name__}() in {run_time:.4f} secs")
+        return value
+    return wrapper_timer
+```
+
 ## [Create temparory file and folder](https://docs.python.org/3/library/tempfile.html#tempfile.mkdtemp)
 When you upload file to Flask server, you'd like to save the file to a temporary folder and delete it when finished using it. And you need to use `tempfile`. The advantage of using `tempfile` is that the temporary files and folders can be deleted by themselves after the process is done.
 ``` python

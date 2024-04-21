@@ -20,6 +20,26 @@ nav_order: 100
 </details>
 
 ---
+## [nohup ](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux)
+
+If you still want to keep the processes running even exiting the shell/terminal, then `nohup` is your choice.
+
+Nohup, short for no hang up is a command in Linux systems that keep processes running even after exiting the shell or terminal
+
+E.g. when you upload illumina whole run locally using bs command line:
+
+```bash
+nohup $bs upload run -n reupload-240312At0317 –t NovaSeq6000 ./240312_A01905_0076_AH7KH7DSX > ~/projects/illumina/UploadRun.out
+```
+
+Note:
+
+1. -n : refer to the name you'd like to show up in basespace
+2. -t : refer to the machine that you used for the sequence
+3. ./240312_A01905_0076_AH7KH7DSX : specify the wohle run folder in the machine
+4. > ~/projects/illumina/UploadRun.out : redirect the output to another file in case you need to check the log.
+
+
 ## [Backup in Linux](https://averagelinuxuser.com/automatically-backup-linux/)
 If you build a database and you'd like to backup the database periodically, then you can use `rsync` and `crontab`
 

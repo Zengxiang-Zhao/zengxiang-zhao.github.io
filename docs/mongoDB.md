@@ -21,6 +21,14 @@ nav_order: 12
 
 ---
 
+## restart MongoDB
+
+When the server crashed down, and you failed to connect to the mongoDB server after typing `mongosh`. Then you need to restart the mongoDB server as shown below.
+
+```bash
+sudo service mongod restart
+```
+
 ## projection in pyMongo
 
 ```python

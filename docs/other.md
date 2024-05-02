@@ -21,6 +21,39 @@ nav_order: 97
 
 ---
 
+# Description of Hidden Markov model (HMM)
+
+HMM is widely used in biological area. Here's one of the definiation of HMM
+
+> A hidden Markov model (HMM) is a statistical model that can be used to describe the evolution of observable events that depend on internal factors, which are not directly observable. We call the observed event a `symbol` and the invisible factor underlying the observation a `state`. An HMM consists of two stochastic processes, namely, an invisible process of hidden states and a visible process of observable symbols. The hidden states form a Markov chain, and the probability distribution of the observed symbol depends on the underlying state. For this reason, an HMM is also called a doubly-embedded stochastic process
+> (*Rabiner, L. R. A tutorial on hidden Markov models and selected applications in speech recognition. Proc. IEEE, 1989, 77, 257-286.*)
+
+There are such situation in reality: source -> signal. above the arrow should be the process
+We'd like to create a signal model represent this situation. Reason why we want to create the signal model is that:
+1. we can control the process to get the good output, here is the singal. Like decrease the noise and enhance the musical sound
+2. Based on the signal source, the model giave use the potential to know the source, which we can not study directly.
+3. The model works well in reality
+
+
+The evolution of models is Markov Model -> Hidden Markov Model
+
+Markov Modle or I call it Markov chain is that the state is observalbe. Such as the whether. E.g Here are 3 states: 
+1. state 1: rain
+2. state 2: cloudy
+3. state 3: sunny
+
+The change of whether is the process of the state. Here we can observe the whether directly.
+
+Sometimes, the state is not observable. While we are instrested about the states and want to study the states. What should we do. We need to use other observable events assocaited with the states to study the states. Thus we got the HMM. Here the state is hidden, we cannot observe it directly.
+
+Thus we need to know the process of the states meaning we need to know the probability process of states changes. Under specific state, there is also a prbability distribution of observations. That's quota 
+>  An HMM consists of two stochastic processes, namely, an invisible process of hidden states and a visible process of observable symbols.
+
+Usually the HMM is depicted as the state transition and ignore the observation. 
+
+
+
+
 # how to make excel cells non-editable
 
 To make a column non-editable:

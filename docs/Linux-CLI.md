@@ -20,6 +20,22 @@ nav_order: 100
 </details>
 
 ---
+
+## Check the volume of folder in Linux
+
+```bash
+du -sh folderName
+
+-h. Shows sizes in a human-readable format.
+-s. Summarizes the total for each argument.
+-a. Includes files as well as directories.
+
+e.g
+
+(base) ➜ du -sh streamlit-combine  
+12M     streamlit-combine
+```
+
 ## [nohup ](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux)
 
 If you still want to keep the processes running even exiting the shell/terminal, then `nohup` is your choice.
@@ -54,6 +70,8 @@ If you'd like to run the command every minutes, then you need to write the time 
 Sometimes, you do not have the sudo permission to use rsync command. Here's a solution to do that on the other way.
 1. make the folder that you'd like the sudo user have the write permission: [setfacl -R -m u:username:rwx myfolder](https://askubuntu.com/questions/487527/give-specific-user-permission-to-write-to-a-folder-using-w-notation)
 2. update the crontab file in the sudo user enviroment: `crontab -e`
+
+The safe way to store you data is to backup your data using crontab and then using github to save your source code.
 
 ## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
 此链接解释怎么在terminal 配置ohmyzsh shell.

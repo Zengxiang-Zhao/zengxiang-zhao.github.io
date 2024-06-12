@@ -73,6 +73,20 @@ Sometimes, you do not have the sudo permission to use rsync command. Here's a so
 
 **`The safe way to store you data is to backup your data using crontab and then using github to save your source code.`**
 
+## [Backup MongoDB](https://www.digitalocean.com/community/tutorials/how-to-back-up-restore-and-migrate-a-mongodb-database-on-ubuntu-20-04)
+
+In crontab
+
+```bash
+3 3 * * * mongodump --out /var/backups/mongobackups/$(date +'%Y-%m-%d')
+```
+
+In order to save only the last 7 days data to save memory
+
+```bash
+1 3 * * * find /var/backups/mongobackups/ -mtime +7 -exec rm -rf {} \;
+```
+
 ## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
 此链接解释怎么在terminal 配置ohmyzsh shell.
 

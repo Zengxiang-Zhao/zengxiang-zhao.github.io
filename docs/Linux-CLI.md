@@ -71,7 +71,7 @@ Sometimes, you do not have the sudo permission to use rsync command. Here's a so
 1. make the folder that you'd like the sudo user have the write permission: [setfacl -R -m u:username:rwx myfolder](https://askubuntu.com/questions/487527/give-specific-user-permission-to-write-to-a-folder-using-w-notation)
 2. update the crontab file in the sudo user enviroment: `crontab -e`
 
-The safe way to store you data is to backup your data using crontab and then using github to save your source code.
+**`The safe way to store you data is to backup your data using crontab and then using github to save your source code.`**
 
 ## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
 此链接解释怎么在terminal 配置ohmyzsh shell.

@@ -26,6 +26,153 @@ nav_order: 12
 1. [Robin's Blog](https://www.robinwieruch.de/blog/)
 
 
+## [How to create a custome context](https://react.dev/reference/react/createContext)
+
+```js
+import * as React from "react";
+import { useLocation, Navigate } from "react-router-dom";
+import axios from "axios";
+
+const authContext = React.createContext(); 
+
+function useProviderAuth() {
+  //Do something and get some information here and return the information in a dictionary style.
+
+  return {
+    authed,
+    user,
+    login,
+    logout,
+  };
+}
+
+
+// make the context be available to the children, thus in the main.js we could just embrace the component with this Authprovider <AuthProvider> </ComponentName> </AuthProvider>
+
+export function AuthProvider({ children }) {
+  const auth = useProviderAuth();
+
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+}
+
+// in the children components, you can import the useAuth to get the context. Here it's actually finishe the work React.useContext(authContext) here, and you don't need to do it in the componet.
+export default function useAuth() {
+  return React.useContext(authContext);
+}
+
+
+```
+
+Here's an example about authenication of account
+
+```js
+import * as React from "react";
+import { useLocation, Navigate } from "react-router-dom";
+import axios from "axios";
+
+const authContext = React.createContext();
+
+
+function useProviderAuth() {
+  const [authed, setAuthed] = React.useState(false);
+  const [user,setUser] = React.useState(undefined);
+
+  // confirm at backend side and and change the state in the login function
+  const login = async (email, password) => {
+    console.log('email is: ',email, 'password is: ',password)
+    const formData = new FormData();
+  
+    formData.append('email', email);
+    formData.append('password', password);
+  
+    try {
+      const res = await axios.post('/api/auth/login',formData);
+
+      console.log(res)
+      localStorage.setItem('token',res.data['access_token']);
+      setAuthed(true);
+      setUser(res.data['user']); // user is a dictionary that contains : username, email, role
+      console.log('res.data is : ',res.data, 'authed is : ',authed, 'user is: ',user);
+    } catch (error){
+      console.log('Error: ',error);
+      alert(error.response.data['msg'])
+    }
+  }
+
+
+  // change the state in the logout function
+  const logout = async() => {
+    try{
+      const res = await axios.post("/api/auth/logout");
+      localStorage.removeItem("token");
+      setAuthed(false);
+      setUser(null)
+
+    } catch (error){
+      console.log('Error: ',error);
+    }
+  }
+
+
+// the context that you need about authenication
+  return {
+    authed,
+    user,
+    login,
+    logout,
+  };
+}
+
+export function AuthProvider({ children }) {
+  const auth = useProviderAuth();
+
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+}
+
+export default function useAuth() {
+  return React.useContext(authContext);
+}
+
+export function RequireAuth({ children }) {
+    const { authed } = useAuth();
+    const location = useLocation();
+  
+    return authed === true ? (
+      children
+    ) : (
+      <Navigate to="/auth/login" replace state={{ path: location.pathname }} />
+    );
+  }
+
+export function RequireAdmin({ children }) {
+  const { user,authed } = useAuth();
+  const location = useLocation();
+
+  if (authed){
+    if (user.role === 'admin'){
+      return children;
+    }
+    else{
+      return (
+        <>
+          <p>You do not have permission for this function</p>
+        </>
+      )
+    }
+  }
+  else {
+    <Navigate to="/auth/login" replace state={{ path: location.pathname }} />
+  }
+
+  // return authed === true ? (
+  //   children
+  // ) : (
+  //   <Navigate to="/auth/login" replace state={{ path: location.pathname }} />
+  // );
+}
+```
+
+
 ## [format HTML text](https://www.tutorialspoint.com/html/html_phrase_elements.htm)
 
 How to write HTML text using the original mark.

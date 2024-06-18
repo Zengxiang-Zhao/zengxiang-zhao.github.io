@@ -73,6 +73,49 @@ Sometimes, you do not have the sudo permission to use rsync command. Here's a so
 
 **`The safe way to store you data is to backup your data using crontab and then using github to save your source code.`**
 
+## Backup using bash script
+
+Sometimes, the folder you'd like to backup is not permitted to cooy or you can just copy the structre of the folders. And there are not files in the folder. then try the following methods
+
+1. Create a bash script file and write down the backup command rsync. e.g: `rsync -av --delete --exclude="__pycache__" --exclude=".pytest_cache" --exclude="node_modules" --exclude=".git" --exclude='temp' --exclude='tests'  /home/pathToSourceFolder  /pathToTargetFolder`
+2. Open crontab file with sudo: `sudo crontab -e`
+3. Write the following command to backup data periodically
+
+```bash
+# Backup  projects everyday at 6:00PM
+* * * * * sh /pathToBashFolder/backupProjectsAt6PM.sh
+```
+
+*Example* 
+
+/pathToBashFolder/backupProjectsAt6PM.sh
+```bash
+rsync -av --delete --exclude="__pycache__" --exclude=".pytest_cache" --exclude="node_modules" --exclude=".git" --exclude='temp' --exclude='tests'  /home/pathToSourceFolder  /pathToTargetFolder
+
+# Here you can edit this file and add more backup projects
+```
+
+crontab file
+```bash
+# Backup  projects everyday at 6:00PM
+* * * * * sh /pathToBashFolder/backupProjectsAt6PM.sh
+```
+
+*Note*
+
+> A trailing slash on the source changes this behavior to avoid creating an additional directory level at the destination.  You can think of a
+       trailing / on a source as meaning "copy the contents of this directory" as opposed to "copy the directory by name", but in  both  cases  the
+       attributes  of the containing directory are transferred to the containing directory on the destination.  In other words, each of the follow‐
+       ing commands copies the files in the same way, including their setting of the attributes of /dest/foo:
+
+```bash
+  rsync -av /src/foo /dest
+  rsync -av /src/foo/ /dest/foo
+```
+
+
+
+
 ## [Backup MongoDB](https://www.digitalocean.com/community/tutorials/how-to-back-up-restore-and-migrate-a-mongodb-database-on-ubuntu-20-04)
 
 In crontab

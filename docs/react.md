@@ -177,6 +177,32 @@ export function RequireAdmin({ children }) {
 
 How to write HTML text using the original mark.
 
+## How to write logEdit in your project
+
+We need to write the following fileds in the logEdit to cover the essential information:
+
+- Who
+- When
+- What
+
+e.g.
+
+```python
+from datetime import datetime
+
+logEdit = [
+{
+'editor':editor,
+'date':datetime.now(),
+'act':'init',
+'before':'',
+'after':'',
+}
+]
+
+
+```
+
 ## [JS array delete duplicate element](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
 
 Using reducer to sort js array:

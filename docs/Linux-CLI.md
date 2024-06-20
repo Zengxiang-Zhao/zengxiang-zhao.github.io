@@ -130,6 +130,34 @@ In order to save only the last 7 days data to save memory
 1 3 * * * find /var/backups/mongobackups/ -mtime +7 -exec rm -rf {} \;
 ```
 
+## Periodically delete folders or files using crontab
+
+e.g.
+
+```bash
+
+# Delete target folders weekly on Friday at 1:00AM that older than 60 days
+0 1 * * 5  find /mnt/target/ -maxdepth 1 -mindepth 1 -type d -mtime +60 -exec rm -rf {} \;
+```
+
+Here you should be careful and use `-maxdepth 1 -mindepth 1` to limit the folders only in the target folder but not include the target folder. Otherwise you'll delete the parent folders. And `-maxdepth` and `-mindepth` should be placed at the front most options.
+
+Note:
+
+>[!IMPORTANT]
+>`-maxdepth 1` : means the find can go to 1 level. 0 level means end at target, 1 means end in target folders
+>
+>`-mindepth 1` : means the find command start from level 1. 0 levle means starts from target, 1 means starts from folders in the target
+>
+>So `-maxdepth 1 -mindepth 1` only limits the folders in the target but except the target folder
+>
+>`-type d` : means only limit folders. If you'd like to limit files, replace d with f. Check other types by using `man find`
+>
+>`-mtime +60` : measn folders older than 60 days
+>
+>`-exec rm -rf {} \;` : delete the folders that satisfy the above files. you must place *`\;`* at end to end the execution command.
+
+
 ## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
 此链接解释怎么在terminal 配置ohmyzsh shell.
 

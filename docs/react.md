@@ -26,6 +26,108 @@ nav_order: 12
 1. [Robin's Blog](https://www.robinwieruch.de/blog/)
 
 
+## How to download file by hit download button
+
+When you'd like to hit a button and then show up a screen to download a file. Here's a example
+
+Backend
+```python
+import tmpfile
+from flask import send_file,make_response
+
+@bp.route('/download/<reportID>', methods=['POST'])
+def download(reportID):
+    pathFolder= tempfile.mkdtemp(prefix='generateReport_' ,dir=pathTemp)
+    fd, pathFile = tempfile.mkstemp(prefix=f'{caseNo}_',suffix='.docx',dir=pathFolder)
+
+    
+
+
+    pathFolder = pathlib.Path(pathFolder) # TODO: fix
+    # list_files = list(pathFolder.glob('*.xlsx'))
+
+    # stream = BytesIO()
+    # with ZipFile(stream, 'w') as zf:
+    #     for file in list_files:
+    #         zf.write(file, file.name)
+    # stream.seek(0)
+
+    # TODO: save the data to MongoDB database
+
+    response =  make_response( send_file(
+        # stream,
+        pathFile,
+        as_attachment=True,
+        # download_name=f'archive_{utils.get_timeStamp()}.zip'
+        )
+    )
+    response.headers['pathFolder'] =  str(pathFolder.name)
+    response.headers['filename'] = f'{caseNo}_{utils.get_timeStampForName()}.docx'
+
+    return response
+```
+
+
+Frontend
+```react
+const handleClickGenerateReport = () =>{
+        axios(
+            {
+                url: `/api/report/download/${reportID}`, //your url
+                method: 'POST',
+                data: formData, // this can be deleted
+
+                responseType: 'blob', // important
+            })
+        .then((response) => {
+            console.log('response data is :', response)
+            const pathFolder = response.headers.pathFolder;
+            const filename = response.headers.filename;
+            const href = URL.createObjectURL(response.data);
+        
+            // create "a" HTML element with href to file & click
+            const link = document.createElement('a');
+            link.href = href;
+            link.setAttribute('download',filename); //or any other extension
+            // link.setAttribute('download', 'archieve.zip'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        
+            // clean up "a" element & remove ObjectURL
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+
+            //POST /report/generateReport/667450b95d141978d7bcc016
+
+            axios.delete('/api/report/deleteTemp', {
+                params: { folderName:pathFolder },
+                })
+                .then(response => {
+                console.log(response.data);
+                })
+                .catch(error => {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+                });
+
+
+        })
+        .catch(err => console.warn('Error: ',err));
+
+
+    }
+
+```
+
+
 ## [How to create a custome context](https://react.dev/reference/react/createContext)
 
 ```js

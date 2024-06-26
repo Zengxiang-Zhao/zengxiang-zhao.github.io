@@ -21,6 +21,36 @@ nav_order: 100
 
 ---
 
+## [`scp` Copy file from between to servers](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/)
+
+When you cannot mount a folder in a server, you can try to use `scp` to securely copy files from one server to another.
+
+```bash
+scp [OPTION] [user@]SRC_HOST:]file1 [user@]DEST_HOST:]file2
+
+#To copy a file from a local to a remote system, run the following command:
+
+scp file.txt remote_username@10.10.0.2:/remote/directory
+
+#To copy a directory and all its files, invoke the scp command with the -r flag,
+#which recursively copies the entire directory and its contents:
+
+scp -r /local/directory remote_username@10.10.0.2:/remote/directory
+
+```
+
+scp provides a number of options that control every aspect of its behavior. The most widely used options are:
+
+> `-P` - Specifies the remote host ssh port.
+> 
+> `-p` - Preserves file modification and access times.
+> 
+> `-q` - Use this option if you want to suppress the progress meter and non-error messages.
+> 
+> `-C` - This option forces scp to compress the data as it is sent to the destination machine.
+> 
+> `-r` - This option tells scp to copy directories recursively.
+
 ## Check the volume of folder in Linux
 
 ```bash

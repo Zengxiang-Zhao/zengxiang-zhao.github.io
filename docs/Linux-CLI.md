@@ -64,6 +64,17 @@ e.g
 
 (base) ➜ du -sh streamlit-combine  
 12M     streamlit-combine
+
+du -csh /myFolder/*
+
+# output
+1.3T    /myFolder/input
+4.0K    /myFolder/1
+4.0K    /myFolder/2
+8.1G    /myFolder/docker
+4.0K    /myFolder/3
+2.2G    /myFolder/tmp
+3.6T    total
 ```
 
 ```bash

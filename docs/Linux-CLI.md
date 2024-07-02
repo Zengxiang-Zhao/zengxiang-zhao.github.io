@@ -66,6 +66,18 @@ e.g
 12M     streamlit-combine
 ```
 
+```bash
+df -H Path_to_Folder
+
+e.g.
+
+df -H /myFolder
+#output
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md42        16T  3.7T   12T  25% /myFolder
+
+```
+
 ## [nohup ](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux)
 
 If you still want to keep the processes running even exiting the shell/terminal, then `nohup` is your choice.

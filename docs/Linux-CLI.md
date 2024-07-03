@@ -21,6 +21,16 @@ nav_order: 100
 
 ---
 
+## [Show Running process in Linux](https://www.cyberciti.biz/faq/how-to-check-running-process-in-linux-using-command-line/)
+
+```bash
+ps aux | head
+
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+
+```
+
+
 ## [`scp` Copy file from between to servers](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/)
 
 When you cannot mount a folder in a server, you can try to use `scp` to securely copy files from one server to another.

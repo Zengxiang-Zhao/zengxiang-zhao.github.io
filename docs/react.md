@@ -297,6 +297,7 @@ logEdit = [
 'editor':editor,
 'date':datetime.now(),
 'act':'init',
+'category':'',
 'before':'',
 'after':'',
 }

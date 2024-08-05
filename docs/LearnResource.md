@@ -21,6 +21,11 @@ nav_order: 100
 
 ---
 
+# [Linux Journal](https://www.linuxjournal.com/article/8600)
+
+It's a good resource to learn Linux Operating System. I can let you konw about the basick knowledge of Linux OS.
+
+
 # [Learning Bash script](http://www.freeos.com/guides/lsst/)
 
 Learning Bash script

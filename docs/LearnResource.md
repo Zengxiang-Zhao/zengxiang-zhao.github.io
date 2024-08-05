@@ -21,6 +21,10 @@ nav_order: 100
 
 ---
 
+# [Learning Bash script](http://www.freeos.com/guides/lsst/)
+
+Learning Bash script
+
 # [How to Dockerize a React + Flask Project](https://blog.miguelgrinberg.com/post/how-to-dockerize-a-react-flask-project)
 
 The author Miguel is good. You can always learn something from his tutorail. 

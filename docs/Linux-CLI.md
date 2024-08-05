@@ -21,6 +21,47 @@ nav_order: 100
 
 ---
 
+
+## [how to control remote servers without using password](https://www.linuxjournal.com/article/8600)
+
+Sometimes, you'd like to fetch some data from different servers. e.g. check the space usage in 6 servers. If we login the 6 servers and using the command `df -H`, it would be a little tedious. When the number of servers comes to 1000, it seems like impossilbe to do it everyday. Now it comes to the topic: how could we control the remote servers?
+
+We can use private key and publick key paires to let the local server(server-local) to control multiple remote servers(server-remote). 
+
+```bash
+# login the local server 
+ssh-keygen -t rsa # to generate private key and publick key.
+
+```
+
+the publick key and private key will be saved in the ~/.ssh
+
+You must keep the private key in safe and don't modify and move it. 
+
+What you should do is to copy the publick key to the remove server, and create a `.ssh` folder in the remote server home dictionary. And create a file named `authorized_keys`. Copy the content of publck key to the authorized_keys. If there's already a authorized_keys file, you need to append the content of publick key file to the end of authorized_keys.
+
+`cat id_rsa.pub >> .ssh/authorized_keys`
+
+After you finished these steps, you can control the remote server in the local server
+
+```bash
+# login the local server
+
+ssh name@ip # login the remove server without password
+
+ssh name@ip "command line"
+
+ssh name@ip "df -H" # check the remote server disk usage
+
+scp local_file name@ip:pathToSave # securetly copy files without password
+
+```
+
+Now you have a lot of space in the local server to do what you'd like to do. No matter it's backing up data in remote servers or check the disk usages.
+
+[Here's a good tutorial about backing up data](https://alvinalexander.com/linux-unix/how-use-scp-without-password-backups-copy/)
+
+
 ## [Show Running process in Linux](https://www.cyberciti.biz/faq/how-to-check-running-process-in-linux-using-command-line/)
 
 ```bash

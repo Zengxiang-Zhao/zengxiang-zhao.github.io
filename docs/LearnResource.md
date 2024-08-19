@@ -21,6 +21,13 @@ nav_order: 100
 
 ---
 
+# use kubernetes in my job
+
+- [kubernetes offical tutorial](https://kubernetes.io/docs/tutorials/security/cluster-level-pss/)
+- [use AWS as the docker repository from Medium](https://medium.com/@sayalishewale12/complete-guide-to-creating-and-pushing-docker-images-to-amazon-ecr-70b67ac1ab4c)
+- [AWS ECR(Elastic container registory) offical website](https://aws.amazon.com/containers/?refid=ps_a131l0000085ejuqam&trkcampaign=acq_paid_search_brand/?pg=ln&sec=hs)
+- 
+
 # [Linux Journal](https://www.linuxjournal.com/article/8600)
 
 It's a good resource to learn Linux Operating System. I can let you konw about the basick knowledge of Linux OS.

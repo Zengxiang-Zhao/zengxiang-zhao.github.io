@@ -21,6 +21,15 @@ nav_order: 100
 
 ---
 
+# Manage Docker images
+
+- list unused docker images : `docker images -f "dangling=true" -q`
+- Remove unused docker images using one of the following methods:
+  - `docker images -f "dangling=true" -q | xargs -d '\n' -I{} docker rmi {}`
+  - `docker rmi  $(docker images --filter dangling=true -q )`
+  - `docker image prune`
+  
+
 # Docker compose file use networks
 
 Sometimes the subnet of docker network will conflict with the current server or AWS server, thus you need to change the subnet. There are two solutions:

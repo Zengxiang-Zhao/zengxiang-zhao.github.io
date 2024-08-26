@@ -249,4 +249,84 @@ services:
 6. `docker-compose up --build -d`
 
 
+Sometimes you have create a mongodb docker already and you need to use it in other projects. Now you need to use the networks to connect your project with the mongodb docker.
+
+1. check the networks that the mongodb docker is using : `docker inspect mongodb_docker_name` get the `Networks` keyword in the output and extract the networks name, e.g. web-net
+2. in your project docker-compose.yml file, you need to add networks in the each container as shown below.
+```yaml
+version : '3'
+
+services:
+    myWeb_backend:
+        container_name : myWeb_backend
+        restart: always
+        build: ./backend
+        networks:
+            - web-net
+        tty: true
+        ports:
+            - "3103:3003"
+        command: python run.py 
+
+    myWeb_frontend:
+        container_name: myWeb_frontend
+        restart: always
+        build: ./frontend
+        networks:
+            - web-net
+        ports:
+            - "3104:3104"
+        command: npm run docker
+        depends_on:
+            - myWeb_backend
+
+networks:
+    web-net:
+        external: true
+```
+3. Here we use flask as the backend and react as the fronted and add the external networks. you must add the following line to enable the external networks usable.
+   ```yaml
+      networks:
+        web-net:
+            external: true 
+   ```
+5.  At the backend, we expose our flask port `3103:3003`. The docker flask will use 3003 as the port, but when it expose to the public, it use 3103 as the port. At the fronted, we use 3104:3104 as the ports. So in the docker, it use 3104, and it also use 3104 to the public. But when you config vite, you need to pay attentiion to the server the backend is using right now, actually it's 3103 right now instead of 3003.
+6. vite.config.js file as shown below
+```js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// for bootstrap
+import * as path from 'path';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+
+  // add these you can use material packages
+  optimizeDeps: {
+    include: ['@mui/material/Tooltip', '@emotion/styled'],
+  },
+
+  plugins: [react()],
+  server: {
+    host: true,
+    // port : 3004,// local
+    port: 3104, //docker
+    proxy: {
+        '/api': {
+            // target: 'http://server_ip:3003',//loacl
+            target: 'http://server_ip:3103', //docker
+            changeOrigin: true,
+            secure: false,
+            ws: true,
+            rewrite: (path) => path.replace(/^\/api/, ""),
+        }
+    }
+  },
+
+})
+
+```
+5. uncomment the docker line to use docker-compose command or uncomment the local line to use it locally.
+6. 
 

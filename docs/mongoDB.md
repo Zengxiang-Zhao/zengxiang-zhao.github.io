@@ -21,6 +21,17 @@ nav_order: 12
 
 ---
 
+## update array using filter
+
+if you'd like to update an element in an array 
+
+```python
+query = {'_id':ObjectId(ID)}
+update = {"$set":{f'listArray.$[element]':updateStuff}}
+arrayFilter = [{f"element.ID2":ID2}]
+result = collectionImportant.update_one(filter=query,update=update,array_filters=arrayFilter)
+```
+
 ## restart MongoDB
 
 When the server crashed down, and you failed to connect to the mongoDB server after typing `mongosh`. Then you need to restart the mongoDB server as shown below.

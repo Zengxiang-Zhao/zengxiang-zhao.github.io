@@ -26,6 +26,87 @@ nav_order: 12
 1. [Robin's Blog](https://www.robinwieruch.de/blog/)
 
 
+##  Implement automatic login after a period of inactivity in a React app
+
+To implement automatic login after a period of inactivity in a React app, you can use a combination of local storage or cookies, a timer, and an authentication mechanism. Here's a step-by-step guide:
+
+1. Authentication Setup:
+Authentication Mechanism: Choose an authentication method like JWT (JSON Web Tokens), OAuth, or a custom backend solution.
+Login/Logout: Implement login and logout functionality. Store the authentication token (e.g., JWT) in local storage or a secure cookie upon successful login.
+3. Implementing the Inactivity Timer
+
+```javascript
+import React, { useEffect, useState } from 'react';
+
+function App() {
+  const [lastActivity, setLastActivity] = useState(Date.now());
+
+  useEffect(() => {
+    const handleActivity = () => {
+      setLastActivity(Date.now());
+    };
+
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('keydown', handleActivity);
+
+    return () => {
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+    };
+  }, []);
+
+  useEffect(() => {
+    const inactivityTimeout = setTimeout(() => {
+      // Perform logout or redirect to login
+    }, 300000); // 5 minutes in milliseconds
+
+    return () => clearTimeout(inactivityTimeout);
+  }, [lastActivity]);
+
+  // ... rest of your component logic
+}
+
+```
+
+3. Handling Auto-Login
+Check Token: On app load, check if a valid authentication token exists in local storage or cookie.
+Automatic Login: If a valid token is found, automatically log the user in. You may want to display a notification or a "Welcome back" message.
+4. Security Considerations
+Secure Storage: Ensure that you store the authentication token securely. Use HttpOnly and Secure flags for cookies.
+Token Expiration: Set an appropriate expiration time for the authentication token.
+Session Timeout: Implement a session timeout on the backend to invalidate tokens after a certain period of inactivity.
+
+```javascript
+
+import React, { useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
+
+function App() {
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.exp * 1000 > Date.now()) {
+          // User is logged in, perform necessary actions
+        } else {
+          // Token has expired, redirect to login
+        }
+      } catch (error) {
+        // Invalid token, redirect to login
+      }
+    }
+  }, []);
+
+  // ... rest of your component logic
+}
+```
+
+Important Considerations
+User Experience: Clearly communicate to the user that they will be automatically logged in after a period of inactivity.
+Security: Prioritize security when implementing automatic login functionality. Consider using HTTPS and implementing appropriate security measures.
+
 ## How to download file by hit download button
 
 When you'd like to hit a button and then show up a screen to download a file. Here's a example

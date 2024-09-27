@@ -21,6 +21,8 @@ nav_order: 100
 
 ---
 
+# [Security about API](https://www.redotheweb.com/2015/11/09/api-security.html)
+
 # use kubernetes in my job
 
 - [kubernetes offical tutorial](https://kubernetes.io/docs/tutorials/security/cluster-level-pss/)

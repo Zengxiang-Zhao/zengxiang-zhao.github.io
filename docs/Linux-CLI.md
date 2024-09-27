@@ -21,6 +21,20 @@ nav_order: 100
 
 ---
 
+## [Install http in your server command line](https://httpie.io/docs/cli/linux)
+
+You need to install the package `httpie`, then you can use `http` in the command line as shown below:
+
+```bash
+$ http POST :1234/login username=test password=test
+
+HTTP/1.0 200 OK
+Content-Length: 32
+Content-Type: application/json
+Date: Fri, 27 Sep 2024 14:30:38 GMT
+Server: Werkzeug/2.0.3 Python/3.8.16
+
+```
 
 ## [how to control remote servers without using password](https://www.linuxjournal.com/article/8600)
 

@@ -67,6 +67,20 @@ the package*.json files and install dependencies before copying the rest of the 
 gram files. A developer is going to update and change the program files much more
 often than the dependencies.
 
+# Create a container from image
+
+```bash
+docker run -d --name <container-name> --publish 3000:3000 <image-name or image-id>
+```
+
+This command starts the kuard container and maps ports 3000 on your local
+machine to 3000 in the container. The --publish option can be shortened to -p. This
+forwarding is necessary because each container gets its own IP address, so listening
+on localhost inside the container doesn’t cause you to listen on your machine.
+Without the port forwarding, connections will be inaccessible to your machine. The
+-d option specifies that this should run in the background (daemon), while --name
+kuard gives the container a friendly name.
+
 # Interact with docker container
 
 - Option 1: interact from image directly

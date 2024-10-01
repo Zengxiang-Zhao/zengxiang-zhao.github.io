@@ -21,6 +21,65 @@ nav_order: 100
 
 ---
 
+# Optimizing Image Sizes
+
+The following word comes from the book `"Kubernetes: Up and Running, 2nd
+edition, by Brendan Burns, Joe Beda, and Kelsey Hightower (O’Reilly). Copyright
+2019 Brendan Burns, Joe Beda, and Kelsey Hightower, 978-1-492-04653-0.”`
+
+There are two pitfalls about the images
+
+- Create large image size that contains large files
+  ```bash
+  .
+  └── layer A: contains a large file named 'BigFile'
+   └── layer B: removes 'BigFile'
+   └── layer C: builds on B by adding a static binary
+  ```
+  You might think that BigFile is no longer present in this image. After all, when you
+run the image, it is no longer accessible. But in fact it is still present in layer A, which
+means that whenever you push or pull the image, BigFile is still transmitted through
+the network, even if you can no longer access it.
+
+- Image caching and building
+  ```bash
+  .
+  └── layer A: contains a base OS
+   └── layer B: adds source code server.js
+   └── layer C: installs the 'node' package
+
+  versus:
+  
+  .
+  └── layer A: contains a base OS
+   └── layer B: installs the 'node' package
+   └── layer C: adds source code server.js
+  
+  ```
+  It seems obvious that both of these images will behave identically, and indeed the first
+time they are pulled they do. However, consider what happens when server.js changes.
+In one case, it is only the change that needs to be pulled or pushed, but in the other
+case, both server.js and the layer providing the node package need to be pulled and
+pushed, since the node layer is dependent on the server.js layer. In general, you want
+to order your layers from least likely to change to most likely to change in order to
+optimize the image size for pushing and pulling. This is why, in Example 2-4, we copy
+the package*.json files and install dependencies before copying the rest of the pro‐
+gram files. A developer is going to update and change the program files much more
+often than the dependencies.
+
+# Interact with docker container
+
+- Option 1: interact from image directly
+  ```bash
+  docker run --rm -it --entrypoint bash <container-name or container-id>
+  ```
+  Here `--rm` is to delete the container and associated resource after the usage of container. `-it` is to interface with the container. '--entrypoint bash' it to use bash as the entry command line instead of the command line that you set in the Dockerfile.
+- Option 2: interact from container
+  ```bash
+  docker exec -it <container-name or container-id> bash
+  ```
+  Here you have create a container based on one image. And then use `exec` and `-it` to interact with the container
+
 # Manage Docker images
 
 - list unused docker images : `docker images -f "dangling=true" -q`

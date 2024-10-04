@@ -9,6 +9,14 @@ categories: NGS
 
 ---
 
+## Databases to Annotate the variants
+
+  - ### [CIViC](https://civicdb.org/assertions/7/summary)
+    You can use this website to check the Gene basic information and get the `AMP/ASCO/CAP Category` if this variant has this infor in the web. This web is aimed to create an open source that other people can use and share. And it alos has the API.
+  - ### [CKB](https://ckb.genomenon.com/geneVariant/show?geneVariantId=49)
+    You can use this website to check the variant evidence including the tumor type, therapy, guidlines, clinical trials. Illumina uses this database.
+  - 
+
 ## [ICGC Data Portal](https://dcc.icgc.org/)
 
 It contains the gene profile

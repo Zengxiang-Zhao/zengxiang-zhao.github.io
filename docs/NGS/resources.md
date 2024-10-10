@@ -21,8 +21,8 @@ categories: NGS
 
   
   
-- 
-
+-  ### [Ensembl Variation - Calculated variant consequences](https://useast.ensembl.org/info/genome/variation/prediction/predicted_data.html)
+  Based on the Consequences of the variant to check the impact.
 
 ## Databases to Annotate the variants
 

@@ -9,6 +9,21 @@ categories: NGS
 
 ---
 
+## Learn Basic Info
+
+- ### [Standards - definitions, symbols, nucleotides, codons, amino acids (v2.0)](https://www.hgvs.org/mutnomen/standards.html)
+  Describe the the symble meaning used to reprent DNA, Potein...
+  
+  Such as `NM_005465.7:c.*4943_*4946del`, here `NM_` means protein-coding RNA(mRNA)
+  Here's a new version of standards that used in HGVS:https://hgvs-nomenclature.org/stable/background/standards/
+
+  Here's also a good paper describe the standards : [A beginner’s guide to mutation nomenclature using the HGVS recommendations](https://www.sophiagenetics.com/science-hub/hgvs-nomenclature/)
+
+  
+  
+- 
+
+
 ## Databases to Annotate the variants
 
   - ### [CIViC](https://civicdb.org/assertions/7/summary)

@@ -21,6 +21,29 @@ categories: python
 
 ---
 
+## [Write document for python function and class](https://stackoverflow.com/questions/9195455/how-to-document-a-method-with-parameters)
+
+Here's a exaple using [Sphinx markup](https://www.sphinx-doc.org/en/master/usage/domains/python.html)
+
+```python
+
+def send_message(sender, recipient, message_body, priority=1) -> int:
+   """
+   Send a message to a recipient.
+
+   :param str sender: The person sending the message
+   :param str recipient: The recipient of the message
+   :param str message_body: The body of the message
+   :param priority: The priority of the message, can be a number 1-5
+   :type priority: integer or None
+   :return: the message id
+   :rtype: int
+   :raises ValueError: if the message_body exceeds 160 characters
+   :raises TypeError: if the message_body is not a basestring
+   """
+   return 1
+```
+
 ## [decorator](https://realpython.com/primer-on-python-decorators/#a-few-real-world-examples)
 
 Here's is a good boilerplate template for building more complex decorators from RealPython

@@ -11,6 +11,11 @@ categories: NGS
 
 ## Learn Basic Info
 
+- ### [Sample GenBank Record](https://www.ncbi.nlm.nih.gov/genbank/samplerecord/)
+  This page presents an annotated sample GenBank record (accession number U49845) in its GenBank Flat File format. You can see the corresponding live record for U49845, and see examples of other records that show a range of biological features.
+
+  It describe a lot of basic concepts like: Locus, Sequence length, accession number and version and son on.
+
 - ### [Standards - definitions, symbols, nucleotides, codons, amino acids (v2.0)](https://www.hgvs.org/mutnomen/standards.html)
   Describe the the symble meaning used to reprent DNA, Potein...
   

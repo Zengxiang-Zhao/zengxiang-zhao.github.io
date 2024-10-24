@@ -11,6 +11,13 @@ categories: NGS
 
 ## Learn Basic Info
 
+- ### [Biomarkers can be classified into four types: diagnostic, prognostic, predictive, and therapeutic](https://pmc.ncbi.nlm.nih.gov/articles/PMC5637861/)
+  
+  > Biomarkers can be classified into four types: diagnostic, prognostic, predictive, and therapeutic. A diagnostic biomarker allows the early detection of the cancer in a noninvasive way and thus the secondary prevention of the cancer. A predictive biomarker allows predicting the response of the patient to a targeted therapy and so defining subpopulations of patients that are likely going to benefit from a specific therapy. A prognostic biomarker is a clinical or biological characteristic that provides information on the likely course of the disease; it gives information about the outcome of the patient [14, 17, 18]. A therapeutic biomarker is generally a protein that could be used as target for a therapy [18].
+
+  The above description comes from the paper: _The following quto comes from the paper: Carlomagno N, Incollingo P, Tammaro V, et al. Diagnostic, Predictive, Prognostic, and Therapeutic Molecular Biomarkers in Third Millennium: A Breakthrough in Gastric Cancer. Biomed Res Int. 2017;2017:7869802. doi:10.1155/2017/7869802_
+  
+
 - ### [Sample GenBank Record](https://www.ncbi.nlm.nih.gov/genbank/samplerecord/)
   This page presents an annotated sample GenBank record (accession number U49845) in its GenBank Flat File format. You can see the corresponding live record for U49845, and see examples of other records that show a range of biological features.
 

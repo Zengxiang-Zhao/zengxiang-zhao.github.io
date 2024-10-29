@@ -42,6 +42,8 @@ categories: NGS
     You can use this website to check the Gene basic information and get the `AMP/ASCO/CAP Category` if this variant has this infor in the web. This web is aimed to create an open source that other people can use and share. And it alos has the API.
   - ### [CKB](https://ckb.genomenon.com/geneVariant/show?geneVariantId=49)
     You can use this website to check the variant evidence including the tumor type, therapy, guidlines, clinical trials. Illumina uses this database.
+  - ### [OncoKB](https://www.oncokb.org/companion-diagnostic-devices)
+    OncoKB™ is a precision oncology knowledge base developed at Memorial Sloan Kettering Cancer Center that contains biological and clinical information about genomic alterations in cancer.
   - 
 
 ## [ICGC Data Portal](https://dcc.icgc.org/)

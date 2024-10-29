@@ -44,7 +44,8 @@ categories: NGS
     You can use this website to check the variant evidence including the tumor type, therapy, guidlines, clinical trials. Illumina uses this database.
   - ### [OncoKB](https://www.oncokb.org/companion-diagnostic-devices)
     OncoKB™ is a precision oncology knowledge base developed at Memorial Sloan Kettering Cancer Center that contains biological and clinical information about genomic alterations in cancer.
-  - 
+  - ### [Genome Nexus](https://www.genomenexus.org/)
+    Genome Nexus is free and available under an open source license. Genome Nexus is a resource that integrates annotations from multiple sources to help with the interpretation and annotation of genomic variants in cancer. It can be installed in a local environment or private cloud, and integrated with local resources
 
 ## [ICGC Data Portal](https://dcc.icgc.org/)
 

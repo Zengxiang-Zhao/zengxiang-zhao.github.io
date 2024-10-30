@@ -46,6 +46,11 @@ categories: NGS
     OncoKB™ is a precision oncology knowledge base developed at Memorial Sloan Kettering Cancer Center that contains biological and clinical information about genomic alterations in cancer.
   - ### [Genome Nexus](https://www.genomenexus.org/)
     Genome Nexus is free and available under an open source license. Genome Nexus is a resource that integrates annotations from multiple sources to help with the interpretation and annotation of genomic variants in cancer. It can be installed in a local environment or private cloud, and integrated with local resources
+  - ### [Cancer HotSpots](https://www.cancerhotspots.org/#/home)
+    This resource is maintained by the Kravis Center for Molecular Oncology at Memorial Sloan Kettering Cancer Center. It provides information about statistically significantly recurrent mutations identified in large scale cancer genomics data.
+
+    Single residue and in-frame indel mutation hotspots identified in 24,592 tumor samples by the algorithm described in [Chang et al. 2017] and [Chang et al. 2016]
+  - 
 
 ## [ICGC Data Portal](https://dcc.icgc.org/)
 

@@ -21,6 +21,17 @@ nav_order: 100
 
 ---
 
+## [Close session in Ubuntu linux](https://askubuntu.com/questions/12180/logging-out-other-users-from-the-command-line)
+If you use the Remote Desktop to login your remote server and get the back screen. Then your session may need to be killed manually.
+
+```bash
+# step 1:
+who -u
+
+# kill the pid in the last column
+kill PID
+```
+
 ## [Install http in your server command line](https://httpie.io/docs/cli/linux)
 
 You need to install the package `httpie`, then you can use `http` in the command line as shown below:

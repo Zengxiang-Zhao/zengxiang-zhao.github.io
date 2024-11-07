@@ -25,6 +25,9 @@ nav_order: 12
 
 1. [Robin's Blog](https://www.robinwieruch.de/blog/)
 
+## [axios sent two times request in backend in Effects](https://react.dev/reference/react/StrictMode)
+
+If you use <StrictMode> in your app, then the axios will trig two times request at the backend. When you need to update the database, it will cause error. Cause it will render two times. If you need to check the function about updating the database, then disable the strictMode in your module.
 
 ##  Implement automatic login after a period of inactivity in a React app
 

@@ -390,9 +390,20 @@ autocmd Bufwritepre,filewritepre  *.sh,*.py exe "1," . 11 . "g/Last Modified  :.
 
 列出tar文件中的内容，可以使用`tar -tf archive.tar`
 
+2. To compress a folder using gzip in Linux, you need to use the "tar" command alongside gzip, as the "gzip" command itself can only compress individual files; the typical command is "tar -zcvf archive_name.tar.gz directory_to_compress". 
+  > Explanation:
+  - "tar": This command is used to archive files and directories. 
+  - "-z": This flag tells "tar" to use gzip compression when creating the archive. 
+  - "cvf": These flags stand for "create" and "verbose" respectively. 
+  - "archive_name.tar.gz": This is the name of the compressed archive file that will be created. 
+  - "directory_to_compress": This is the path to the folder you want to compress. 
+
+**Summary**
 - `tar  -xf v5.24.1.tar.gz` : 解压文件
 - `tar -cf archive.tar a/b/c/FILE` ： 压缩文件
+- `tar -zcvf archive_name.tar.gz directory_to_compress` : compress multiple files to gzip which is a good compress format
 - `tar -tf archive.tar` ： 列出tar中的文件
+
 
 ## [find](https://opensource.com/article/18/4/how-use-find-linux)
 

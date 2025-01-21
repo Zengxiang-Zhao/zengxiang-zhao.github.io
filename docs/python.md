@@ -54,6 +54,10 @@ parser.parse(s).strftime('%m/%d/%Y')
 
 # calculate the TAT. the endDate and startDate are datetime style
 tat = round((endDate-startDate)/pd.Timedelta(hours=24), 1)
+
+# convert the datetime to string
+timeStamp = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+#output: '2025-01-21T02:33:59'
 ```
 
 Now you can use the result get what kind of format you'd like to convert. This package is easy and friendly. It just convert the string to datetime directly.

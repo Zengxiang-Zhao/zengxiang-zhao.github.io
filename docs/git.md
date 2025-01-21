@@ -21,6 +21,20 @@ nav_order: 99
 
 ---
 
+# How to refer the link in the markdown
+If you'd like to refer to the same file title, then you can just write like this
+
+```md
+[some text](#key-title)
+# here all the link text should be all lowercase, and use `-` to replace space
+
+# refer to other file
+[some text](/path/infor.jsx)
+# if you own the file, then just copy the path when you open the file. Hit the copy button. If not, then copy the address in the brower address bar
+```
+
+
+
 # Show all the tracked files or ignored files
 
 1. Show all the tracked files: `git status --untracked-files=all`

@@ -44,3 +44,11 @@ Remove dependencies used by nginx which are no longer required.
 ```
 sudo service nginx status
 ````
+
+# [Install Nginx in Ubuntu](https://nginx.org/en/linux_packages.html)
+
+After installing the Nginx following the guidline, you need to start the nginx server using the following [command line](https://stackoverflow.com/questions/60850421/is-there-a-way-to-resolve-an-issue-with-nginx-status-active-inactive-dead-pro).
+
+```
+sudo systemctl start nginx
+```

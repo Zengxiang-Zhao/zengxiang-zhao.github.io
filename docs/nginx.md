@@ -21,6 +21,16 @@ nav_order: 100
 
 ---
 
+# Change the configure file and encorter error message
+
+If you encouter the similar error message like : 'no some files'. You can try the following command.
+
+```
+sudo systemctl start nginx
+sudo systemctl status nginx.service
+```
+
+
 # [How to uninstall Nginx](https://stackoverflow.com/questions/14801958/uninstalling-nginx)
 
 Check the Status and version

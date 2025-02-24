@@ -21,6 +21,37 @@ nav_order: 100
 
 ---
 
+# [Change the ip address to string](https://www.freecodecamp.org/news/the-nginx-handbook/#heading-introduction-to-nginxs-configuration-files)
+
+In the nginx configuration file, if you wirte the `server_name` directive using the string. then you should also update the `/etc/hosts` file to enable the string work.
+
+```
+192.168.20.20   library.test
+192.168.20.20   librarian.library.test
+```
+
+```
+curl http://library.test
+
+# your local library!
+
+curl http://librarian.library.test
+
+# welcome dear librarian!
+```
+
+The nginx use port 80 as default, so you can ignore the port if the port is 80. If this port has been used by other app, then you should specify the port number
+
+```
+curl http://library.test:8080
+
+# your local library!
+
+curl http://librarian.library.test:8080
+
+# welcome dear librarian!
+```
+
 # Modify the address
 
 When the address starts with `/images/`, it refers to `/home/projects/website/data/images/` actually. The `/images/` will be added at the end of the root directive.

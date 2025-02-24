@@ -21,6 +21,16 @@ nav_order: 100
 
 ---
 
+# Modify the address
+
+When the address starts with `/images/`, it refers to `/home/projects/website/data/images/` actually. The `/images/` will be added at the end of the root directive.
+
+```
+location /images/ {
+                root /home/projects/website/data;
+        }
+```
+
 # Change the configure file and encorter error message
 
 If you encouter the similar error message like : 'no some files'. You can try the following command.

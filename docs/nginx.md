@@ -121,7 +121,7 @@ Then you can use the browser to check the result. If something wrong, you can ch
 
 1. Access the client container : `docker exec -it react-flask-app_client_1 sh`
 2. Check the `error.log` or `access.log` to find out the reason.
-3. Most of the time, the error is that the api server cannot be found. Then you can try using `curl -i http://aip:5003/testUri` to test whether the proxy_pass is correct in the ngixn
+3. Most of the time, the error is that the api server cannot be found. Then you can try using `curl -i http://aip:5003/testUri` to test whether the proxy_pass is correct in the nginx configuration file..
 
 
 # [How to solve the proxy pass issue](https://stackoverflow.com/questions/38375588/nginx-reverse-proxy-to-heroku-fails-ssl-handshake)

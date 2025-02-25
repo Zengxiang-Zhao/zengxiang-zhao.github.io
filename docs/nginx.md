@@ -21,6 +21,20 @@ nav_order: 100
 
 ---
 
+# [How to solve the proxy pass issue](https://stackoverflow.com/questions/38375588/nginx-reverse-proxy-to-heroku-fails-ssl-handshake)
+
+When you set the location with `proxy_pass`, sometimes you cannot redirect to the specific address. You can try to add the following directive.
+
+```
+location /proxy {
+ proxy_pass "https://nginx.org/";
+ proxy_ssl_server_name on; # change to on
+ }
+
+```
+
+If you use the Docker container, you may also need to use the command to make the change works. like `sudo nginx -s reload`
+
 # [Change the ip address to string](https://www.freecodecamp.org/news/the-nginx-handbook/#heading-introduction-to-nginxs-configuration-files)
 
 In the nginx configuration file, if you wirte the `server_name` directive using the string. then you should also update the `/etc/hosts` file to enable the string work.

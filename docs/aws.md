@@ -21,6 +21,13 @@ nav_order: 101
 
 ---
 
+## [AWS CLI to restore an Amazon S3 object from the S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage class](https://repost.aws/knowledge-center/restore-s3-object-glacier-storage-class)
+
+```bash
+$ aws s3api restore-object --bucket awsexamplebucket --key dir1/example.obj --restore-request '{"Days":25,"GlacierJobParameters":{"Tier":"Standard"}}'
+
+```
+
 ## Copy local file to AWS S3
 
 When you transfer data to AWS S3, you need to use the following code

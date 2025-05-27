@@ -63,7 +63,13 @@ the publick key and private key will be saved in the ~/.ssh
 
 You must keep the private key in safe and don't modify and move it. 
 
-What you should do is to copy the publick key to the remove server, and create a `.ssh` folder in the remote server home dictionary. And create a file named `authorized_keys`. Copy the content of publck key to the authorized_keys. If there's already a authorized_keys file, you need to append the content of publick key file to the end of authorized_keys.
+What you should do is to copy the publick key to the remove server, and create a `.ssh` folder in the remote server home dictionary. And create a file named `authorized_keys`. 
+
+Copy the content of publck key to the authorized_keys. **You should not use the mouse copy and paste the content. You should use scp to transfer the publick key file and then use cat to append the content to the end of the file authorized_keys.**
+
+`scp -r user@example.com:~/pathTo/id_rsa.pub id_rsa.pub/name.pub`
+
+If there's already a authorized_keys file, you need to append the content of publick key file to the end of authorized_keys: 
 
 `cat id_rsa.pub >> .ssh/authorized_keys`
 

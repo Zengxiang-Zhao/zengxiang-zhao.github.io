@@ -21,6 +21,40 @@ categories: python
 
 ---
 
+## [Use try and except to catch error and still show the wrong file and line number](https://www.google.com/search?q=python+try+except+show+the+wrong+line+of+code&sca_esv=7b433c53e6d180e1&rlz=1C1UEAD_enUS1114US1114&ei=h0RMaO-tMoun5NoP85zryQc&oq=python+try+except+show+the+wrong+line+&gs_lp=Egxnd3Mtd2l6LXNlcnAiJnB5dGhvbiB0cnkgZXhjZXB0IHNob3cgdGhlIHdyb25nIGxpbmUgKgIIAjIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKsCMgUQIRirAjIFECEYnwUyBRAhGJ8FMgUQIRifBUidVFC3KFjtO3ACeACQAQCYAXmgAeELqgEEMTcuMbgBA8gBAPgBAZgCE6ACmAzCAgoQABiwAxjWBBhHwgIFEAAYgATCAgYQABgWGB7CAgsQABiABBiGAxiKBcICCBAAGKIEGIkFwgIFEAAY7wXCAggQABiABBiiBJgDAIgGAZAGCJIHBDE3LjKgB6GVAbIHBDE1LjK4B48MwgcIMC42LjEyLjHIB1E&sclient=gws-wiz-serp)
+
+```python
+import traceback
+
+try:
+    1 / 0
+except Exception:
+    traceback.print_exc()
+
+## output
+Traceback (most recent call last):
+  File "/home/test.py", line 5, in <module>
+    x = 1 / 0
+ZeroDivisionError: division by zero
+
+```
+
+
+```python
+
+   import traceback
+
+   try:
+       # Code that might raise an exception
+       x = 1 / 0
+   except Exception as e:
+       tb = traceback.extract_tb(e.__traceback__)[-1]
+       print(f"Error in file: {tb.filename}, line: {tb.lineno}, function: {tb.name}")
+
+## output
+Error in file: /home/test.py, line: 5, function: <module>
+```
+
 ## [Write document for python function and class](https://stackoverflow.com/questions/9195455/how-to-document-a-method-with-parameters)
 
 Here's a exaple using [Sphinx markup](https://www.sphinx-doc.org/en/master/usage/domains/python.html)

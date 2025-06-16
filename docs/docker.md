@@ -21,6 +21,17 @@ nav_order: 100
 
 ---
 
+# Command lines used in docker: Based on Docker Deep Dive by Nigel Poulton
+
+You can think of the docker image as a class or machine template
+
+- list docker images: `docker images` or `docker image ls`
+- run container using image: `docker container run -it ubuntu:1atest /bin/bash`.
+  - The `-it` flags tell the daemon to make the container interactive and to attach our current terminal to the shell of the container
+  - Next, the command tells Docker that we want the container to be based on the ubuntu:latest image
+  - Finally, we tell Docker which process we want to run inside of the container
+- 
+
 # Optimizing Image Sizes
 
 The following word comes from the book `"Kubernetes: Up and Running, 2nd

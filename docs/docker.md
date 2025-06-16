@@ -30,6 +30,10 @@ You can think of the docker image as a class or machine template
   - The `-it` flags tell the daemon to make the container interactive and to attach our current terminal to the shell of the container
   - Next, the command tells Docker that we want the container to be based on the ubuntu:latest image
   - Finally, we tell Docker which process we want to run inside of the container
+- list all running containers: `docker container ls`
+- attach your shell to running containers: `docker container exec -it container_name/container_id bash` based on the command : `docker container  exec -options <container-name or container-id> <command>`
+- stop container: `docker container stop <container-name or container-id>`
+- remove container: `docker container rm <container-name or container-id>`
 - 
 
 # Optimizing Image Sizes

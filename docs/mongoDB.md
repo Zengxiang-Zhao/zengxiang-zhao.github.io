@@ -21,6 +21,78 @@ nav_order: 12
 
 ---
 
+## Aggregation pipeline
+
+Check the official document for [pipeline stages](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/)
+
+You can use aggregation pipeline to get the documents based on complex conditions.
+
+```python
+def searchFusions():
+    tumorType = request.form.get('tumorType',None)
+    geneName1 = request.form.get('geneName1',None)
+    geneName2 = request.form.get('geneName2',None)
+    tier = request.form.get('tier',None)
+    
+    
+    listAnd = []
+    if geneName1:
+        listAnd.append({"$regexMatch":{ "input": "$$fusion.gene" , "regex": f"{geneName1}", "options": "i" }})
+    # because gene is the second level of dict, so use double $: $$
+    # Do Not use f"/{geneName1}/" as the CLI format
+    if geneName2:
+        listAnd.append({"$regexMatch":{ "input": "$$fusion.gene" , "regex": f"{geneName2}", "options": "i" }})
+    if tier:
+        listAnd.append({"$eq":["$$fusion.tier",tier]})
+
+    stageMatchTumorType = {}
+    if tumorType:
+        stageMatchTumorType = {
+            '$match':{'dictCaseInfo.tumorType':{'$regex':tumorType,'$options':'i'}}
+        }
+
+    stageProjectFilter = {
+        "$project":{
+            "listFusion":{
+                "$filter":{
+                    "input":"$listFusion",
+                    "as":"fusion",
+                    "cond": {"$and":listAnd},
+                },
+            },
+            'dictCaseInfo':True
+            
+        
+        }
+    }
+
+    stageProjectFileds = {
+        "$project":{
+            '_id':True,
+            'listFusion':True,
+            'dictCaseInfo':True,
+            "numberOfFusion":{"$size":"$listFusion"},
+
+        }
+    }
+
+    stageMatchRemoveEmptyResult = {
+        "$match":{
+        "numberOfFusion":{"$gt":0}
+        }
+    }
+
+    # narrow down the documents and arrnge the results
+    pipeline = [stageMatchTumorType,stageProjectFilter,stageProjectFileds,stageMatchRemoveEmptyResult]
+    pipeline = [element for element in pipeline if len(element) > 0]
+
+    listRecord = collectionReport.aggregate(pipeline)
+    
+    listRecord = list(listRecord)
+
+    return jsonify(listFormatRecord)
+```
+
 ## update array using filter
 
 if you'd like to update an element in an array 

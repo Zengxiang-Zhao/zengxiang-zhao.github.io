@@ -36,6 +36,29 @@ You can think of the docker image as a class or machine template
 - remove container: `docker container rm <container-name or container-id>`
 - 
 
+# [Dockernize the frontend(react) + backend(Flask)](https://blog.miguelgrinberg.com/post/how-to-dockerize-a-react-flask-project)
+
+For the backend Flask api part, you need to create a `requirements.txt` file that should conatin `gunicorn` package as shown below
+
+```requirement
+Flask==3.0.3
+Werkzeug==3.0.6
+gunicorn==20.1.0
+```
+And create a `Dockerfile` for the backend part, and following the content below:
+
+```Dockerfile
+FROM python:3.8-slim # the slim version has small space
+WORKDIR /app
+
+COPY api/requirements.txt api/api.py api/.env ./ # copy the essential files to the work dir
+RUN pip install -r ./requirements.txt # install necessary packages
+ENV FLASK_ENV production # no use here, as we are going to use gunicore to launch the Flask app
+
+EXPOSE 5000 # the port number 
+CMD ["gunicorn", "-b", ":5000", "api:app"] # here the `api:app` : api is the python file name that contains the function name app (app = Flask(__name__)) 
+```
+
 # Optimizing Image Sizes
 
 The following word comes from the book `"Kubernetes: Up and Running, 2nd

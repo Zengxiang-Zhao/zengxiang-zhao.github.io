@@ -38,6 +38,7 @@ You can think of the docker image as a class or machine template
 
 # [Dockernize the frontend(react) + backend(Flask)](https://blog.miguelgrinberg.com/post/how-to-dockerize-a-react-flask-project)
 
+## Backend
 For the backend Flask api part, you need to create a `requirements.txt` file that should conatin `gunicorn` package as shown below
 
 ```requirement
@@ -58,6 +59,119 @@ ENV FLASK_ENV production # no use here, as we are going to use gunicore to launc
 EXPOSE 5000 # the port number 
 CMD ["gunicorn", "-b", ":5000", "api:app"] # here the `api:app` : api is the python file name that contains the function name app (app = Flask(__name__)) 
 ```
+
+## Frontend
+
+After you create your frontend part, create a `Dockerfile` for frontend as an example below. The frontend `Dockerfile` and `default.conf` comes from [Medium post](https://dev-mus.medium.com/how-to-deploy-a-vite-react-app-using-nginx-server-d7190a29d8cd)
+
+```Dockerfile
+
+## Dockerfile
+################################
+## BUILD ENVIRONMENT ###########
+################################
+
+# Use the official Node.js Alpine image (adjust based on your project's requirements)
+# You can find the appropriate image on Docker Hub: https://hub.docker.com/_/node
+# In this example, we're using node:20-alpine3.20
+# run in termilnal commande line "node --version to get the version of your app"
+FROM node:20-alpine3.20 As build
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json into the container
+COPY package*.json package-lock.json ./
+
+# Copy the project files into the working directory
+COPY ./ ./
+
+# Install dependencies using npm
+RUN npm ci
+
+# Build the React app for production
+RUN npm run build
+
+################################
+#### PRODUCTION ENVIRONMENT ####
+################################
+
+# Use the official NGINX image for production
+FROM nginx:stable-alpine as production
+
+# copy nginx configuration in side conf.d folder
+COPY --from=build /app/nginx /etc/nginx/conf.d
+
+# Copy the build output from the dist folder into the Nginx html directory
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Expose port 80 to allow access to the app
+EXPOSE 80
+
+# Run Nginx in the foreground
+ENTRYPOINT ["nginx", "-g", "daemon off;"] 
+```
+This Dockerfile uses a feature of Docker called [multi-stage builds](https://docs.docker.com/build/building/multi-stage/) to decrease the production image size.
+In the above `Dockerfile`, there's a folder named `/app/nginx` which contains the `nginx` configuration file `default.conf` wich will be used to implement the static website pages and connect the backend api. You can follow the following as an example.
+
+```nginx
+## nginx/default.conf
+server {
+  # Nginx listens on port 80 by default. You can change this if needed.
+  listen 80;
+
+  # Specifies your domain. Use "localhost" for local development or your domain name for production.
+  # server_name localhost;
+
+  # The root directory that contains the `dist` folder generated after building your app.
+  root /usr/share/nginx/html;
+  index index.html;
+
+  # Serve all routes and pages
+  # Use the base name to serve all pages. In this case, the base name is "/".
+  location / {
+    try_files $uri /index.html =404;
+  }
+
+  location /static {
+        expires 1y;
+        add_header Cache-Control "public";
+    }
+
+    # the reason why we use http://api:5000, beacause we are going to create a docker container for the backend and name it as `api`. And this container must share the frontend container with the same network.
+    location /api {
+        proxy_pass http://api:5000;
+    }
+
+  # Example: If your base name is "/example", the location block will look like this:
+  # location /example {
+  #   rewrite ^/example(/.*) $1 break;
+  #   try_files $uri /index.html =404;
+  # }
+}
+
+```
+
+## Create docker images and containers
+
+Create docker image
+```bash
+docker build -f Dockerfile.client -t image_name_client .
+docker build -f Dockerfile.api -t image_name_api .
+```
+
+Create docker container
+```bash
+docker network create network_name 
+docker container run --name client --rm -p 80:80 --network network_name image_name_client
+docker container run --name api --rm --network network_name image_name_api # here the container name is `api` that is used in default.conf
+```
+
+Because the container client and api share the same network, they can communicate by using the other container name.
+
+
+
+
 
 # Optimizing Image Sizes
 

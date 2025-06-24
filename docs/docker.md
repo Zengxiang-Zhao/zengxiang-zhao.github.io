@@ -140,6 +140,7 @@ server {
 
     # the reason why we use http://api:5000, beacause we are going to create a docker container for the backend and name it as `api`. And this container must share the frontend container with the same network.
     location /api {
+        # rewrite ^/api/(.*)$ /$1 break;  # Removes the /api/ prefix
         proxy_pass http://api:5000;
     }
 

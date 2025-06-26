@@ -21,6 +21,12 @@ nav_order: 100
 
 ---
 
+# Transfer docker images to another server
+
+1. Save image locally: 'docker save -o image_test.tar image_test:latest'
+2. transfer to another machine: `scp image_test.tar username@server_ip:path_to_save`
+3. restore the image: `docker load -i <path to image tar file>`
+
 # Command lines used in docker: Based on Docker Deep Dive by Nigel Poulton
 
 You can think of the docker image as a class or machine template

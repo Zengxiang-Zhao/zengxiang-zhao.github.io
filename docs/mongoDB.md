@@ -45,6 +45,8 @@ It will restore the database to the default mongodb save path. You can find the 
 3. Install the package: `sudo yum install mongodb-org`
 4. Start : `sudo systemctl start mongod`
 5. Check Status: `sudo systemctl status mongod`
+6. If you'd like to change the /etc/mongo.conf, such as change the dbPath, then you should use the command to restart the Mongodb service: `sudo service mongod restart`
+7. If you change the dbPath to a location that the mongodb have no permission to modify, then the status of mongodb is failed. you need to change it back or change the folder permission.
 
 
 Uninstall the Mongodb :

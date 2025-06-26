@@ -21,6 +21,43 @@ nav_order: 12
 
 ---
 
+## Transfer database from one server to another server
+
+1. Copy the database: `mongodump` : `mongodump --db db_name --archive=./mongodbBackup/db_name.dump --gzip`
+2. Scp transfer the dump file: `scp db_name.yml  server_name@ip_address:path_to_save`
+3. login another server
+4. Restore the database: `mongorestore --gzip --archive=db_name.dump`
+
+It will restore the database to the default mongodb save path. You can find the save path at `/etc/mongod.conf`
+
+## [Install mongodb in Centos7](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-centos-7)
+
+1. Create a file : `sudo vi /etc/yum.repos.d/mongodb-org.repo`
+2. Enter the content at /etc/yum.repos.d/mongodb-org.repo:
+   ```bash
+    [mongodb-org-6.0]
+    name=MongoDB Repository
+    baseurl=https://repo.mongodb.org/yum/redhat/7/mongodb-org/6.0/x86_64/
+    gpgcheck=1
+    enabled=1
+    gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
+   ```
+3. Install the package: `sudo yum install mongodb-org`
+4. Start : `sudo systemctl start mongod`
+5. Check Status: `sudo systemctl status mongod`
+
+
+Uninstall the Mongodb :
+1. Stop : `sudo service mongod stop`
+2. Remove the installed package: `sudo yum erase $(rpm -qa | grep mongodb-org)`
+3. Remove data files:
+   ```bash
+   sudo rm -r /var/log/mongodb
+   sudo rm -r /var/lib/mongo
+
+   ```
+
+
 ## Aggregation pipeline
 
 Check the official document for [pipeline stages](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/)

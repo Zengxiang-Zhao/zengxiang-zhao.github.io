@@ -21,7 +21,7 @@ nav_order: 100
 
 ---
 
-# Transfer docker images to another server
+# [Transfer docker images to another server](https://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-using-a-repository)
 
 1. Save image locally: 'docker save -o image_test.tar image_test:latest'
 2. transfer to another machine: `scp image_test.tar username@server_ip:path_to_save`

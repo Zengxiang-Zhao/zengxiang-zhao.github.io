@@ -21,6 +21,12 @@ nav_order: 100
 
 ---
 
+# Remove dangling images in the local server
+
+```bash
+docker images -f "dangling=true" -q | xargs -d '\n' -I{} docker rmi {}
+```
+
 # [Transfer docker images to another server](https://stackoverflow.com/questions/23935141/how-to-copy-docker-images-from-one-host-to-another-without-using-a-repository)
 
 1. Save image locally: 'docker save -o image_test.tar image_test:latest'

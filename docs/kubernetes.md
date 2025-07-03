@@ -27,6 +27,37 @@ nav_order: 101
 2. Show Labels in pods: `kubectl get pods --show-labels`
 3. 
 
+# [What is the difference between a pod and a deployment?](https://stackoverflow.com/questions/41325087/what-is-the-difference-between-a-pod-and-a-deployment#comment83175967_47729498)
+
+From the link and show one anwser:
+
+#### Kubernetes has three Object Types you should know about:
+
+- Pods - runs one or more closely related containers
+- Services - sets up networking in a Kubernetes cluster
+- Deployment - Maintains a set of identical pods, ensuring that they have the correct config and that the right number of them exist.
+- 
+### Pods:
+
+- Runs a single set of containers
+- Good for one-off dev purposes
+- Rarely used directly in production
+
+### Deployment:
+
+- Runs a set of identical pods
+- Monitors the state of each pod, updating as necessary
+- Good for dev
+- Good for production
+
+And I would agree with other answers, forget about Pods and just use Deployment. Why? Look at the second bullet point, it monitors the state of each pod, updating as necessary.
+
+So, instead of struggling with error messages such as this one:
+
+`Forbidden: pod updates may not change fields other than spec.containers[*].image`
+
+So just refactor or completely recreate your Pod into a Deployment that creates a pod to do what you need done. With Deployment you can change any piece of configuration you want to and you need not worry about seeing that error message.
+
 # [Use a web browser to connect to the app via the Service](https://kubernetes.io/docs/tasks/access-application-cluster/service-access-application-cluster/#:~:text=Use%20the%20node%20address%20and%20node%20port%20to,%3Cnode-port%3E%20is%20the%20NodePort%20value%20for%20your%20service.)
 
 `curl http://<public-node-ip>:<node-port>`

@@ -28,7 +28,7 @@ nav_order: 101
 3. Label deployment with multiple labels: `kubectl label deployments bandicoot-prod env=prod color=red`
 4. Create a deployment with replicas: `kubectl create deployment bandicoot-prod  --image=gcr.io/kuar-demo/kuard-amd64:green  --replicas=2  --port=8080`
 5. Show deployments labels: `kubectl get deployments --show-labels`
-6. 
+6. Check how a kubernetes object changes over time for a specific service: `kubectl get endpoints <service-name> --watch`
 
 # [Why expose the deployment to service](https://www.google.com/search?q=kubectl+expose+deployment+meaning&rlz=1C1UEAD_enUS1114US1114&oq=kubectl+expose+deployment+meaning&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigATIHCAYQIRifBdIBCDQxNTdqMGo0qAIAsAIB&sourceid=chrome&ie=UTF-8)
 

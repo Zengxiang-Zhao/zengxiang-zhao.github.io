@@ -30,6 +30,33 @@ nav_order: 101
 5. Show deployments labels: `kubectl get deployments --show-labels`
 6. 
 
+# [Why expose the deployment to service](https://www.google.com/search?q=kubectl+expose+deployment+meaning&rlz=1C1UEAD_enUS1114US1114&oq=kubectl+expose+deployment+meaning&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRigATIHCAYQIRifBdIBCDQxNTdqMGo0qAIAsAIB&sourceid=chrome&ie=UTF-8)
+
+kubectl expose deployment is a Kubernetes command that creates a new Kubernetes Service to expose an existing Deployment. It essentially makes your application, managed by the Deployment, accessible from outside the Kubernetes cluster or within the cluster via a stable endpoint. 
+Here's a breakdown:
+
+### Deployment:
+A Kubernetes Deployment manages a set of identical Pods (replicas) and handles updates, rollouts, and scaling of those pods. 
+### Service:
+A Kubernetes Service provides a stable IP address and DNS name for accessing a set of Pods, even as those Pods are created and destroyed. 
+
+`kubectl expose:`
+
+This command takes an existing Deployment and creates a Service that routes traffic to the Pods managed by that Deployment. 
+
+### Why use it?
+Without a Service, accessing your application would require knowing the IP addresses of individual Pods, which are ephemeral and can change. The Service provides a consistent way to reach your application. 
+### How it works:
+The kubectl expose command automatically creates a Service object with selectors that match the labels of the Deployment. This ensures that the Service routes traffic to the correct Pods. 
+In simpler terms: Imagine you have a web application running on multiple servers (represented by Pods in Kubernetes). kubectl expose deployment lets you create a "front door" (the Service) that users can use to access your application, even if the underlying servers (Pods) are restarted or replaced. 
+#### Example:
+To expose a Deployment named "my-app" on port 80, you would use the command: 
+``` bash
+kubectl expose deployment my-app --port=80 --target-port=8080
+```
+
+This command creates a Service that listens on port 80 and forwards traffic to the Pods in the "my-app" Deployment on port 8080 (where your application is likely listening). 
+
 # [What is the difference between a pod and a deployment?](https://stackoverflow.com/questions/41325087/what-is-the-difference-between-a-pod-and-a-deployment#comment83175967_47729498)
 
 From the link and show one anwser:

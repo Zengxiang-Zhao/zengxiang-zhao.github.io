@@ -24,7 +24,8 @@ nav_order: 101
 # Command lines used in Kubernetes
 
 1. Delte all pods : `kubectl delete pods --all`
-2. 
+2. Show Labels in pods: `kubectl get pods --show-labels`
+3. 
 
 # [Use a web browser to connect to the app via the Service](https://kubernetes.io/docs/tasks/access-application-cluster/service-access-application-cluster/#:~:text=Use%20the%20node%20address%20and%20node%20port%20to,%3Cnode-port%3E%20is%20the%20NodePort%20value%20for%20your%20service.)
 

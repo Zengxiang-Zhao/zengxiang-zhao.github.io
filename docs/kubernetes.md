@@ -25,7 +25,9 @@ nav_order: 101
 
 1. Delte all pods : `kubectl delete pods --all`
 2. Show Labels in pods: `kubectl get pods --show-labels`
-3. 
+3. Label deployment with multiple labels: `kubectl label deployments bandicoot-prod env=prod color=red`
+4. Create a deployment with replicas: `kubectl create deployment bandicoot-prod  --image=gcr.io/kuar-demo/kuard-amd64:green  --replicas=2  --port=8080`
+5. 
 
 # [What is the difference between a pod and a deployment?](https://stackoverflow.com/questions/41325087/what-is-the-difference-between-a-pod-and-a-deployment#comment83175967_47729498)
 

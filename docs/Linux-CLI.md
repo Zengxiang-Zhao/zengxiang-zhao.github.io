@@ -468,6 +468,18 @@ find . -size -1M
 ```
 > `+1M`中的+号表明文件大于1M。如果是想查看小于1M的则可以使用`-` 号。
 
+Find specific files with specifc requirements like depth, time, name 
+
+`find "$sourcef"  -maxdepth 1 -mtime +30 -type d -iname 'LB*Run*' -printf "%P\n" | sort`
+
+Note: 
+1. `-mtime +30`: older than 30 days
+2. `-type d`: find folder. if `-type f` then find files
+3. `-iname 'LB*Run*'` : regex search the folder name contain LB and Run Case insensitive
+4. `-printf "%P\n"`: each line result
+
+
+
 
 ## [awk 的使用](https://linuxize.com/post/awk-command/)
 

@@ -21,6 +21,17 @@ nav_order: 100
 
 ---
 
+## Convert float number to interger
+
+```sh
+memorySpace="2.8"
+memorySpaceInteger=$( printf "%.0f" $memorySpace )
+if [ "$memorySpaceInteger" -ge 5 ]
+then
+break # or other expression
+fi
+```
+
 ## [Close session in Ubuntu linux](https://askubuntu.com/questions/12180/logging-out-other-users-from-the-command-line)
 If you use the Remote Desktop to login your remote server and get the back screen. Then your session may need to be killed manually.
 

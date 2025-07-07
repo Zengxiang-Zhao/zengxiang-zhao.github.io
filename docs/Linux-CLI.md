@@ -47,6 +47,18 @@ Server: Werkzeug/2.0.3 Python/3.8.16
 
 ```
 
+## [How to strip multiple spaces to one using sed?](https://unix.stackexchange.com/questions/19014/how-to-strip-multiple-spaces-to-one-using-sed)
+
+```bash
+... | sed 's/  */ /g' # two space with *
+... | sed 's/ \{1,\}/ /g' # not clear this one
+... | tr -s ' '
+```
+
+Note: 
+1. `sed 's/  */ /g'` : repalce more than two spaces with one space in the whole line.
+2. `tr -s " "` : Squeezing repeating characters: Replacing multiple consecutive occurrences of a character with a single instance using the -s option.
+
 ## [how to control remote servers without using password](https://www.linuxjournal.com/article/8600)
 
 Sometimes, you'd like to fetch some data from different servers. e.g. check the space usage in 6 servers. If we login the 6 servers and using the command `df -H`, it would be a little tedious. When the number of servers comes to 1000, it seems like impossilbe to do it everyday. Now it comes to the topic: how could we control the remote servers?

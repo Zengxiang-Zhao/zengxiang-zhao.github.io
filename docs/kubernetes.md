@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Learn Resources When you have time
+title: Kubernetes
 date:   2021-09-11 20:28:05 -0400
 categories: kubernetes
 nav_order: 101

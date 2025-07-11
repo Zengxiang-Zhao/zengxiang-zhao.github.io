@@ -21,6 +21,14 @@ nav_order: 99
 
 ---
 
+# How to show one file in one commited point 
+
+```bash
+git show # this command will show you a list of commited branch
+
+git show 1234afa:folder_a/folder_b/intrestedFile.txt
+```
+
 # How to refer the link in the markdown
 If you'd like to refer to the same file title, then you can just write like this
 

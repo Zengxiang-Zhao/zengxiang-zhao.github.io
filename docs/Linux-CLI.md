@@ -21,6 +21,13 @@ nav_order: 100
 
 ---
 
+## Convert the Ubuntu defautl editor from nano to vim
+
+Using select-editor:
+Run the command: `select-editor`.
+This will present a list of available editors. Select the number corresponding to Vim.
+This method updates the `~/.selected_editor` file, which is used by some applications. 
+
 ## Convert float number to interger
 
 ```sh

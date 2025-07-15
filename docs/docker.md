@@ -52,7 +52,15 @@ You can think of the docker image as a class or machine template
 
 # Full stack and dockernize it: Frontend(react) + Backend(Flask) + Database(MongoDB)
 
-1. Create a docker volume to mount the local path: Refer to this [post](/docs/mongoDB.md#how-to-create-a-volume-and-launch-a-mongodb-container-using-that-volume) 
+1. Create a docker volume to mount the local path: Refer to this [post](/docs/mongoDB.md#how-to-create-a-volume-and-launch-a-mongodb-container-using-that-volume)
+2. Create the frontend and backend container: Refer to the below [post](docs/docker.md#dockernize-the-frontendreact--backendflask)
+3. Make sure the step 1 and step 2 use the same network.
+4. At the backend part, use the step 1 container name as the hostname as shown below
+    ```python
+    client = MongoClient(host='container-name-mongodb',port=27017) 
+    ```
+    Here, the mongodb use 27017 as the port, and you should not modify it. And the host uses the mongodb container name instead of the hostname you specified in the step1.
+6. 
 
 # [Dockernize the frontend(react) + backend(Flask)](https://blog.miguelgrinberg.com/post/how-to-dockerize-a-react-flask-project)
 

@@ -52,7 +52,7 @@ You can think of the docker image as a class or machine template
 
 # Full stack and dockernize it: Frontend(react) + Backend(Flask) + Database(MongoDB)
 
-1. Create a docker volume to mount the local path: Refer to this [post](/mongoDB.md#how-to-create-a-volume-and-launch-a-mongodb-container-using-that-volume) 
+1. Create a docker volume to mount the local path: Refer to this [post](/docs/mongoDB.md#how-to-create-a-volume-and-launch-a-mongodb-container-using-that-volume) 
 
 # [Dockernize the frontend(react) + backend(Flask)](https://blog.miguelgrinberg.com/post/how-to-dockerize-a-react-flask-project)
 

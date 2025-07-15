@@ -21,6 +21,8 @@ nav_order: 100
 
 ---
 
+
+
 # Remove dangling images in the local server
 
 ```bash
@@ -47,6 +49,10 @@ You can think of the docker image as a class or machine template
 - stop container: `docker container stop <container-name or container-id>`
 - remove container: `docker container rm <container-name or container-id>`
 - 
+
+# Full stack and dockernize it: Frontend(react) + Backend(Flask) + Database(MongoDB)
+
+1. Create a docker volume to mount the local path: Refer to this [post](docs/mongoDB.md#how-to-create-a-volume-and-launch-a-mongodb-container-using-that-volume) 
 
 # [Dockernize the frontend(react) + backend(Flask)](https://blog.miguelgrinberg.com/post/how-to-dockerize-a-react-flask-project)
 

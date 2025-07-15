@@ -21,6 +21,46 @@ nav_order: 12
 
 ---
 
+## How to create a volume and launch a mongoDB container using that volume
+
+1. Create a volume that mount to your local path
+    ```bash
+    docker volume create --driver local \
+      --opt type=none \
+      --opt device=/path/to/your/local \ # change it to your data path
+      --opt o=bind \
+      volume_name # change it to your volume name
+    
+    ```
+
+2. Check the volumne and inspect
+   ```bash
+   docker volume ls
+
+   docker volume inspect volume_name # using this command you can find the mount details
+  
+   ```
+3. create the mongodb container using the volume
+   ```bash
+   docker run -it --rm \ # change ` -it --rm` to `-d` to make the container run backend
+     --name container-mongodb \ # change to your name
+     --hostname mymongodb \ # change to your name
+     -v volume_name:/data/db \
+     -p 27017:27017 \ # the port may need to change if you have already used 27017. E.g. `-p 27018:27017`
+     --network share_network_with_other_containers \ # change to your network
+     mongo:latest
+
+   ```
+5. Check the container
+   ```bash
+   docker container ls  | grep mongodb
+   ```
+7. Test the mongodb
+   ```bash
+   mongosh --port 27017 # change the port number to the number you used above
+   ```
+9. 
+
 ## Transfer database from one server to another server
 
 1. Copy the database: `mongodump` : `mongodump --db db_name --archive=./mongodbBackup/db_name.dump --gzip`

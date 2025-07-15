@@ -266,7 +266,12 @@ unzip filename.zip -d /path/to/directory
 
 图可参考[python知识点](/docs/plot_graph#pltbar)
 
+```md
+[python知识点](/docs/plot_graph#pltbar)
+```
+
 直接以`/docs/...`开头，后面如果不确定可以在web中点开查看后面内容。
+open the markdown file, and hit the title, then you will see the full link of this title in the browser input box.Copy the part starting at `/docs`
 
 
 # 写公式

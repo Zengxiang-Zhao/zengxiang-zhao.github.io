@@ -42,9 +42,9 @@ nav_order: 12
    ```
 3. create the mongodb container using the volume
    ```bash
-   docker run -it --rm \ # change ` -it --rm` to `-d` to make the container run backend
+   docker run -it --rm \ # change ` -it --rm` to `-d --restart always ` to make the container run backend and restart always
      --name container-mongodb \ # change to your name
-     --hostname mymongodb \ # change to your name
+     --hostname my-mongodb \ # change to your name
      -v volume_name:/data/db \
      -p 27017:27017 \ # the port may need to change if you have already used 27017. E.g. `-p 27018:27017`
      --network share_network_with_other_containers \ # change to your network

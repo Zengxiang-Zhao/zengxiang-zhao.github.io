@@ -21,6 +21,32 @@ nav_order: 12
 
 ---
 
+## [Performing regex queries with PyMongo](https://stackoverflow.com/questions/3483318/performing-regex-queries-with-pymongo)
+
+
+```bash
+        listTumorType = tumorType.split('/')
+
+        query = {} # build multiple fields query
+
+        tumorType_str = '|'.join(listTumorType) 
+        patternTumorType = re.compile(rf"\b{tumorType_str}\b") 
+        query['tumorType'] = patternTumorType
+
+        patternGeneName = re.compile(rf"\b{geneName}\b",re.IGNORECASE)
+        query['geneName'] = patternGeneName
+
+        patternScope = re.compile(rf"\b{scope}\b",re.IGNORECASE)
+        query['scope'] = patternScope
+
+        result =list(collectionComment.find(query,{'listComment':True,'listReference':True,'_id':False}))
+```
+
+Note:
+1. `r""`: Defines a raw string, which prevents backslashes from being interpreted as escape sequences.
+2. `\b`: Matches a word boundary.E.g.  `r"\b(apple|banana)\b"` This ensures that only whole words "apple" or "banana" are matched, not parts of other words (e.g., "pineapple").
+3. `|`: Acts as an "OR" operator, matching either the pattern before or after it.
+
 ## How to create a volume and launch a mongoDB container using that volume
 
 1. Create a volume that mount to your local path

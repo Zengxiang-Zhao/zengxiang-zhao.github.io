@@ -21,6 +21,25 @@ categories: python
 
 ---
 
+## pass sensitive variables to the python script
+
+1. create a `.env` file in the project folder.
+   ```
+   # .env file in the project folder
+   key=your-secret
+   ```
+3. in the python script file, use `os`, `dotenv` to use the variables as shwon below.
+   ```
+   import os
+   from dotenv import load_dotenv
+   load_dotenv()
+
+   key = os.getenv(key)
+   ```
+
+ 
+4. 
+
 ## [Use try and except to catch error and still show the wrong file and line number](https://www.google.com/search?q=python+try+except+show+the+wrong+line+of+code&sca_esv=7b433c53e6d180e1&rlz=1C1UEAD_enUS1114US1114&ei=h0RMaO-tMoun5NoP85zryQc&oq=python+try+except+show+the+wrong+line+&gs_lp=Egxnd3Mtd2l6LXNlcnAiJnB5dGhvbiB0cnkgZXhjZXB0IHNob3cgdGhlIHdyb25nIGxpbmUgKgIIAjIFECEYoAEyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKsCMgUQIRirAjIFECEYnwUyBRAhGJ8FMgUQIRifBUidVFC3KFjtO3ACeACQAQCYAXmgAeELqgEEMTcuMbgBA8gBAPgBAZgCE6ACmAzCAgoQABiwAxjWBBhHwgIFEAAYgATCAgYQABgWGB7CAgsQABiABBiGAxiKBcICCBAAGKIEGIkFwgIFEAAY7wXCAggQABiABBiiBJgDAIgGAZAGCJIHBDE3LjKgB6GVAbIHBDE1LjK4B48MwgcIMC42LjEyLjHIB1E&sclient=gws-wiz-serp)
 
 ```python

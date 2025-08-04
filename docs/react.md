@@ -25,6 +25,47 @@ nav_order: 12
 
 1. [Robin's Blog](https://www.robinwieruch.de/blog/)
 
+##  [The meaning of `@` in Type Script import from](https://www.google.com/search?q=import+from+with+%40+in+type+script%2C+and+what%27s+the+%40+meaning&rlz=1C1UEAD_enUS1114US1114&oq=import+from+with+%40+in+type+script%2C+and+what%27s+the+%40+meaning+&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCTE4NjQ3ajBqNKgCCLACAfEFuy-z-XteUto&sourceid=chrome&ie=UTF-8)
+
+The following content comes from the Google AI Overview
+
+In TypeScript, the @ symbol within an import statement is commonly used for path mapping or alias paths configured in the tsconfig.json file. It does not have a special meaning in the import syntax itself, but rather serves as a prefix for custom aliases that point to specific directories within your project.
+Meaning of @ in TypeScript imports:
+When you see an import like:
+
+```TypeScript
+
+import { MyService } from '@services/my.service';
+```
+
+The @services part is not a standard JavaScript or TypeScript feature. Instead, it indicates that a path mapping has been defined in your tsconfig.json file, typically under the compilerOptions.paths property. This mapping tells the TypeScript compiler (and potentially other tools like bundlers or IDEs) where to find the actual files referenced by that alias.
+
+Example tsconfig.json configuration for path mapping:
+
+```TypeScript
+
+{
+  "compilerOptions": {
+    "baseUrl": "./src", // Base directory for resolving non-relative module names
+    "paths": {
+      "@services/*": ["app/path/to/services/*"],
+      "@components/*": ["app/somewhere/deeply/nested/*"]
+    }
+  }
+}
+```
+
+In this example:
+
+- "baseUrl": "./src" sets the base directory for resolving module paths.
+- "@services/*": ["app/path/to/services/*"] maps any import starting with @services/ to the app/path/to/services/ directory within your baseUrl. The * acts as a wildcard, matching any subpath.
+
+Benefits of using @ for path mapping:
+
+- Cleaner Imports: Avoids long, relative paths like ../../../some/deep/path/file.
+- Improved Readability: Makes imports more concise and easier to understand.
+- Easier Refactoring: If you move files around, you only need to update the path mapping in tsconfig.json rather than every individual import statement.
+
 ## [axios sent two times request in backend in Effects](https://react.dev/reference/react/StrictMode)
 
 If you use <StrictMode> in your app, then the axios will trig two times request at the backend. When you need to update the database, it will cause error. Cause it will render two times. If you need to check the function about updating the database, then disable the strictMode in your module.

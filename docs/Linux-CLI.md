@@ -21,6 +21,24 @@ nav_order: 100
 
 ---
 
+## [ WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! ](https://stackoverflow.com/questions/20840012/ssh-remote-host-identification-has-changed)
+
+Sometimes you encounter the issue that you cannot control the remote server by public key. And there's a error message said that "Someone could be eavesdropping on you right now".
+Right now you can just remove all host keys about the server
+
+
+> Here is the simplest solution:
+> 
+> `ssh-keygen -R <host>`
+> 
+> For example,
+> 
+> ssh-keygen -R 192.168.3.10
+>
+>From the ssh-keygen man page:
+>
+>>-R hostname Removes all keys belonging to hostname from a known_hosts file. This option is useful to delete hashed hosts (see the -H option above).
+
 ## Convert the Ubuntu defautl editor from nano to vim
 
 Using select-editor:

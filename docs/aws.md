@@ -21,6 +21,21 @@ nav_order: 101
 
 ---
 
+## [Concept: What's the CIDR(Classless Inter-Domain Routing)](https://www.youtube.com/watch?v=KiWXRL-2TnY)
+
+From the Google Search:
+>CIDR notation is a compact way to express an IP address and its associated network by following it with a slash and a number indicating how many bits are used for the network prefix
+>
+>The format is IP_ADDRESS/PREFIX_LENGTH.
+>
+>For example, in 192.168.1.0/24, 192.168.1.0 is the IP address, and /24 is the prefix length. 
+
+The IP Address is 32 bits. There are four parts seperated by dot(.) and each part has 8 bits. So each part has 2**8=256 different numbers. As it starts from 0, so the range is 0- 255.
+
+For example, 10.0.0.0/16 represents all IP addresses in 10.0.0.0 and 10.0.255.255. Why? 32 bits - 16 bits = 16 bits, so the first two parts (2*8 = 16) is prefix address. the left two parts can be used for the subnet address. so the IP addresses can be used from  10.0.0.0 to 10.0.255.255.
+
+If the subnet is 10.0.0.0/24, then all IP addresses is in 10.0.0.0 and 10.0.0.255. Because only 8 bits left for the subnet.
+
 ## [AWS CLI to restore an Amazon S3 object from the S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage class](https://repost.aws/knowledge-center/restore-s3-object-glacier-storage-class)
 
 ```bash

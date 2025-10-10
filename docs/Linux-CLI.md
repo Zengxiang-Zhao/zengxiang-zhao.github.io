@@ -21,6 +21,38 @@ nav_order: 100
 
 ---
 
+
+## [The difference between double brackets and single brackets](https://www.google.com/search?q=double+brackets+vs+single+brackets+bash&rlz=1C1UEAD_enUS1114US1114&oq=two+brakets+vs+single+bracket&gs_lcrp=EgZjaHJvbWUqCAgBEAAYFhgeMgYIABBFGDkyCAgBEAAYFhgeMggIAhAAGBYYHjINCAMQABiGAxiABBiKBTINCAQQABiGAxiABBiKBTIKCAUQABiABBiiBDIHCAYQABjvBTIHCAcQABjvBTIKCAgQABiABBiiBNIBCTEzNTAzajBqN6gCCLACAfEFBbAK0ZpwWkHxBQWwCtGacFpB&sourceid=chrome&ie=UTF-8)
+
+The following answer comes from the google AI:
+
+> In Bash, both single brackets `[ ]` and double brackets `[[ ]]` are used for conditional expressions, but they have key differences:
+>
+> Single Brackets `[ ]`:
+> 
+> - **POSIX Compliant:** is a synonym for the test command and is part of the POSIX standard, ensuring wider compatibility across different shells.
+> - **External Command:** is treated as an external command, which means it creates a new process.
+> - **Word Splitting and Globbing:** Variables inside `[ ]` are subject to word splitting and filename expansion (globbing), requiring them to be quoted (e.g., `[ "$VAR" = "value" ]`) to prevent unexpected behavior with spaces or special characters.
+>- **Comparison Operators:** Uses -eq, -ne, -lt, -gt, -le, -ge for numeric comparisons, and = or == for string comparisons (though = is more widely supported).
+>
+>  Double Brackets `[[ ]]`:
+>
+> `[[ ]]` is a built-in feature of Bash (and other shells like ksh and zsh), offering better performance as it avoids creating a new process.
+>
+> - **Enhanced Functionality:** Provides more advanced features, such as: No Word Splitting/Globbing: Variables within [[ ]] are not subject to word splitting or filename expansion, making quoting optional (e.g., [[ $VAR == value ]] works even with spaces in $VAR).
+> - **Regular Expression Matching:** Supports `==` for pattern matching using shell globs (e.g., [[ $VAR == *.txt ]]). For full regular expressions, [[ $VAR =~ regex ]] is used.
+> - **Logical Operators:** Allows for `&& (AND)`, `|| (OR)`, and `! (NOT)` within the expression, simplifying complex conditions.
+> - **File Test Operators:** Offers enhanced file test operators.
+>
+> **Comparison Operators:**
+>
+> The double brackets `[[]]` uses `==, !=, <, >, <=, >=` for both string and numeric comparisons. Note that `<` and `>` perform lexicographical comparison for strings.
+>
+> Recommendation:
+> 
+>Generally, `[[ ]]` is preferred in Bash scripts due to its enhanced features, better performance, and safer handling of variables. However, if maximum portability across various POSIX-compliant shells is a strict requirement, `[ ]` should be used.
+
+
 ## [ WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! ](https://stackoverflow.com/questions/20840012/ssh-remote-host-identification-has-changed)
 
 Sometimes you encounter the issue that you cannot control the remote server by public key. And there's a error message said that "Someone could be eavesdropping on you right now".

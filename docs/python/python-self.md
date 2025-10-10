@@ -21,6 +21,83 @@ categories: python
 
 ---
 
+## [Python log module](https://medium.com/@sachinsoni600517/logging-in-python-a-step-by-step-tutorial-086a617f4eaa)
+
+The logging python module [official document](https://docs.python.org/3/library/logging.html)
+
+Here's some examples of logging 
+
+```python
+
+import logging
+logger = logging.getLogger('my_logger')
+
+# format to show the logging
+format1 = '%(asctime)s - %(levelname)s - %(message)s'
+format2 = '%(asctime)s:%(filename)s:%(funcName)s:%(lineno)d:%(levelname)s:%(message)s'
+
+# in basicConfig function, you can specify the output file, the format, and the level of logging
+logging.basicConfig(filename='example.log', format=format2, level=logging.DEBUG)
+
+
+logger.debug('This message should go to the log file')
+logger.info('So should this')
+logger.warning('And this, too')
+logger.error('And non-ASCII stuff, too, like Øresund and Malmö')
+
+logger.warning('%s before you %s', 'Look', 'leap!')
+
+name = 'Jone'
+logger.warning(f'Looking {name}')
+
+def getLog():
+    logger.warning('this is in function')
+
+getLog()
+
+```
+
+Output of above logging code:
+
+``` bash
+2025-10-10 09:53:51,578:testLogging.py:<module>:13:DEBUG:This message should go to the log file
+2025-10-10 09:53:51,578:testLogging.py:<module>:14:INFO:So should this
+2025-10-10 09:53:51,578:testLogging.py:<module>:15:WARNING:And this, too
+2025-10-10 09:53:51,578:testLogging.py:<module>:16:ERROR:And non-ASCII stuff, too, like Øresund and Malmö
+2025-10-10 09:53:51,578:testLogging.py:<module>:18:WARNING:Look before you leap!
+2025-10-10 09:53:51,578:testLogging.py:<module>:21:WARNING:Looking Jone
+2025-10-10 09:53:51,578:testLogging.py:getLog:24:WARNING:this is in function
+```
+
+Log Error exception
+
+```python
+import logging
+
+# Configure the logging settings
+logging.basicConfig(filename='error.log', level=logging.ERROR, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+try:
+    # Code that may raise an exception
+    result = 10 / 0
+except Exception as e:
+    # Log the exception details
+    logging.error("An exception occurred: %s", str(e), exc_info=True)
+
+```
+
+Output of above code
+
+```bash
+2025-10-10 09:41:32,089 - root - ERROR - An exception occurred: division by zero
+Traceback (most recent call last):
+  File "loggerError.py", line 19, in <module>
+    result = 10 / 0
+ZeroDivisionError: division by zero
+
+```
+
+
 ## pass sensitive variables to the python script
 
 1. create a `.env` file in the project folder.

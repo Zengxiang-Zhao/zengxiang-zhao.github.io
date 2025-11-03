@@ -21,6 +21,12 @@ nav_order: 101
 
 ---
 
+## Connect the EC2 instance using the CLI
+
+```bash
+aws ssm start-session --target $INSTANCE_ID
+```
+
 ## [Concept: What's the CIDR(Classless Inter-Domain Routing)](https://www.youtube.com/watch?v=KiWXRL-2TnY)
 
 From the Google Search:

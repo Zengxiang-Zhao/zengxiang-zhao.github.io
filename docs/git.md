@@ -149,6 +149,14 @@ $ git remote add pb https://github.com/paulboone/ticgit
 Create Personal Access Token on GitHub
 From your GitHub account, go to Settings → Developer Settings → Personal Access Token → Generate New Token (Give your password) → Fillup the form → click Generate token → Copy the generated Token, it will be something like ghp_sFhFsSHhTzMDreGRLjmks4Tzuzgthdvfsrta
 
+Then follow the following steps:
+1. Remember the git token
+2. write down the command line `git config --global credential.helper cache`
+3. `git push origin main`
+4. At this stage, you need to enter your username
+5. Enter your password. Instead of entering your password, use your just generated token.
+6. Done!
+
 
 # [untrack some file after commit command](https://stackoverflow.com/questions/6535362/gitignore-after-commit)
 

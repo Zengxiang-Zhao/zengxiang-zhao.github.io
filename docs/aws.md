@@ -21,6 +21,18 @@ nav_order: 101
 
 ---
 
+## [aws structure based on my thought]
+
+In all, AWS is build by the following parts:
+1. IAM : provide security 
+2. EC2 : is a service of AWS and as the base of aws other services like Lambda, RMD
+3. Network: connect aws services and transport the information between services.
+
+
+Security Group(SG) provide security for indivisual resource( e.g.: Lambda, EC2) in aws. It can control the network connectivity using ingress or outgress and port number.
+
+The resource is an instance of service.
+
 ## [aws Cloud Develop Kit documentation](https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_rds/MysqlEngineVersion.html)
 
 You can find the libary of aws CDK.

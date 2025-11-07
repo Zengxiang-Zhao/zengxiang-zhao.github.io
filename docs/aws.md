@@ -21,6 +21,11 @@ nav_order: 101
 
 ---
 
+## [aws commands]
+
+1. Detach the policy from the role before deleting the role
+2. 
+
 ## [aws structure based on my thought]
 
 In all, AWS is build by the following parts:

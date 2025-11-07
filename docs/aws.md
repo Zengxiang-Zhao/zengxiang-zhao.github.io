@@ -21,10 +21,35 @@ nav_order: 101
 
 ---
 
-## [aws commands]
+## [aws commands comes from AWS Cookbook]
 
-1. Detach the policy from the role before deleting the role
-2. 
+- Detach the policy from the role before deleting the role
+   
+   ```bash
+  aws iam detach-role-policy --role-name AWSCookbook504Role \
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+
+
+  aws iam delete-role --role-name AWSCookbook504Role
+   ```
+- Remove the Ingress rule from the security group before deleting the security group
+  ```
+  aws ec2 revoke-security-group-ingress \
+  --protocol tcp --port 2049 \
+  --source-group $LAMBDA_SG_ID \
+  --group-id $EFS_SECURITY_GROUP
+
+  aws ec2 delete-security-group --group-id $LAMBDA_SG_ID
+  ```
+- Create a random string
+  ```bash
+  RANDOM_STRING=$(aws secretsmanager get-random-password \
+  --exclude-punctuation --exclude-uppercase \
+  --password-length 6 --require-each-included-type \
+  --output text \
+  --query RandomPassword)
+  ```
+- 
 
 ## [aws structure based on my thought]
 

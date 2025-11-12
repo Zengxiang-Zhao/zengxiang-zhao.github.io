@@ -271,6 +271,15 @@ Note:
 4. > ~/projects/illumina/UploadRun.out : redirect the output to another file in case you need to check the log.
 
 
+If you would like to run the command background, then append `&` at the end of the command as shown below:
+
+```bash
+nohup COMMAND > outputPath/filename.out &
+```
+
+You can use the `jobs` to list the running `nohup` command.
+
+
 ## [Backup in Linux](https://averagelinuxuser.com/automatically-backup-linux/)
 If you build a database and you'd like to backup the database periodically, then you can use `rsync` and `crontab`
 

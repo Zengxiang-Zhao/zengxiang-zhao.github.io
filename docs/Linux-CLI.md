@@ -498,6 +498,7 @@ autocmd Bufwritepre,filewritepre  *.sh,*.py exe "1," . 11 . "g/Last Modified  :.
 - `tar -cf archive.tar a/b/c/FILE` ： 压缩文件
 - `tar -zcvf archive_name.tar.gz directory_to_compress` : compress multiple files to gzip which is a good compress format
 - `tar -tf archive.tar` ： 列出tar中的文件
+- `tar -xfm folder.tar.gz`: -m do not modify the time of the file.
 
 
 ## [find](https://opensource.com/article/18/4/how-use-find-linux)

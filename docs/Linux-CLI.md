@@ -21,6 +21,14 @@ nav_order: 100
 
 ---
 
+## [Reboot the Linux Ubuntu server]
+
+Sometimes the server suddently cannot be modified as it show cannot access some files. It may be cuased by sudden power off or some other reason. To solve this issue, you may need to reboot the server using the following command
+
+```
+sudo reboot -f
+```
+Here `-f` means force to reboot the server
 
 ## [The difference between double brackets and single brackets](https://www.google.com/search?q=double+brackets+vs+single+brackets+bash&rlz=1C1UEAD_enUS1114US1114&oq=two+brakets+vs+single+bracket&gs_lcrp=EgZjaHJvbWUqCAgBEAAYFhgeMgYIABBFGDkyCAgBEAAYFhgeMggIAhAAGBYYHjINCAMQABiGAxiABBiKBTINCAQQABiGAxiABBiKBTIKCAUQABiABBiiBDIHCAYQABjvBTIHCAcQABjvBTIKCAgQABiABBiiBNIBCTEzNTAzajBqN6gCCLACAfEFBbAK0ZpwWkHxBQWwCtGacFpB&sourceid=chrome&ie=UTF-8)
 

@@ -21,7 +21,105 @@ nav_order: 100
 
 ---
 
+# docker compose file that use mongodb container and connection with other containers
 
+You'd like to create an website that use mongodb as the backend database. While you also would like to have two different kinds of `production` and `development` mongodb databases.
+
+When you under development, you can test it use the development database. While you under production to use the production database.
+
+**How to create a mondodb container within docker-compose.yml file**
+
+`docker-compose.yml` file content
+```yml
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_container
+    ports:
+      - "27019:27017"
+    volumes:
+      - /home/zhaozx/projects/MongoDB_data/WRS-development/db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+  python_app:
+    build: ./app
+    container_name: python_app_container
+    ports:
+      - "5000:5000" # Example port for a web app
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: mongodb://user:password@mongodb:27017/mydatabase?authSource=admin
+```
+
+Under the service `mongodb`
+- `ports`: you can change the ports number as  "27019:27017"
+- `volumes`: you can specify different location for the mongodb data path. Here's the place actually to differ the production and development database
+- `enviroment`: you can specify the mongodb username and passowrd to login the database
+
+Please note that: you need to service name instead of container name to connect to the mongodb database as the following paradigm:
+`mongodb://user:password@serviceName:27017/mydatabase?authSource=admin`
+
+Here you need to pay attation to the port number. In the mongodb container, you change the output port that the mongodb container use is "27019". While you need to use "27017" in the `MONGO_URI` environment variable. When other container connects to the mongodb container, it needs to use "27017" port to connect to it.
+
+The whole project is as shwon below to do the test
+1. `mkdir pythonApp && cd pythonApp` : create a project folder named `pythonApp` and enter the folder
+2. `touch docker-compose.yml` : create a `docker-compose.yml` file
+3. `mkdir app && touch Dockerfile  main.py requirements.txt`: create a folder named `app` and create two files: `Dockerfile`, `main.py` and 'requirements.txt'
+
+The content `docker-compose.yml` file is shown as above.
+
+content of `Dockerfile` in the app folder:
+```dockerfile
+FROM python:3.8-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["python", "main.py"]
+```
+
+content of `main.py` in the app folder:
+```python
+from pymongo import MongoClient
+import os
+import time
+
+# Wait for MongoDB to be ready
+time.sleep(10) # Adjust as needed
+
+mongo_uri = os.getenv('MONGO_URI', 'mongodb://localhost:27017/')
+
+try:
+    client = MongoClient(mongo_uri)
+    db = client.mydatabase
+    collection = db.mycollection
+    collection.insert_one({"message": "Hello from Python!"})
+    print("Successfully connected to MongoDB and inserted a document.")
+    for doc in collection.find():
+        print(doc)
+    client.close()
+except Exception as e:
+    print(f"Error connecting to MongoDB: {e}")
+```
+
+Content of `requirements.txt` file:
+```txt
+pymongo
+```
+
+1. create container using docker-comopose.yml: `docker-compose -f docker-compose.yml up --build  -d`. Here `--build` is to build image before create containers. If you are just to do the test, you can remove this option.
+2. check the containers: `docker ps`
+3. Connect to the mongodb container to do the test: `docker exec -it mongodb_container bash`
+4. Connect to the app container to do the test: `docker exec -it python_app_container /bin/sh  `
 
 # Remove dangling images in the local server
 

@@ -21,6 +21,19 @@ nav_order: 12
 
 ---
 
+## Change the save path of mongodb
+
+If you'd like to change the save path of mongodb in linux server, you can follow the fowllowing steps:
+
+1. [Download and install the mongodb community version](https://www.mongodb.com/docs/v7.0/tutorial/install-mongodb-on-ubuntu/)
+2. After you install mongodb. Stop the mongodb : `sudo systemctl stop mongod`
+3. Create the new save path if it's not exist: `/new/pathSave/`
+4. **Change the permission of the `/new/pathSave/`**: **`chown mongodb:mongodb -R /new/pathSave/`**
+5. Modify mongodb configure file: `sudo vim /etc/mongod.conf`, change the `dbPath` to `/new/pathSave/`. Save the file
+6. Start mongodb service: `sudo systemctl start mongod`
+7. Check the status of mongodb: `sudo systemctl status mongod`
+8. Check the database: `mongosh`
+
 ## [Performing regex queries with PyMongo](https://stackoverflow.com/questions/3483318/performing-regex-queries-with-pymongo)
 
 

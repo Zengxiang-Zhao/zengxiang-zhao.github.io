@@ -21,6 +21,140 @@ nav_order: 100
 
 ---
 
+# Nginx act as loadidng balancer to distribute the request to multiple backend servers
+
+If your app has tons of queries, you can use Nginx acting as loading balancer to multiple backend servers.
+v
+You can create the image using the following command line. After you get the images, you can use docker compose to arrange the containers.
+
+```yml
+# version : '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: container_wrs_mongodb_production
+    ports:
+      - "27018:27017"
+    volumes:
+      - pathSaveDB:/data/db
+    networks:
+        - report_network_production
+
+  api:
+    image: image_wrs_backend_production:v1.1
+    # restart: always
+    container_name: container_wrs_api_production_1
+    env_file:
+      - ./backend/.env
+    environment:
+      MONGODB_URI: "mongodb://mongodb:27017"
+    volumes:
+      - pathToLocal:pathToContainer
+
+    networks:
+      - report_network_production
+    depends_on:
+      - mongodb
+
+
+
+  api2:
+    image: image_wrs_backend_production:v1.1
+    # restart: always
+    container_name: container_wrs_api_production_2
+    env_file:
+      - ./backend/.env
+    environment:
+      MONGODB_URI: "mongodb://mongodb:27017" # Here connect to same network mongodb server, use the port 27017 
+    volumes:
+       - pathToLocal:pathToContainer
+
+    networks:
+      - report_network_production
+
+    depends_on:
+      - mongodb
+
+  client:
+    image: image_wrs_frontend_production:v1.0
+    # restart: always
+    container_name: container_wrs_client_production
+    volumes:
+      - ./nginx/default.conf.production:/etc/nginx/conf.d/default.conf
+    networks:
+      - report_network_production
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+      - api2
+     
+
+networks:
+  report_network_production: # Define your custom network
+    driver: bridge # You can specify other drivers like 'overlay' for swarm mode
+
+```
+Becuase I use nginx in the client container, I can change the nginx.conf using the volume property. Here's the `default.conf.production`
+
+```configure
+## nginx/default.conf
+upstream backends {
+   # no load balancing method is specified for Round Robin
+   server api;
+   server api2;
+}
+
+server {
+  # Nginx listens on port 80 by default. You can change this if needed.
+  listen 80;
+
+  # Specifies your domain. Use "localhost" for local development or your domain name for production.
+  # server_name localhost;
+
+  # The root directory that contains the `dist` folder generated after building your app.
+  root /usr/share/nginx/html;
+  index index.html;
+
+  # Serve all routes and pages
+  # Use the base name to serve all pages. In this case, the base name is "/".
+  location / {
+    try_files $uri /index.html =404;
+  }
+
+  location /static {
+        expires 1y;
+        add_header Cache-Control "public";
+    }
+
+    location /api {
+        proxy_pass http://backends; # Production
+    }
+
+}
+
+
+```
+
+How to test the loading balancer uses different backend servers?
+
+In your python routes add a route '/test'
+
+```python
+import socket
+@bp.route('/test', methods=['POST','GET'])
+def test():
+    hostname = socket.gethostname()
+    IPAddr = socket.gethostbyname(hostname)
+
+    print("Your Computer Name is:", hostname)
+    print("Your Computer IP Address is:", IPAddr)
+    return f"Hello World: hostname is: {hostname}; Ip: {IPAddr}"
+```
+
+When you hit the button, you will see the different hostname and Ip address.
+
 # docker build a new image with a tag using dockerfile
 
 `docker build -t imageName:tag -f pathToDockerfile .`

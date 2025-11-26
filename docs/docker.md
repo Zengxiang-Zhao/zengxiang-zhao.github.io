@@ -68,7 +68,8 @@ Under the service `mongodb`
 - `ports`: you can change the ports number as  "27019:27017"
 - `volumes`: you can specify different location for the mongodb data path. Here's the place actually to differ the production and development database
 - `enviroment`: you can specify the mongodb username and passowrd to login the database
-
+- **You need to add `depends_on` to make sure the mongodb is active before the backend connect to the database. If you have more containers, you need to use depends one to arrange the relationship between them.**
+  
 Please note that: you need to service name instead of container name to connect to the mongodb database as the following paradigm:
 `mongodb://user:password@serviceName:27017/mydatabase?authSource=admin`
 

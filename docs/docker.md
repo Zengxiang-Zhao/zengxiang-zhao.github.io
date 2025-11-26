@@ -21,6 +21,14 @@ nav_order: 100
 
 ---
 
+# docker build a new image with a tag using dockerfile
+
+`docker build -t imageName:tag -f pathToDockerfile .`
+
+e.g.: `docker build -t image_wrs_frontend_development:v1.0 -f ./Dockerfile.client.development .`
+
+Please note there's `.` at the end of command line.
+
 # docker compose file that use mongodb container and connection with other containers
 
 You'd like to create an website that use mongodb as the backend database. While you also would like to have two different kinds of `production` and `development` mongodb databases.

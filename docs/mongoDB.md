@@ -107,6 +107,11 @@ Note:
 3. login another server
 4. Restore the database: `mongorestore --gzip --archive=db_name.dump`
 
+If you'd like to transfer the dump file to the container, use the following command:
+`docker cp /path/to/local/dump <container_name_or_id>:/path/within/container/dump`
+
+Then you can enter the container environment: `docker exec -it <container_name> bash`. And use the step 4 method to restore the database.
+
 It will restore the database to the default mongodb save path. You can find the save path at `/etc/mongod.conf`
 
 ## [Install mongodb in Centos7](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-centos-7)

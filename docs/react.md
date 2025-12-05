@@ -28,6 +28,8 @@ nav_order: 12
 
 ## How to use `axios` to get infor with params
 
+The following code comes from google search and AI result
+
 ```js
 // Frontend
     import axios from 'axios';

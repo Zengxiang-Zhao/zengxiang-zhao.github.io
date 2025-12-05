@@ -25,6 +25,60 @@ nav_order: 12
 
 1. [Robin's Blog](https://www.robinwieruch.de/blog/)
 
+
+## How to use `axios` to get infor with params
+
+```js
+// Frontend
+    import axios from 'axios';
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('/api/data', {
+                params: {
+                    user_id: 123,
+                    category: 'electronics'
+                }
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    fetchData();
+```
+
+Here's the backend 
+
+```js
+// Backend
+    from flask import Flask, request, jsonify
+
+    app = Flask(__name__)
+
+    @app.route('/api/data', methods=['GET'])
+    def get_data():
+        user_id = request.args.get('user_id')
+        category = request.args.get('category')
+
+        # Perform operations with user_id and category
+        # For example, fetch data from a database based on these parameters
+
+        response_data = {
+            'message': 'Data retrieved successfully',
+            'user_id': user_id,
+            'category': category,
+            'items': [f'item_for_{user_id}_in_{category}_1', f'item_for_{user_id}_in_{category}_2']
+        }
+        return jsonify(response_data)
+
+    if __name__ == '__main__':
+        app.run(debug=True)
+```
+
+
+
 ##  [The meaning of `@` in Type Script import from](https://www.google.com/search?q=import+from+with+%40+in+type+script%2C+and+what%27s+the+%40+meaning&rlz=1C1UEAD_enUS1114US1114&oq=import+from+with+%40+in+type+script%2C+and+what%27s+the+%40+meaning+&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCTE4NjQ3ajBqNKgCCLACAfEFuy-z-XteUto&sourceid=chrome&ie=UTF-8)
 
 The following content comes from the Google AI Overview

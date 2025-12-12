@@ -68,6 +68,20 @@ def login():
 
 When you need to get the current user info, you can add `@jwt_required()` before the route. Or you can use `verify_jwt_in_request()` before the `currentUser = get_jwt_identity()`. And then you will get the currentUser. And it's the username that you specified in `create_access_token`.
 
+```python
+
+@bp.route("/protected", methods=["GET",'POST'])
+def protected():
+    print(f'the request is: {request.cookies}')
+    print(f'in protected')
+    # Access the identity of the current user with get_jwt_identity
+    verify_jwt_in_request()
+    print(f'after verify')
+    current_user = get_jwt_identity()
+    print(f'current user is: {current_user}')
+    return current_user
+```
+
 # [How to use Flask to create a large website](https://www.digitalocean.com/community/tutorials/how-to-structure-a-large-flask-application-with-flask-blueprints-and-flask-sqlalchemy)
 
 1. Use `Blueprint` to contain different modules

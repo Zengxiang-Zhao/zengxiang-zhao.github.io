@@ -21,6 +21,26 @@ nav_order: 101
 
 ---
 
+# [How to get the current user in Flask API backend using flask_jwt_extended](https://flask-jwt-extended.readthedocs.io/en/stable/basic_usage.html)
+
+Just as the link of official web said. when you create the login function create the access_token as shown below:
+```python
+# Create a route to authenticate your users and return JWTs. The
+# create_access_token() function is used to actually generate the JWT.
+@app.route("/login", methods=["POST"])
+def login():
+    username = request.json.get("username", None)
+    password = request.json.get("password", None)
+    if username != "test" or password != "test":
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    # here the identiy is the info that you can get when using get_jwt_identity()
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token)
+```
+
+When you need to get the current user info, you can add `@jwt_required()` before the route. Or you can use `verify_jwt_in_request()` before the `currentUser = get_jwt_identity()`. And then you will get the currentUser. And it's the username that you specified in `create_access_token`.
+
 # [How to use Flask to create a large website](https://www.digitalocean.com/community/tutorials/how-to-structure-a-large-flask-application-with-flask-blueprints-and-flask-sqlalchemy)
 
 1. Use `Blueprint` to contain different modules

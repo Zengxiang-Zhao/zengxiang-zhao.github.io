@@ -102,13 +102,15 @@ Note:
 
 ## Transfer database from one server to another server
 
-1. Copy the database: `mongodump` : `mongodump --db db_name --archive=./mongodbBackup/db_name.dump --gzip`
+1. Copy the database: `mongodump` : `mongodump --db <db_name> --collection <colllection-name> --archive=./mongodbBackup/db_name.dump --gzip`
 2. Scp transfer the dump file: `scp db_name.yml  server_name@ip_address:path_to_save`
 3. login another server
 4. Restore the database: `mongorestore --gzip --archive=db_name.dump`
 
 If you'd like to transfer the dump file to the container, use the following command:
 `docker cp /path/to/local/dump <container_name_or_id>:/path/within/container/dump`
+
+If you want to copy the whole database, then just remove the `--collection <colllection-name>` from the first command line
 
 Then you can enter the container environment: `docker exec -it <container_name> bash`. And use the step 4 method to restore the database.
 

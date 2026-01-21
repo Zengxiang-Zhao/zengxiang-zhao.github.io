@@ -579,6 +579,14 @@ cat failed_vcf.txt| awk -F '/' '$1 ~ /09ab/ {print $NF}' | xargs -d '\n' -I{} to
 2. `$NF` means the last collumn
 3. `$1 ~ /09ab/` : regex that the first collum need to contain `09ab`
 
+```bash
+cat -n checksum_GNXS-0623_202601.log  | awk -F '\t' '{printf "%-10s %-10s %-25s %-10s\n", $1,$3,$NF,$2}'
+```
+1. -n : add line number in the cat output
+2. printf : to format the output to alin the columns output
+3. %-10s: the first column will take up 10 spaces. and left alin
+4. '\n' in printf: add new line 
+
 ## download multiple illumina project data through `xargs`
 
 ```bash

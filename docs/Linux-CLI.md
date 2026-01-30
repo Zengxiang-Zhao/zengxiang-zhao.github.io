@@ -21,6 +21,13 @@ nav_order: 100
 
 ---
 
+## Create python venv in Ubuntu
+
+1. Install venv package:  `sudo apt-get install python3-venv`
+2. Create venv: `python3 -m venv venv`
+3. Activate venv: `source venv/bin/activate`
+4. Install package: `pip install boto3`
+
 ## [Reboot the Linux Ubuntu server]
 
 Sometimes the server suddently cannot be modified as it show cannot access some files. It may be cuased by sudden power off or some other reason. To solve this issue, you may need to reboot the server using the following command

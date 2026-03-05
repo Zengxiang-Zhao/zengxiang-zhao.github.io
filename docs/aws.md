@@ -21,6 +21,10 @@ nav_order: 101
 
 ---
 
+## Connect two aws account in one on-premise server
+1. Run aws configure `--profile <profile-name>` for each account, providing unique access keys, secret keys, default regions, and output formats.
+2. Usage: Specify the desired profile with the `--profile` flag in your AWS commands (e.g., `aws s3 ls --profile AccountBProfile`) or set the AWS_DEFAULT_PROFILE environment variable for a session. 
+
 ## [aws commands comes from AWS Cookbook]
 
 - Detach the policy from the role before deleting the role
@@ -50,6 +54,7 @@ nav_order: 101
   --query RandomPassword)
   ```
 - 
+
 
 ## [aws structure based on my thought]
 

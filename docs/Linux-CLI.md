@@ -369,6 +369,24 @@ In order to save only the last 7 days data to save memory
 1 3 * * * find /var/backups/mongobackups/ -mtime +7 -exec rm -rf {} \;
 ```
 
+
+## Backup MongoDB database in docker container
+If the monogodb is in the docker container, you can use the following command to backup the database. The following method comes from the google AI search.
+
+This method creates an archive file directly on the host machine without saving intermediate files inside the container. 
+
+1. Identify the container name: Run `docker ps` to find the name of your running MongoDB container (e.g., my-mongo-container).
+2. Execute the backup command: Run the following command on your host machine to create a compressed backup file named db_backup.dump.gz in your current directory.
+```bash
+docker exec -it <container_name> sh -c 'exec mongodump --archive --gzip --oplog' > db_backup.dump.gz
+```
+- <container_name>: Replace with the name of your MongoDB container.
+- archive: Outputs the backup as a single archive file.
+- gzip: Compresses the archive file.
+- oplog: Captures writes that occur during the dump to ensure a consistent backup, useful for point-in-time recovery. 
+
+If you'd like to backup the database daily, weekly, monthly, then you can change the file name to `db_backup_<daily/weekly/monthly>_<database name>_$(date +%Y%m%d).dump.gz`
+
 ## Periodically delete folders or files using crontab
 
 e.g.

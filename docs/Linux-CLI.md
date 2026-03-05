@@ -378,14 +378,18 @@ This method creates an archive file directly on the host machine without saving 
 1. Identify the container name: Run `docker ps` to find the name of your running MongoDB container (e.g., my-mongo-container).
 2. Execute the backup command: Run the following command on your host machine to create a compressed backup file named db_backup.dump.gz in your current directory.
 ```bash
-docker exec -it <container_name> sh -c 'exec mongodump --archive --gzip --oplog' > db_backup.dump.gz
+docker exec -it <container_name> sh -c 'exec mongodump --archive --gzip --oplog --db=<database-name> --collection=<collection-name>' > db_backup.dump.gz
 ```
 - <container_name>: Replace with the name of your MongoDB container.
 - archive: Outputs the backup as a single archive file.
 - gzip: Compresses the archive file.
 - oplog: Captures writes that occur during the dump to ensure a consistent backup, useful for point-in-time recovery. 
-
+- db: optional. If you just need to backup specific whole database, then add this option
+- collection: optional. If you need to backup specific collection in specific database.
+  
 If you'd like to backup the database daily, weekly, monthly, then you can change the file name to `db_backup_<daily/weekly/monthly>_<database name>_$(date +%Y%m%d).dump.gz`
+
+
 
 ## Periodically delete folders or files using crontab
 

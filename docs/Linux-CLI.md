@@ -395,6 +395,17 @@ If you'd like to backup the database daily, weekly, monthly, then you can change
 mongorestore --archive=<path_to_archive.gz> --gzip
 ```
 
+## Sync the local file to AWS S3
+
+```bash
+aws s3 sync <local_path_folder> s3://<s3_bucket_name/foldername> --delete --profile <profile_name>
+```
+
+- --delete : Files that exist in the destination but not in the source are deleted during sync. Note that files excluded by filters are excluded from deletion.
+- <profile_name> : specify the AWS account profile
+
+## AWS S3 policy to delete the files with delete mark 
+
 
 # Periodically delete folders or files using crontab
 

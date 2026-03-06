@@ -21,14 +21,14 @@ nav_order: 100
 
 ---
 
-## Create python venv in Ubuntu
+# Create python venv in Ubuntu
 
 1. Install venv package:  `sudo apt-get install python3-venv`
 2. Create venv: `python3 -m venv venv`
 3. Activate venv: `source venv/bin/activate`
 4. Install package: `pip install boto3`
 
-## [Reboot the Linux Ubuntu server]
+# [Reboot the Linux Ubuntu server]
 
 Sometimes the server suddently cannot be modified as it show cannot access some files. It may be cuased by sudden power off or some other reason. To solve this issue, you may need to reboot the server using the following command
 
@@ -37,7 +37,7 @@ sudo reboot -f
 ```
 Here `-f` means force to reboot the server
 
-## [The difference between double brackets and single brackets](https://www.google.com/search?q=double+brackets+vs+single+brackets+bash&rlz=1C1UEAD_enUS1114US1114&oq=two+brakets+vs+single+bracket&gs_lcrp=EgZjaHJvbWUqCAgBEAAYFhgeMgYIABBFGDkyCAgBEAAYFhgeMggIAhAAGBYYHjINCAMQABiGAxiABBiKBTINCAQQABiGAxiABBiKBTIKCAUQABiABBiiBDIHCAYQABjvBTIHCAcQABjvBTIKCAgQABiABBiiBNIBCTEzNTAzajBqN6gCCLACAfEFBbAK0ZpwWkHxBQWwCtGacFpB&sourceid=chrome&ie=UTF-8)
+# [The difference between double brackets and single brackets](https://www.google.com/search?q=double+brackets+vs+single+brackets+bash&rlz=1C1UEAD_enUS1114US1114&oq=two+brakets+vs+single+bracket&gs_lcrp=EgZjaHJvbWUqCAgBEAAYFhgeMgYIABBFGDkyCAgBEAAYFhgeMggIAhAAGBYYHjINCAMQABiGAxiABBiKBTINCAQQABiGAxiABBiKBTIKCAUQABiABBiiBDIHCAYQABjvBTIHCAcQABjvBTIKCAgQABiABBiiBNIBCTEzNTAzajBqN6gCCLACAfEFBbAK0ZpwWkHxBQWwCtGacFpB&sourceid=chrome&ie=UTF-8)
 
 The following answer comes from the google AI:
 
@@ -68,7 +68,7 @@ The following answer comes from the google AI:
 >Generally, `[[ ]]` is preferred in Bash scripts due to its enhanced features, better performance, and safer handling of variables. However, if maximum portability across various POSIX-compliant shells is a strict requirement, `[ ]` should be used.
 
 
-## [ WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! ](https://stackoverflow.com/questions/20840012/ssh-remote-host-identification-has-changed)
+# [ WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! ](https://stackoverflow.com/questions/20840012/ssh-remote-host-identification-has-changed)
 
 Sometimes you encounter the issue that you cannot control the remote server by public key. And there's a error message said that "Someone could be eavesdropping on you right now".
 Right now you can just remove all host keys about the server
@@ -86,14 +86,14 @@ Right now you can just remove all host keys about the server
 >
 >>-R hostname Removes all keys belonging to hostname from a known_hosts file. This option is useful to delete hashed hosts (see the -H option above).
 
-## Convert the Ubuntu defautl editor from nano to vim
+# Convert the Ubuntu defautl editor from nano to vim
 
 Using select-editor:
 Run the command: `select-editor`.
 This will present a list of available editors. Select the number corresponding to Vim.
 This method updates the `~/.selected_editor` file, which is used by some applications. 
 
-## Convert float number to interger
+# Convert float number to interger
 
 ```sh
 memorySpace="2.8"
@@ -104,7 +104,7 @@ break # or other expression
 fi
 ```
 
-## [Close session in Ubuntu linux](https://askubuntu.com/questions/12180/logging-out-other-users-from-the-command-line)
+# [Close session in Ubuntu linux](https://askubuntu.com/questions/12180/logging-out-other-users-from-the-command-line)
 If you use the Remote Desktop to login your remote server and get the back screen. Then your session may need to be killed manually.
 
 ```bash
@@ -115,7 +115,7 @@ who -u
 kill PID
 ```
 
-## [Install http in your server command line](https://httpie.io/docs/cli/linux)
+# [Install http in your server command line](https://httpie.io/docs/cli/linux)
 
 You need to install the package `httpie`, then you can use `http` in the command line as shown below:
 
@@ -130,7 +130,7 @@ Server: Werkzeug/2.0.3 Python/3.8.16
 
 ```
 
-## [How to strip multiple spaces to one using sed?](https://unix.stackexchange.com/questions/19014/how-to-strip-multiple-spaces-to-one-using-sed)
+# [How to strip multiple spaces to one using sed?](https://unix.stackexchange.com/questions/19014/how-to-strip-multiple-spaces-to-one-using-sed)
 
 ```bash
 ... | sed 's/  */ /g' # two space with *
@@ -142,7 +142,7 @@ Note:
 1. `sed 's/  */ /g'` : repalce more than two spaces with one space in the whole line.
 2. `tr -s " "` : Squeezing repeating characters: Replacing multiple consecutive occurrences of a character with a single instance using the -s option.
 
-## [how to control remote servers without using password](https://www.linuxjournal.com/article/8600)
+# [how to control remote servers without using password](https://www.linuxjournal.com/article/8600)
 
 Sometimes, you'd like to fetch some data from different servers. e.g. check the space usage in 6 servers. If we login the 6 servers and using the command `df -H`, it would be a little tedious. When the number of servers comes to 1000, it seems like impossilbe to do it everyday. Now it comes to the topic: how could we control the remote servers?
 
@@ -188,7 +188,7 @@ Now you have a lot of space in the local server to do what you'd like to do. No 
 [Here's a good tutorial about backing up data](https://alvinalexander.com/linux-unix/how-use-scp-without-password-backups-copy/)
 
 
-## [Show Running process in Linux](https://www.cyberciti.biz/faq/how-to-check-running-process-in-linux-using-command-line/)
+# [Show Running process in Linux](https://www.cyberciti.biz/faq/how-to-check-running-process-in-linux-using-command-line/)
 
 ```bash
 ps aux | head
@@ -198,7 +198,7 @@ USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 ```
 
 
-## [`scp` Copy file from between to servers](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/)
+# [`scp` Copy file from between to servers](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/)
 
 When you cannot mount a folder in a server, you can try to use `scp` to securely copy files from one server to another.
 
@@ -228,7 +228,7 @@ scp provides a number of options that control every aspect of its behavior. The 
 > 
 > `-r` - This option tells scp to copy directories recursively.
 
-## Check the volume of folder in Linux
+# Check the volume of folder in Linux
 
 ```bash
 du -sh folderName
@@ -266,7 +266,7 @@ Filesystem      Size  Used Avail Use% Mounted on
 
 ```
 
-## [nohup ](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux)
+# [nohup ](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux)
 
 If you still want to keep the processes running even exiting the shell/terminal, then `nohup` is your choice.
 
@@ -295,7 +295,7 @@ nohup COMMAND > outputPath/filename.out &
 You can use the `jobs` to list the running `nohup` command.
 
 
-## [Backup in Linux](https://averagelinuxuser.com/automatically-backup-linux/)
+# [Backup in Linux](https://averagelinuxuser.com/automatically-backup-linux/)
 If you build a database and you'd like to backup the database periodically, then you can use `rsync` and `crontab`
 
 1. You should use the user account that has the `sudo` permission
@@ -312,7 +312,7 @@ Sometimes, you do not have the sudo permission to use rsync command. Here's a so
 
 **`The safe way to store you data is to backup your data using crontab and then using github to save your source code.`**
 
-## Backup using bash script
+# Backup using bash script
 
 Sometimes, the folder you'd like to backup is not permitted to cooy or you can just copy the structre of the folders. And there are not files in the folder. then try the following methods
 
@@ -355,7 +355,7 @@ crontab file
 
 
 
-## [Backup MongoDB](https://www.digitalocean.com/community/tutorials/how-to-back-up-restore-and-migrate-a-mongodb-database-on-ubuntu-20-04)
+# [Backup MongoDB](https://www.digitalocean.com/community/tutorials/how-to-back-up-restore-and-migrate-a-mongodb-database-on-ubuntu-20-04)
 
 In crontab
 
@@ -370,7 +370,7 @@ In order to save only the last 7 days data to save memory
 ```
 
 
-## Backup MongoDB database in docker container
+# Backup MongoDB database in docker container
 If the monogodb is in the docker container, you can use the following command to backup the database. The following method comes from the google AI search.
 
 This method creates an archive file directly on the host machine without saving intermediate files inside the container. 
@@ -378,20 +378,25 @@ This method creates an archive file directly on the host machine without saving 
 1. Identify the container name: Run `docker ps` to find the name of your running MongoDB container (e.g., my-mongo-container).
 2. Execute the backup command: Run the following command on your host machine to create a compressed backup file named db_backup.dump.gz in your current directory.
 ```bash
-docker exec -it <container_name> sh -c 'exec mongodump --archive --gzip --oplog --db=<database-name> --collection=<collection-name>' > db_backup.dump.gz
+docker exec -it <container_name> sh -c "mongodump  --db=<database_name> --archive=$pathInContainer/db_backup_daily_$dbReport-$dateStr.gz --gzip"
 ```
 - <container_name>: Replace with the name of your MongoDB container.
 - archive: Outputs the backup as a single archive file.
 - gzip: Compresses the archive file.
-- oplog: Captures writes that occur during the dump to ensure a consistent backup, useful for point-in-time recovery. 
 - db: optional. If you just need to backup specific whole database, then add this option
 - collection: optional. If you need to backup specific collection in specific database.
+- `mount the arhive path to the local folder, thus you can get the file directly`
   
 If you'd like to backup the database daily, weekly, monthly, then you can change the file name to `db_backup_<daily/weekly/monthly>_<database name>_$(date +%Y%m%d).dump.gz`
 
+## Restore the database
+
+```bash
+mongorestore --archive=<path_to_archive.gz> --gzip
+```
 
 
-## Periodically delete folders or files using crontab
+# Periodically delete folders or files using crontab
 
 e.g.
 
@@ -419,7 +424,7 @@ Note:
 >`-exec rm -rf {} \;` : delete the folders that satisfy the above files. you must place *`\;`* at end to end the execution command.
 
 
-## [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
+# [Customizing your terminal using OhMyZsh](https://gabrieltanner.org/blog/customizing-terminal-using-ohmyzsh)
 此链接解释怎么在terminal 配置ohmyzsh shell.
 
 如果是在Ubuntu中进行修改则需要注意以下几点：
@@ -427,7 +432,7 @@ Note:
   2. 更改 zsh-syntax-highlighting的背景颜色，不然在Dark solarized的背景下看不清：在 `~/.zshrc`中添加 `ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=yellow"`
 
 
-## [vim 配置](https://blog.csdn.net/qingdujun/article/details/81411197)
+# [vim 配置](https://blog.csdn.net/qingdujun/article/details/81411197)
 
 [Another web source that shows the details of `.vimrc`](https://gist.github.com/shreeshga/1405763)
 我的vim配置如下：create a .vimrc in the home directory if there's no such file.
@@ -459,7 +464,7 @@ inoremap [ []<ESC>i
 
 ```
 
-## [How to add file header using vim](https://medium.com/@venumadhav888/how-to-configure-custom-headers-to-the-shell-script-files-automatically-a2d53aa4d0d2)
+# [How to add file header using vim](https://medium.com/@venumadhav888/how-to-configure-custom-headers-to-the-shell-script-files-automatically-a2d53aa4d0d2)
 
 Using space to align the row instead of tab, otherwise it cannot search the pattern correctly.
 
@@ -472,7 +477,7 @@ autocmd bufnewfile *.sh,*.py exe "1," . 10 . "g/Creation Date  :.*/s//Creation D
 autocmd Bufwritepre,filewritepre  *.sh,*.py exe "1," . 11 . "g/Last Modified  :.*/s//Last Modified  :".strftime("%c")
 ```
 
-## 如何在Linux系统中管理用户并赋予相应的权限
+# 如何在Linux系统中管理用户并赋予相应的权限
 
 如果我们写了一些程序想让别人运行，但是并不像让他们对文件进行操作，例如查看，修改。只是让他们运行文件而已。
 
@@ -493,7 +498,7 @@ autocmd Bufwritepre,filewritepre  *.sh,*.py exe "1," . 11 . "g/Last Modified  :.
 6. Do some test to confirm your process is ok
 
 
-## [Manage a group and user in linux](https://linuxize.com/post/how-to-create-groups-in-linux/)
+# [Manage a group and user in linux](https://linuxize.com/post/how-to-create-groups-in-linux/)
 
 - show groups : `cat /etc/group`
 - show users : `cat /etc/passwd`
@@ -507,12 +512,12 @@ autocmd Bufwritepre,filewritepre  *.sh,*.py exe "1," . 11 . "g/Last Modified  :.
 - Create a new user in Linux : `sudo useradd -s /usr/bin/bash -m new_user`
 
 
-## mkdir
+# mkdir
 
 1. `mkdir -p d1/d2/d3 `一次生成多个folder，即使d2,d3不存在，同样可以建立.
 
 
-## tar
+# tar
 
 1. `tar  -xf v5.24.1.tar.gz --strip 1 "*/data" "*/environment.yaml"`
 
@@ -538,7 +543,7 @@ autocmd Bufwritepre,filewritepre  *.sh,*.py exe "1," . 11 . "g/Last Modified  :.
 - `tar -xfm folder.tar.gz`: -m do not modify the time of the file.
 
 
-## [find](https://opensource.com/article/18/4/how-use-find-linux)
+# [find](https://opensource.com/article/18/4/how-use-find-linux)
 
 找到满足一定要求的文件
 
@@ -596,7 +601,7 @@ Note:
 
 
 
-## [awk 的使用](https://linuxize.com/post/awk-command/)
+# [awk 的使用](https://linuxize.com/post/awk-command/)
 
 `awk` is a command to process the output of other command, and then extract the interested content.
 
@@ -616,7 +621,7 @@ cat -n checksum_GNXS-0623_202601.log  | awk -F '\t' '{printf "%-10s %-10s %-25s 
 3. %-10s: the first column will take up 10 spaces. and left alin
 4. '\n' in printf: add new line 
 
-## download multiple illumina project data through `xargs`
+# download multiple illumina project data through `xargs`
 
 ```bash
 cat download-list.txt | xargs -d '\n'  -I{} /home/user/Softwares/linux-amd64/icav2 projectdata download {}
@@ -625,7 +630,7 @@ cat download-list.txt | xargs -d '\n'  -I{} /home/user/Softwares/linux-amd64/ica
 2. [`xargs`](https://linuxhint.com/xargs_linux/) can be used to redirect the arguments to other command. Here `-d` define the delimer; `-I{}` define a variable named `{}` that can be used in other command 
 3. `/home/user/Softwares/linux-amd64/icav2`: specify the absolute path to the command, if you just use the `icav2`, it cannot work. Even though you use alias and operate the command in bash terminal.
 
-## How to find all files containing specific text (string) on Linux
+# How to find all files containing specific text (string) on Linux
 
 ```bash
 grep -rnw '/path/to/somewhere/' -e 'pattern'
@@ -644,10 +649,10 @@ grep -rnwil './' -e 'id'
 ```
 
 
-## [What is the difference between the Bash operators `[[` vs `[` vs `(` vs `((`?](https://unix.stackexchange.com/questions/306111/what-is-the-difference-between-the-bash-operators-vs-vs-vs)
+# [What is the difference between the Bash operators `[[` vs `[` vs `(` vs `((`?](https://unix.stackexchange.com/questions/306111/what-is-the-difference-between-the-bash-operators-vs-vs-vs)
 
 
-## [How to parse bash script arguments](https://www.shellscript.sh/tips/getopt/index.html)
+# [How to parse bash script arguments](https://www.shellscript.sh/tips/getopt/index.html)
 
 - use `getopt`
 - [Resouce 2](https://stackabuse.com/how-to-parse-command-line-arguments-in-bash/)

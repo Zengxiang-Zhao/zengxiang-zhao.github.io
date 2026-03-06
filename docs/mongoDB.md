@@ -20,6 +20,135 @@ nav_order: 12
 </details>
 
 ---
+# Fix the issue: Mongodb database fails all the time
+The `MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017` error means your application is trying to connect to MongoDB, but the connection is being refused . This is almost always because the MongoDB service isn't running or isn't configured correctly .
+
+Let's troubleshoot this systematically:
+
+## 🔍 Quick Diagnostic Steps
+
+### 1. Check if MongoDB is running
+```bash
+sudo systemctl status mongod
+```
+
+If you see `inactive (dead)` or `failed`, the service isn't running .
+
+### 2. Start MongoDB if it's not running
+```bash
+sudo systemctl start mongod
+```
+
+Then verify it started correctly:
+```bash
+sudo systemctl status mongod
+```
+
+You should see `active (running)` .
+
+### 3. Test local connection
+```bash
+mongosh --host 127.0.0.1 --port 27017
+```
+or
+```bash
+mongo --host 127.0.0.1 --port 27017
+```
+
+If this works, the issue is resolved. If not, proceed to the next steps.
+
+## 🛠️ Common Causes & Fixes
+
+### Issue 1: MongoDB isn't set to start automatically
+```bash
+sudo systemctl enable mongod
+```
+
+### Issue 2: Port 27017 isn't listening
+Check if MongoDB is actually listening on the port:
+```bash
+sudo ss -lntp | grep 27017
+```
+or
+```bash
+sudo netstat -tulnp | grep 27017
+```
+
+If nothing appears, MongoDB isn't binding to the port properly .
+
+### Issue 3: Check MongoDB logs for errors
+```bash
+sudo tail -f /var/log/mongodb/mongod.log
+```
+
+Look for lines containing `error`, `failed`, or `exception` .
+
+### Issue 4: After improper shutdown - lock file issue
+If MongoDB crashed or the system shut down improperly:
+```bash
+sudo systemctl stop mongod
+sudo rm /var/lib/mongodb/mongod.lock
+sudo mongod --repair --dbpath /var/lib/mongodb
+sudo systemctl start mongod
+```
+
+### Issue 5: Permission problems
+Ensure the data directory has correct ownership:
+```bash
+sudo chown -R mongodb:mongodb /var/lib/mongodb
+sudo chown -R mongodb:mongodb /var/log/mongodb
+```
+
+### Issue 6: Configuration file issue
+Check your MongoDB configuration:
+```bash
+sudo cat /etc/mongod.conf | grep -A 5 "net:"
+```
+
+Make sure `bindIp: 127.0.0.1` is present (for local-only connections) .
+
+## 🔄 If MongoDB Won't Start At All
+
+Try these commands in sequence:
+
+```bash
+# Stop if running
+sudo systemctl stop mongod
+
+# Check for and remove lock file
+sudo rm -f /var/lib/mongodb/mongod.lock
+
+# Repair the database
+sudo -u mongodb mongod --repair --dbpath /var/lib/mongodb
+
+# Start the service
+sudo systemctl start mongod
+
+# Check status
+sudo systemctl status mongod
+```
+
+## 📊 After Fixing: Verify Everything Works
+
+```bash
+# Test connection
+mongosh --eval "db.runCommand({connectionStatus:1})"
+
+# Or with legacy mongo shell
+mongo --eval "db.runCommand({connectionStatus:1})"
+```
+
+If you see connection status with `ok: 1`, you're all set!
+
+## 🚨 Still Having Issues?
+
+Please share the output of:
+1. `sudo systemctl status mongod`
+2. The last 20 lines of `sudo tail -20 /var/log/mongodb/mongod.log`
+3. `sudo ss -lntp | grep 27017`
+
+This will help pinpoint the exact problem.
+
 
 ## Change the save path of mongodb
 

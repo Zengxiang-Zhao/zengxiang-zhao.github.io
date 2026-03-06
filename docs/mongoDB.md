@@ -189,7 +189,7 @@ Note:
 2. `\b`: Matches a word boundary.E.g.  `r"\b(apple|banana)\b"` This ensures that only whole words "apple" or "banana" are matched, not parts of other words (e.g., "pineapple").
 3. `|`: Acts as an "OR" operator, matching either the pattern before or after it.
 
-## How to create a volume and launch a mongoDB container using that volume
+# How to create a volume and launch a mongoDB container using that volume
 
 1. Create a volume that mount to your local path
     ```bash
@@ -245,7 +245,7 @@ Then you can enter the container environment: `docker exec -it <container_name> 
 
 It will restore the database to the default mongodb save path. You can find the save path at `/etc/mongod.conf`
 
-## [Install mongodb in Centos7](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-centos-7)
+# [Install mongodb in Centos7](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-centos-7)
 
 1. Create a file : `sudo vi /etc/yum.repos.d/mongodb-org.repo`
 2. Enter the content at /etc/yum.repos.d/mongodb-org.repo:
@@ -275,7 +275,7 @@ Uninstall the Mongodb :
    ```
 
 
-## Aggregation pipeline
+# Aggregation pipeline
 
 Check the official document for [pipeline stages](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/)
 
@@ -358,7 +358,7 @@ arrayFilter = [{f"element.ID2":ID2}]
 result = collectionImportant.update_one(filter=query,update=update,array_filters=arrayFilter)
 ```
 
-## restart MongoDB
+# restart MongoDB
 
 When the server crashed down, and you failed to connect to the mongoDB server after typing `mongosh`. Then you need to restart the mongoDB server as shown below.
 
@@ -383,7 +383,7 @@ You need to use `True` or `False` to specify which filed needed to be returned.
 3. restore the collection to another database: mongorestore -d some_other_db -c some_or_other_collection dump/some_collection.bson (e.g. mongorestore -d report -c comment_ST dump/comment/comment_ST.bson)
 4. Done!
 
-## [Remove one filed in collection](https://stackoverflow.com/questions/6851933/how-to-remove-a-field-completely-from-a-mongodb-document)
+# [Remove one filed in collection](https://stackoverflow.com/questions/6851933/how-to-remove-a-field-completely-from-a-mongodb-document)
 
 ```bash
 db.example.update({}, {$unset: {words:1}} , {multi: true});
@@ -394,7 +394,7 @@ Add one filed in collection:
 db.example.update({}, {$set: {'status':'active'}} , {multi: true});
 ```
 
-## [Rename the filed in collection](https://stackoverflow.com/questions/9254351/how-can-i-rename-a-field-for-all-documents-in-mongodb)
+# [Rename the filed in collection](https://stackoverflow.com/questions/9254351/how-can-i-rename-a-field-for-all-documents-in-mongodb)
 
 go into the mongosh command line interface
 

@@ -21,11 +21,11 @@ nav_order: 101
 
 ---
 
-## Connect two aws account in one on-premise server
+# Connect two aws account in one on-premise server
 1. Run aws configure `--profile <profile-name>` for each account, providing unique access keys, secret keys, default regions, and output formats.
 2. Usage: Specify the desired profile with the `--profile` flag in your AWS commands (e.g., `aws s3 ls --profile AccountBProfile`) or set the AWS_DEFAULT_PROFILE environment variable for a session. 
 
-## [aws commands comes from AWS Cookbook]
+# [aws commands comes from AWS Cookbook]
 
 - Detach the policy from the role before deleting the role
    
@@ -56,7 +56,7 @@ nav_order: 101
 - 
 
 
-## [aws structure based on my thought]
+# [aws structure based on my thought]
 
 In all, AWS is build by the following parts:
 1. IAM : provide security 
@@ -68,19 +68,19 @@ Security Group(SG) provide security for indivisual resource( e.g.: Lambda, EC2) 
 
 The resource is an instance of service.
 
-## [aws Cloud Develop Kit documentation](https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_rds/MysqlEngineVersion.html)
+# [aws Cloud Develop Kit documentation](https://docs.aws.amazon.com/cdk/api/v2/python/aws_cdk.aws_rds/MysqlEngineVersion.html)
 
 You can find the libary of aws CDK.
 
 
 
-## Connect the EC2 instance using the CLI
+# Connect the EC2 instance using the CLI
 
 ```bash
 aws ssm start-session --target $INSTANCE_ID
 ```
 
-## [Concept: What's the CIDR(Classless Inter-Domain Routing)](https://www.youtube.com/watch?v=KiWXRL-2TnY)
+# [Concept: What's the CIDR(Classless Inter-Domain Routing)](https://www.youtube.com/watch?v=KiWXRL-2TnY)
 
 From the Google Search:
 >CIDR notation is a compact way to express an IP address and its associated network by following it with a slash and a number indicating how many bits are used for the network prefix
@@ -95,14 +95,14 @@ For example, 10.0.0.0/16 represents all IP addresses in 10.0.0.0 and 10.0.255.25
 
 If the subnet is 10.0.0.0/24, then all IP addresses is in 10.0.0.0 and 10.0.0.255. Because only 8 bits left for the subnet.
 
-## [AWS CLI to restore an Amazon S3 object from the S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage class](https://repost.aws/knowledge-center/restore-s3-object-glacier-storage-class)
+# [AWS CLI to restore an Amazon S3 object from the S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage class](https://repost.aws/knowledge-center/restore-s3-object-glacier-storage-class)
 
 ```bash
 $ aws s3api restore-object --bucket awsexamplebucket --key dir1/example.obj --restore-request '{"Days":25,"GlacierJobParameters":{"Tier":"Standard"}}'
 
 ```
 
-## Copy local file to AWS S3
+# Copy local file to AWS S3
 
 When you transfer data to AWS S3, you need to use the following code
 ```bash

@@ -20,7 +20,17 @@ nav_order: 101
 </details>
 
 ---
+# Configure lifecycle configuration and use the filter to apply the policy to specific folder
 
+The following comes from Google AI
+> In S3 lifecycle configurations, you define a prefix within a Filter block (XML) or a filter argument (Terraform) to target specific folders or subsets of objects. The prefix acts as a key-value folder path (e.g., logs/ or data/archive/). If omitted, the rule applies to the entire bucket
+
+Key Considerations:
+- No leading slash: Do not start the prefix with a `/` (e.g., use `folder/`, not `/folder/`).
+- Case Sensitivity: Prefixes are case-sensitive.
+- Empty Prefix: An empty prefix ("") applies the rule to all objects in the bucket.
+
+  
 # Connect two aws account in one on-premise server
 1. Run aws configure `--profile <profile-name>` for each account, providing unique access keys, secret keys, default regions, and output formats.
 2. Usage: Specify the desired profile with the `--profile` flag in your AWS commands (e.g., `aws s3 ls --profile AccountBProfile`) or set the AWS_DEFAULT_PROFILE environment variable for a session. 

@@ -628,7 +628,7 @@ cat failed_vcf.txt| awk -F '/' '$1 ~ /09ab/ {print $NF}' | xargs -d '\n' -I{} to
 cat -n checksum_GNXS-0623_202601.log  | awk -F '\t' '{printf "%-10s %-10s %-25s %-10s\n", $1,$3,$NF,$2}'
 
 # Show upload time
-cat -n checksum_GNXS-0623_202601.log  | awk -F '\t' '{printf "%-10s %-10s %-25s %-10s\n", $1,$3,$NF,$2}'
+cat -n checksum_GNXS-0623_202603.log  | awk -F '\t' '{printf "%-5s %-10s %-25s %-35s %-5s\n", $1,$3,$NF,$5,$2}'
 ```
 1. -n : add line number in the cat output
 2. printf : to format the output to alin the columns output

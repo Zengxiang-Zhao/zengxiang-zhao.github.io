@@ -21,6 +21,10 @@ nav_order: 101
 
 ---
 
+# TODO
+
+1. How to create a Hub-and-Spoke Topologies. Use the tutorial to build a real structure in the AWS to understand the concepts of VPC, Subnet, AWS Transit Gate Way and CIDR blocks, EC2, Security groups, Loading balancer, etc.
+
 # The relationship between AWS Region, AWS AZs, VPC and subnets
 
 The following example comes from DeepSeek.

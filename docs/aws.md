@@ -47,6 +47,16 @@ systemctl enable httpd
 echo "<h1>Hello from $(hostname -f)</h1>" > /var/www/html/index.html
 ```
 
+Or use the Apache web server
+
+```bash
+#!/bin/bash
+apt-get update
+apt-get install -y apache2
+echo "Welcome to my website"> index.html
+cp index.html /var/www/html
+```
+
 
 # Configure lifecycle configuration and use the filter to apply the policy to specific folder
 

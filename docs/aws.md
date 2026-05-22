@@ -20,6 +20,17 @@ nav_order: 101
 </details>
 
 ---
+# How to get the ip address
+
+```bash
+curl http://checkip.amazonaws.com/
+
+curl ifconfig.me
+```
+
+Or just paste the address `http://checkip.amazonaws.com/` or `ifconfig.me` in the browser.
+
+
 # A simple EC2 web to show the instance IP address
 
 This template will boot a simple web server.

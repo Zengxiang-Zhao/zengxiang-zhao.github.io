@@ -20,6 +20,34 @@ nav_order: 101
 </details>
 
 ---
+# A simple EC2 web to show the instance IP address
+
+This template will boot a simple web server.
+
+- Navigate to EC2 → Launch Templates → Create launch template.
+
+- Name: WebServer-LT
+
+- AMI: Select Amazon Linux 2 AMI (HVM) (Free tier eligible).
+
+- Instance type: Select t2.micro (Free tier eligible).
+
+- Key pair (login): Select an existing key pair or create a new one to SSH into the instances later.
+
+- Network settings: Leave as default (the launch template will be associated with a security group later).
+
+- Advanced details → User data: Copy and paste the script below. This installs Apache and creates a custom webpage.
+
+```bash
+#!/bin/bash
+yum update -y
+yum install -y httpd
+systemctl start httpd
+systemctl enable httpd
+echo "<h1>Hello from $(hostname -f)</h1>" > /var/www/html/index.html
+```
+
+
 # Configure lifecycle configuration and use the filter to apply the policy to specific folder
 
 The following comes from Google AI

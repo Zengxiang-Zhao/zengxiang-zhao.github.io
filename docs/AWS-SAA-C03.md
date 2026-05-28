@@ -21,6 +21,24 @@ nav_order: 102
 
 ---
 
+# what's the difference between the database read replica and the Multi-AZ replica
+The core difference between a Read Replica and a Multi-AZ replica lies in their fundamental purpose: **Read Replicas are for scaling read-heavy database workloads, while Multi-AZ deployments are for ensuring high availability and disaster recovery.**
+
+Here is a summary of their key differences to help you understand the core concepts:
+
+| Feature | Read Replica | Multi-AZ Replica (Standby) |
+| :--- | :--- | :--- |
+| **Primary Purpose** | **Scalability:** Offloads read traffic from the primary database to improve performance and throughput. | **High Availability (HA):** Provides automatic failover to a standby instance to ensure database uptime in case of a failure. |
+| **Accessibility** | **Actively used** for read-only traffic (e.g., reporting, analytics). Your applications can connect directly to it. | **Passive standby.** Not used for read traffic (with the standard one-standby deployment) unless a failover occurs. |
+| **Replication Type** | **Asynchronous.** Updates from the primary are applied to the replica after they are committed. This means the replica may be slightly behind the primary. | **Synchronous (for the one-standby model).** Data is written to the primary and standby at the same time, ensuring no data loss during a failover. |
+| **Impact on Primary** | **Low.** Offloading reads frees up the primary's compute capacity for write operations, improving overall application performance. | **Noticeable.** Synchronous replication adds a small amount of latency to write operations, as the primary must wait for the standby to confirm the write. |
+| **Failover Process** | **Manual.** You must promote the read replica to become its own standalone primary database. | **Automatic.** In a failure, AWS automatically flips the DNS record to point to the standby with no manual intervention. |
+| **Number of Copies**| **Up to 15** per primary database, allowing for significant read scaling. | **One** standby replica (for the standard one-standby deployment), located in a different Availability Zone. |
+| **Best For** | Read-heavy applications, reporting, dashboards, and analytics that need to offload the primary database. | Production databases where high availability, data durability, and automatic failover are critical. |
+
+---
+In short, you use a **Read Replica** to make your application faster when many people are reading data, and you use a **Multi-AZ** deployment to make sure your database stays online even if something breaks.
+
 # About the database storage
 
 Memory‐optimized instances are EBS optimized, providing dedicated bandwidth for EBS storage. Standard instances are not EBS optimized and top out at 10,000 Mbps disk throughput. Burstable performance instances are designed for development and test workloads and provide the lowest disk throughput of any instance class. There is no instance class called storage optimized.

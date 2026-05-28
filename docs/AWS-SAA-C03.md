@@ -49,9 +49,12 @@ General‐purpose SSD storage allocates three IOPS per gigabyte, up to 10,000 IO
 - Standard SSD (gp3) ratio for storage is: 3 IOPS to 1 GB
 - MySQL,MariaDB for io1 ratio: 1 IOPS is : 16kb
 - Oracle, PostgreSQL, and Microsoft SQL Server use a page size of :  8 KB.
-- DynamoDB: strongly consistent read capacity: 4kb/second; eventually consistent read: 8kb/second; Write data capacity: 1kb/second
--
-- DynamoDB reserves partitions based on the number of read capacity units (RCUs) and write capacity units (WCUs) you specify when creating a table.For an item up to 4 KB in size, one RCU buys you one strongly consistent read per second; If you use an eventually consistent read, one RCU buys you two eventually consistent reads per second. To read an 8 KB item every second using an eventually consistent read, you’d need only one RCU. When it comes to writing data, one WCU gives you one write per second for an item up to 1 KB in size.
+- DynamoDB:
+  - strongly consistent read capacity: 4kb/second;
+  - eventually consistent read: 8kb/second;
+  - Write data capacity: 1kb/second
+
+DynamoDB reserves partitions based on the number of read capacity units (RCUs) and write capacity units (WCUs) you specify when creating a table.For an item up to 4 KB in size, one RCU buys you one strongly consistent read per second; If you use an eventually consistent read, one RCU buys you two eventually consistent reads per second. To read an 8 KB item every second using an eventually consistent read, you’d need only one RCU. When it comes to writing data, one WCU gives you one write per second for an item up to 1 KB in size.
 
 # Public IP vs Private IP of instnace
 

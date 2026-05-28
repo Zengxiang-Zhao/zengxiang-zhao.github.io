@@ -27,6 +27,11 @@ Memory‐optimized instances are EBS optimized, providing dedicated bandwidth fo
 
 General‐purpose SSD storage allocates three IOPS per gigabyte, up to 10,000 IOPS. Therefore, to get 600 IOPS, you’d need to allocate 200 GB. Allocating 100 GB would give you only 300 IOPS. The maximum storage size for gp2 storage is 16 TB, so 200 TB is not a valid value. The minimum amount of storage you can allocate depends on the database engine, but it’s no less than 20 GB, so 200 MB is not valid.
 
+- io1 ratio for storage is : 50 IOPS to 1 GB
+- Standard SSD (gp3) ratio for storage is: 3 IOPS to 1 GB
+- MySQL,MariaDB for io1 ratio: 1 IOPS is : 16kb
+- Oracle, PostgreSQL, and Microsoft SQL Server use a page size of :  8 KB.
+
 # Public IP vs Private IP of instnace
 
 The private IP is the instance's true source address for every single packet it sends. The public IP is just a translation that happens at the Internet Gateway (IGW) or NAT Gateway for traffic that leaves the VPC.

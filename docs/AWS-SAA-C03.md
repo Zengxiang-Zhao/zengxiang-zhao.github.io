@@ -21,6 +21,10 @@ nav_order: 102
 
 ---
 
+# About the database storage
+
+Memory‐optimized instances are EBS optimized, providing dedicated bandwidth for EBS storage. Standard instances are not EBS optimized and top out at 10,000 Mbps disk throughput. Burstable performance instances are designed for development and test workloads and provide the lowest disk throughput of any instance class. There is no instance class called storage optimized.
+
 # Public IP vs Private IP of instnace
 
 The private IP is the instance's true source address for every single packet it sends. The public IP is just a translation that happens at the Internet Gateway (IGW) or NAT Gateway for traffic that leaves the VPC.

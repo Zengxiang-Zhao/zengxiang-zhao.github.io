@@ -21,6 +21,10 @@ nav_order: 102
 
 ---
 
+# Public IP vs Private IP of instnace
+
+The private IP is the instance's true source address for every single packet it sends. The public IP is just a translation that happens at the Internet Gateway (IGW) or NAT Gateway for traffic that leaves the VPC.
+
 # Simple example to build a private EC2 instance that can access the internet only through a NAT Gateway (no public IP on the instance). Comes from DeepSeek result
 
 Below is a simple, step‑by‑step example you can complete in the AWS Console. It creates a **private EC2 instance** that can access the internet **only through a NAT Gateway** (no public IP on the instance).

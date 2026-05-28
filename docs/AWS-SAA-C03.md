@@ -21,4 +21,5 @@ nav_order: 102
 
 ---
 
-# TDO
+# Simple example to build a private EC2 instance that can access the internet only through a NAT Gateway (no public IP on the instance). Comes from DeepSeek result
+

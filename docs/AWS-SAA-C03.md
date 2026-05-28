@@ -20,6 +20,12 @@ nav_order: 102
 </details>
 
 ---
+# CloudWatch metrics storage period
+
+- Metrics stored at one‐hour resolution age out after : 15 months.
+- Five‐minute resolutions are stored for : 63 days.
+- One‐minute resolution metrics are stored for :15 days.
+- High‐resolution metrics are kept for 3 hours.
 
 # what's the difference between the database read replica and the Multi-AZ replica
 The core difference between a Read Replica and a Multi-AZ replica lies in their fundamental purpose: **Read Replicas are for scaling read-heavy database workloads, while Multi-AZ deployments are for ensuring high availability and disaster recovery.**

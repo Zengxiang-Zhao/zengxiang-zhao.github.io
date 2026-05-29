@@ -20,6 +20,11 @@ nav_order: 102
 </details>
 
 ---
+
+# Delete cloudWatch storage
+
+Every log stream must be in a log group. The retention period setting of a log group controls how long CloudWatch retains log events within those streams. You can’t manually delete log events individually, but you can delete all events in a log stream by deleting the stream. You can’t set a retention period on a log stream directly.
+
 # CloudWatch metrics storage period
 
 - Metrics stored at one‐hour resolution age out after : 15 months.

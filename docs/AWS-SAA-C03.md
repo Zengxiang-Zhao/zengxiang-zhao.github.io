@@ -21,6 +21,340 @@ nav_order: 102
 
 ---
 
+# Use Lambda, SQS and S3 to process images automatically
+
+The following steps come from DeepSeek
+
+This example will help you understand how S3, SQS, and Lambda work together to process images automatically.
+
+---
+
+## 🎯 What You'll Build
+
+A fully automated image processing pipeline:
+
+```text
+User uploads "photo.jpg" → S3 bucket (raw-images) → SQS queue → Lambda → S3 bucket (compressed-images)
+```
+
+When a user uploads an image to the `raw-images` bucket:
+1. S3 automatically sends a notification to an SQS queue
+2. Lambda polls the queue and processes the image
+3. Lambda compresses it and saves it to the `compressed-images` bucket
+4. Lambda deletes the message from the queue (success tracking)
+
+---
+
+## 📋 Prerequisites
+
+- AWS account (free tier works)
+- Basic knowledge of navigating AWS Console
+
+---
+
+## 🛠️ Step-by-Step Implementation
+
+### Step 1: Create Two S3 Buckets
+
+1. Open **S3 Console** → **Create bucket**
+
+**Bucket 1 (Raw images):**
+- Name: `raw-images-yourname` (use a globally unique name)
+- Region: `us-east-1`
+- Leave all default settings
+- Click **Create bucket**
+
+**Bucket 2 (Compressed images):**
+- Name: `compressed-images-yourname`
+- Region: `us-east-1`
+- Leave all default settings
+- Click **Create bucket**
+
+---
+
+### Step 2: Create an SQS Queue
+
+1. Open **SQS Console** → **Create queue**
+2. Configure:
+   - **Type**: Standard
+   - **Name**: `image-processing-queue`
+   - **Visibility timeout**: `60` seconds (time for Lambda to process)
+   - **Message retention period**: `300` seconds (5 minutes for testing)
+   - Leave everything else default
+3. Click **Create queue**
+
+Here you need to modify the SQS Access policy to enable S3 to connect to the queue.
+
+```bash
+{
+  "Version": "2012-10-17",
+  "Id": "example-ID",
+  "Statement": [
+    {
+      "Sid": "Allow S3 to send message",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "SQS:SendMessage",
+      "Resource": "arn:aws:sqs:us-east-1:<YOUR-AWS-ID>:image-processing-queue",
+      "Condition": {
+        "StringEquals": {
+          "aws:SourceAccount": "<YOUR-AWS-ID>"
+        },
+        "ArnLike": {
+          "aws:SourceArn": "arn:aws:s3:::raw-images-yourname"
+        }
+      }
+    }
+  ]
+}
+
+```
+
+---
+
+### Step 3: Configure S3 to Send Notifications to SQS
+
+1. Go to your `raw-images-yourname` bucket
+2. Click **Properties** tab
+3. Scroll to **Event notifications** → Click **Create event notification**
+4. Configure:
+   - **Event name**: `image-upload-event`
+   - **Event types**: Select `Put` and `Post` (covers all upload methods)
+   - **Destination**: Select **SQS queue**
+   - **Specify SQS queue**: Choose `image-processing-queue`
+5. Click **Save changes**
+
+> ✅ **Test this step**: Upload a test file to the bucket. You should see a message appear in the SQS queue (SQS Console → `image-processing-queue` → **Send and receive messages** → **Poll for messages**).
+
+---
+
+### Step 4: Create the Lambda Function
+
+#### 4.1 Create IAM Role for Lambda
+
+1. Open **IAM Console** → **Roles** → **Create role**
+2. Select **AWS service** → **Lambda** → **Next**
+3. Search and attach these policies:
+   - `AWSLambdaBasicExecutionRole` (CloudWatch logs)
+   - `AmazonSQSFullAccess` (for simplicity; in production, restrict permissions)
+   - `AmazonS3FullAccess` (for simplicity; in production, restrict to specific buckets)
+4. Click **Next**
+5. Role name: `lambda-sqs-s3-role` → **Create role**
+
+#### 4.2 Create the Lambda Function
+
+1. Open **Lambda Console** → **Create function**
+2. Configure:
+   - **Function name**: `image-processor`
+   - **Runtime**: `Python 3.12` (or latest)
+   - **Architecture**: `x86_64`
+   - **Permissions**: Choose **Use an existing role** → select `lambda-sqs-s3-role`
+3. Click **Create function**
+
+#### 4.3 Add SQS Trigger to Lambda
+
+1. In your Lambda function, click **Add trigger**
+2. Configure:
+   - **Source**: `SQS`
+   - **SQS queue**: `image-processing-queue`
+   - **Batch size**: `1` (process one image at a time)
+3. Click **Add**
+
+> ⚠️ **Important**: This automatically enables Lambda to poll the queue. Lambda will delete the message only after your function returns a success status.
+
+#### 4.4 Add the Processing Code
+
+Replace the default code with:
+
+```python
+import boto3
+import os
+from PIL import Image
+import io
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+    # Loop through each message (batch size may be >1)
+    for record in event['Records']:
+        # Step 1: Parse the S3 event from the SQS message body
+        sqs_body = record['body']
+        
+        # The S3 event is JSON, so we can parse it directly
+        import json
+        s3_event = json.loads(sqs_body)
+        
+        # Step 2: Extract bucket and object key
+        for s3_record in s3_event.get('Records', []):
+            source_bucket = s3_record['s3']['bucket']['name']
+            source_key = s3_record['s3']['object']['key']
+            
+            print(f"Processing: {source_bucket}/{source_key}")
+            
+            # Step 3: Download the image
+            response = s3.get_object(Bucket=source_bucket, Key=source_key)
+            original_image = Image.open(io.BytesIO(response['Body'].read()))
+            
+            # Step 4: Compress the image (resize to 50%)
+            width, height = original_image.size
+            compressed_image = original_image.resize((width // 2, height // 2))
+            
+            # Step 5: Save to compressed image bucket
+            compressed_buffer = io.BytesIO()
+            compressed_image.save(compressed_buffer, format='JPEG', quality=85)
+            compressed_buffer.seek(0)
+            
+            target_bucket = os.environ.get('TARGET_BUCKET', 'compressed-images-yourname')
+            target_key = f"compressed_{source_key}"
+            
+            s3.put_object(
+                Bucket=target_bucket,
+                Key=target_key,
+                Body=compressed_buffer,
+                ContentType='image/jpeg'
+            )
+            
+            print(f"Saved compressed image to: {target_bucket}/{target_key}")
+    
+    # Return success → Lambda automatically deletes SQS messages
+    return {
+        'statusCode': 200,
+        'body': f'Processed {len(event["Records"])} images'
+    }
+```
+
+#### 4.5 Add Environment Variable
+
+1. In Lambda console, go to **Configuration** → **Environment variables**
+2. Click **Edit** → **Add environment variable**
+3. **Key**: `TARGET_BUCKET`
+4. **Value**: `compressed-images-yourname` (your actual bucket name)
+5. Click **Save**
+
+#### 4.6 Add Layer for PIL (Python Imaging Library)
+
+Lambda doesn't have PIL by default. You need to add a layer:
+
+##### 🚀 Using a Klayers Layer ARN (Easiest)
+
+The Klayers project builds and maintains pre-compiled Python layers for Lambda. This is the simplest method because you only need to copy a specific ARN (Amazon Resource Name).
+
+1.  **Find your Region's ARN**: Visit the **Klayers GitHub repository** page (`github.com/keithrozario/Klayers`). You'll need to navigate through the folders: Go to `deployments` → `production` → `us-east-1` (or your specific region) → `python` → `3.11` (or your runtime) → `json` → `Pillow` . Inside the JSON file, you will find a key called `arn`. This is the string you need.
+2.  **Add the ARN to your Lambda**:
+    - In the Lambda console, open your `image-processor` function.
+    - Click on the **Layers** tab, then **Add a layer**.
+    - Select **Specify an ARN**.
+    - Paste the ARN you copied (e.g., `arn:aws:lambda:us-east-1:770693421928:layer:Klayers-p311-Pillow:10` ) and click **Verify**.
+3.  **Verify**: The console will confirm the layer exists and show its version. Click **Add**.
+
+---
+
+### Step 5: Test the Complete Flow
+
+#### 5.1 Upload a Test Image
+
+1. Create a small JPG file or download a sample image
+2. Upload it to your `raw-images-yourname` bucket
+3. Wait 10-15 seconds
+
+#### 5.2 Check the Results
+
+1. **Check Lambda logs**:
+   - Lambda Console → `image-processor` → **Monitor** → **View CloudWatch logs**
+   - You should see log entries showing the processing
+
+2. **Check SQS queue**:
+   - SQS Console → `image-processing-queue` → **Send and receive messages** → **Poll for messages**
+   - The message should have been automatically deleted (no messages visible)
+
+3. **Check the target bucket**:
+   - Go to `compressed-images-yourname` bucket
+   - You should see a new file named `compressed_<original-filename>.jpg`
+
+---
+
+## 📊 What's Happening Behind the Scenes
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant S3 as S3 (raw-images)
+    participant SQS as SQS Queue
+    participant Lambda as Lambda Function
+    participant S3_Comp as S3 (compressed-images)
+
+    User->>S3: 1. Upload image.jpg
+    S3->>SQS: 2. Send event notification
+    Note over SQS: Message stored<br/>(durable, persistent)
+    
+    Lambda->>SQS: 3. Poll for messages
+    SQS-->>Lambda: 4. Return image.jpg event
+    Lambda->>S3: 5. Download image.jpg
+    Lambda->>Lambda: 6. Compress image
+    Lambda->>S3_Comp: 7. Upload compressed image
+    Lambda->>SQS: 8. Delete message (success)
+    
+    Note over Lambda: Message deleted only<br/>after successful processing
+```
+
+---
+
+## 🧪 Quick Test Without PIL (Simplified Version)
+
+If you can't add the PIL layer, here's a simpler Lambda that just logs the event:
+
+```python
+import boto3
+import json
+
+def lambda_handler(event, context):
+    for record in event['Records']:
+        sqs_body = json.loads(record['body'])
+        
+        for s3_record in sqs_body.get('Records', []):
+            bucket = s3_record['s3']['bucket']['name']
+            key = s3_record['s3']['object']['key']
+            
+            print(f"✅ Image uploaded: s3://{bucket}/{key}")
+            print(f"📦 Queue message ID: {record['messageId']}")
+    
+    # Return success → Lambda deletes the message
+    return {'statusCode': 200, 'body': 'Logged successfully'}
+```
+
+This still demonstrates the **stateless, durable** architecture:
+- ✅ SQS holds the message
+- ✅ Lambda processes it
+- ✅ Message deleted on success
+
+---
+
+## 🧹 Clean Up (Important!)
+
+To avoid ongoing charges:
+
+1. **Delete S3 buckets**: Empty both buckets, then delete them
+2. **Delete SQS queue**: `image-processing-queue`
+3. **Delete Lambda function**: `image-processor`
+4. **Delete IAM role**: `lambda-sqs-s3-role`
+5. **Delete CloudWatch log groups** (optional, costs minimal)
+
+---
+
+## 📝 Summary of the Architecture's Benefits
+
+| Requirement | How This Example Satisfies It |
+|-------------|------------------------------|
+| **Durable** | SQS stores messages for up to 14 days; if Lambda fails, message stays in queue |
+| **Stateless** | Lambda has no state; SQS holds all state information |
+| **Automatic** | S3 → SQS → Lambda all fully automated |
+| **Decoupled** | S3 and Lambda communicate only through SQS |
+| **Scalable** | SQS and Lambda scale automatically with load |
+
+Would you like me to help you debug any specific step, or explain how to set up a **dead-letter queue** for failed messages?
+
 # Delete cloudWatch storage
 
 Every log stream must be in a log group. The retention period setting of a log group controls how long CloudWatch retains log events within those streams. You can’t manually delete log events individually, but you can delete all events in a log stream by deleting the stream. You can’t set a retention period on a log stream directly.

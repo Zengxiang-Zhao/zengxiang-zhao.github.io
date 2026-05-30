@@ -21,6 +21,23 @@ nav_order: 102
 
 ---
 
+# 🔑 Key Exam Takeaways
+
+## When you see these requirements, think **Serverless**:
+
+| Requirement | Indicates |
+|-------------|-----------|
+| "Millions of requests per hour" | Needs automatic scaling |
+| "Millisecond latency" | DynamoDB + CloudFront |
+| "LEAST operational overhead" | Serverless (no servers to manage) |
+| "One-deal-a-day" | Simple access pattern - perfect for DynamoDB |
+| "Static content" + "backend APIs" | S3 + CloudFront + API Gateway + Lambda |
+
+The serverless architecture (S3 + CloudFront + API Gateway + Lambda + DynamoDB) is AWS's recommended pattern for highly scalable, low-latency web applications with minimal operational overhead.
+
+
+
+
 # Use Lambda, SQS and S3 to process images automatically
 
 The following steps come from DeepSeek

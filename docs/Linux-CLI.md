@@ -266,6 +266,32 @@ Filesystem      Size  Used Avail Use% Mounted on
 
 ```
 
+
+Using find to find specific files and count the volume of the finded files
+
+```bash
+find pathFolder/* -type f \( -name "*.bam" -o -name "*.bai" \) -exec du -ch {} +
+```
+
+Here we use `+` for batching: Groups multiple file paths into one command invocation. Much faster for thousands of files. like `find ... -exec du -ch {} +`. E.g. `find . -name "*.bam" -exec du -h {} +`. This runs:
+
+```bash
+
+du -h file1.bam file2.bam file3.bam ...
+```
+
+If we use `\;` which is not batching. E.g. `find . -name "*.bam" -exec du -h {} \;`. This runs:
+```bash
+
+du -h file1.bam
+du -h file2.bam
+du -h file3.bam
+...
+
+```
+
+
+
 # [nohup ](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux)
 
 If you still want to keep the processes running even exiting the shell/terminal, then `nohup` is your choice.

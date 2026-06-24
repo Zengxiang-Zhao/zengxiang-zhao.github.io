@@ -336,52 +336,147 @@ const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const { v4: uuidv4 } = require('uuid');
 
-// Replace with your DynamoDB table name
 const TABLE_NAME = 'TodosTable';
 
 exports.handler = async (event) => {
     try {
-        const httpMethod = event.httpMethod;
-        const path = event.path;
-        const pathParameters = event.pathParameters || {};
+        // Log the FULL event to see what's coming from API Gateway
+        console.log('FULL EVENT:', JSON.stringify(event, null, 2));
+        console.log('Event type:', typeof event);
+        console.log('Event keys:', Object.keys(event));
+        
+        // Check if event is properly formatted
+        let httpMethod, path, pathParameters, body;
+        
+        // Case 1: Standard API Gateway proxy integration
+        if (event.httpMethod) {
+            console.log('Using standard API Gateway event');
+            httpMethod = event.httpMethod;
+            path = event.path;
+            pathParameters = event.pathParameters || {};
+            body = event.body;
+        } 
+        // Case 2: Event is in a different format (like from Lambda test)
+        else if (event.resource && event.path) {
+            console.log('Event has resource and path');
+            httpMethod = event.httpMethod || event.method || 'GET';
+            path = event.path;
+            pathParameters = event.pathParameters || {};
+            body = event.body;
+        }
+        // Case 3: Event is the body itself (for testing)
+        else if (event.path === undefined && event.method === undefined) {
+            console.log('Event might be just the body');
+            // Try to parse if it's a string
+            let parsedEvent = event;
+            if (typeof event === 'string') {
+                try {
+                    parsedEvent = JSON.parse(event);
+                } catch (e) {
+                    // Not JSON, use as-is
+                }
+            }
+            
+            httpMethod = parsedEvent.httpMethod || parsedEvent.method || 'GET';
+            path = parsedEvent.path || '/todos';
+            pathParameters = parsedEvent.pathParameters || {};
+            body = parsedEvent.body;
+        }
+        // Case 4: Fallback
+        else {
+            console.log('Event format unknown, using defaults');
+            httpMethod = 'GET';
+            path = '/todos';
+            pathParameters = {};
+            body = null;
+        }
+        
+        console.log('Parsed values:');
+        console.log('  httpMethod:', httpMethod);
+        console.log('  path:', path);
+        console.log('  pathParameters:', pathParameters);
+        console.log('  body:', body);
 
         // CORS headers
         const headers = {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type',
+            'Content-Type': 'application/json',
         };
 
-        // Handle preflight OPTIONS request
+        // Handle OPTIONS
         if (httpMethod === 'OPTIONS') {
             return {
                 statusCode: 200,
                 headers,
-                body: '',
+                body: JSON.stringify({ message: 'CORS preflight' }),
             };
         }
 
-        // Route handling
-        if (httpMethod === 'GET' && path === '/todos') {
-            // GET all todos
+        // Normalize path
+        const normalizedPath = path.replace(/^\/prod/, '');
+        console.log('Normalized path:', normalizedPath);
+
+        // GET /todos
+        if (httpMethod === 'GET' && (normalizedPath === '/todos' || normalizedPath === '/')) {
+            console.log('Handling GET /todos');
+            
             const result = await dynamodb.scan({
                 TableName: TABLE_NAME,
             }).promise();
-
+            
+            console.log('DynamoDB result:', JSON.stringify(result, null, 2));
+            
+            const todos = result.Items || [];
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify(result.Items),
+                body: JSON.stringify(todos),
             };
         }
 
-        if (httpMethod === 'POST' && path === '/todos') {
-            // POST new todo
-            const body = JSON.parse(event.body);
+        // GET /test
+        if (httpMethod === 'GET' && (normalizedPath === '/test' || normalizedPath === '/')) {
+            console.log('Handling GET /test');
+            
+            
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify('This is a test'),
+            };
+        }
+
+        // POST /todos
+        if (httpMethod === 'POST' && (normalizedPath === '/todos' || normalizedPath === '/')) {
+            console.log('Handling POST /todos');
+            
+            let parsedBody;
+            try {
+                parsedBody = typeof body === 'string' ? JSON.parse(body) : body;
+            } catch (e) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Invalid JSON body' }),
+                };
+            }
+            
+            console.log('Parsed body:', parsedBody);
+            
+            if (!parsedBody || !parsedBody.text) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Text is required' }),
+                };
+            }
+
             const todo = {
                 id: uuidv4(),
-                text: body.text,
-                completed: body.completed || false,
+                text: parsedBody.text.trim(),
+                completed: parsedBody.completed || false,
                 createdAt: new Date().toISOString(),
             };
 
@@ -397,10 +492,19 @@ exports.handler = async (event) => {
             };
         }
 
-        if (httpMethod === 'DELETE' && path.startsWith('/todos/')) {
-            // DELETE todo by ID
-            const id = pathParameters.id;
+        // DELETE /todos/{id}
+        if (httpMethod === 'DELETE' && normalizedPath.startsWith('/todos/')) {
+            const id = pathParameters.id || normalizedPath.split('/').pop();
+            console.log('Handling DELETE /todos/' + id);
             
+            if (!id || id === 'todos' || id === 'prod') {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Valid ID is required' }),
+                };
+            }
+
             await dynamodb.delete({
                 TableName: TABLE_NAME,
                 Key: { id },
@@ -413,11 +517,22 @@ exports.handler = async (event) => {
             };
         }
 
-        // Return 404 for unknown routes
+        // Route not found
+        console.log('Route not found:', httpMethod, normalizedPath);
         return {
             statusCode: 404,
             headers,
-            body: JSON.stringify({ error: 'Not found' }),
+            body: JSON.stringify({ 
+                error: 'Not found',
+                method: httpMethod,
+                path: path,
+                normalizedPath: normalizedPath,
+                availableRoutes: [
+                    'GET /todos',
+                    'POST /todos',
+                    'DELETE /todos/{id}'
+                ]
+            }),
         };
     } catch (error) {
         console.error('Error:', error);
@@ -427,7 +542,11 @@ exports.handler = async (event) => {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ error: 'Internal server error' }),
+            body: JSON.stringify({ 
+                error: 'Internal server error',
+                details: error.message,
+                stack: error.stack 
+            }),
         };
     }
 };

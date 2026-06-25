@@ -1,11 +1,22 @@
 ---
 layout: default
-title: How to collect NGS data
-parent: AWS
-date:   2022-10-11 20:28:05 -0400
+title : S3-Lambda-DynamoDB
+date:   2026-06-25 20:28:05 -0400
 categories: AWS
+nav_order: 1
 ---
 
+---
+{: .no_toc }
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
+{:toc}
+</details>
 
 ---
 

@@ -529,8 +529,9 @@ You can follow the MongoDB [official documents to install the mongod in the EC2 
 
 ```bash
 # Get the private IP of the EC2 instance
-curl http://169.254.169.254/latest/meta-data/local-ipv4
+hostname -I
 ```
+or you can get the private EC2 IP in the instance console.
 
 Copy this IP address (e.g., `10.0.1.100`). You'll use it for the Lambda environment variable.
 

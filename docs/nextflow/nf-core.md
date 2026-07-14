@@ -8,6 +8,10 @@ categories: nextflow
 
 
 ---
+# Pull pipeline from nf-core
+
+`nextflow pull nf-core/demo`
+
 # Install modules from nf-core locally
 `nf-core modules install find/concatenate`
 

@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Burrows–Wheeler transform(BWT)
-parent: NGS
+title: nf-core knowledge points
+parent: nextflow
 date:   2021-11-10 20:28:05 -0400
-categories: NGS
+categories: nextflow
 ---
 
 

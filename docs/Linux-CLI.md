@@ -290,6 +290,12 @@ du -h file3.bam
 
 ```
 
+Find and delete folders that are older than 30 days
+
+```
+find /path/to/target/folder -mindepth 1 -type d -mtime +30 -exec rm -rf {} +
+```
+
 
 
 # [nohup ](https://www.digitalocean.com/community/tutorials/nohup-command-in-linux)
